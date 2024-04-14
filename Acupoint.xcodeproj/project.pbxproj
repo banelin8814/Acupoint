@@ -25,6 +25,8 @@
 		1B964F722BCAE8B10005F1CF /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F712BCAE8B10005F1CF /* CameraView.swift */; };
 		1B964F742BCAE8D80005F1CF /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F732BCAE8D80005F1CF /* AppError.swift */; };
 		1B964F782BCB83220005F1CF /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F772BCB83220005F1CF /* HomeVC.swift */; };
+		1B9D2AC72BCBD7CC004FDF17 /* HandJointService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9D2AC62BCBD7CC004FDF17 /* HandJointService.swift */; };
+		1B9D2ACA2BCBF988004FDF17 /* CHGlassmorphismView in Frameworks */ = {isa = PBXBuildFile; productRef = 1B9D2AC92BCBF988004FDF17 /* CHGlassmorphismView */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +43,7 @@
 		1B964F712BCAE8B10005F1CF /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		1B964F732BCAE8D80005F1CF /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		1B964F772BCB83220005F1CF /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
+		1B9D2AC62BCBD7CC004FDF17 /* HandJointService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandJointService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +53,7 @@
 			files = (
 				1B964F602BC93B7E0005F1CF /* FirebaseAnalytics in Frameworks */,
 				1B964F5B2BC93B340005F1CF /* FirebaseFirestoreSwift in Frameworks */,
+				1B9D2ACA2BCBF988004FDF17 /* CHGlassmorphismView in Frameworks */,
 				1B964F572BC93B340005F1CF /* FirebaseDatabaseSwift in Frameworks */,
 				1B964F592BC93B340005F1CF /* FirebaseFirestore in Frameworks */,
 				1B964F552BC93B340005F1CF /* FirebaseDatabase in Frameworks */,
@@ -106,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				1B964F6F2BCAE7F60005F1CF /* HandVC.swift */,
+				1B9D2AC62BCBD7CC004FDF17 /* HandJointService.swift */,
 				1B964F712BCAE8B10005F1CF /* CameraView.swift */,
 				1B964F732BCAE8D80005F1CF /* AppError.swift */,
 			);
@@ -145,6 +150,7 @@
 				1B964F5A2BC93B340005F1CF /* FirebaseFirestoreSwift */,
 				1B964F5C2BC93B340005F1CF /* FirebaseStorage */,
 				1B964F5F2BC93B7E0005F1CF /* FirebaseAnalytics */,
+				1B9D2AC92BCBF988004FDF17 /* CHGlassmorphismView */,
 			);
 			productName = Acupoint;
 			productReference = 1B964F1C2BC912690005F1CF /* Acupoint.app */;
@@ -177,6 +183,7 @@
 			packageReferences = (
 				1B964F472BC9365D0005F1CF /* XCRemoteSwiftPackageReference "SwiftLint" */,
 				1B964F512BC93B340005F1CF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				1B9D2AC82BCBF988004FDF17 /* XCRemoteSwiftPackageReference "CHGlassmorphismView" */,
 			);
 			productRefGroup = 1B964F1D2BC912690005F1CF /* Products */;
 			projectDirPath = "";
@@ -207,6 +214,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B964F702BCAE7F60005F1CF /* HandVC.swift in Sources */,
+				1B9D2AC72BCBD7CC004FDF17 /* HandJointService.swift in Sources */,
 				1B964F782BCB83220005F1CF /* HomeVC.swift in Sources */,
 				1B964F242BC912690005F1CF /* FaceVC.swift in Sources */,
 				1B964F742BCAE8D80005F1CF /* AppError.swift in Sources */,
@@ -462,6 +470,14 @@
 				minimumVersion = 10.24.0;
 			};
 		};
+		1B9D2AC82BCBF988004FDF17 /* XCRemoteSwiftPackageReference "CHGlassmorphismView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Chaehui-Seo/CHGlassmorphismView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -504,6 +520,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1B964F472BC9365D0005F1CF /* XCRemoteSwiftPackageReference "SwiftLint" */;
 			productName = "plugin:SwiftLintPlugin";
+		};
+		1B9D2AC92BCBF988004FDF17 /* CHGlassmorphismView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1B9D2AC82BCBF988004FDF17 /* XCRemoteSwiftPackageReference "CHGlassmorphismView" */;
+			productName = CHGlassmorphismView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

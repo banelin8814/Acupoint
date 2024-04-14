@@ -3,7 +3,7 @@ import ARKit
 
 class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {
     
-    private var cameraView: CameraView {
+    private var cameraVw: CameraView {
         return view as? CameraView ?? CameraView()
     }
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
@@ -28,15 +28,15 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         super.viewDidLoad()
         drawOverlay.frame = view.layer.bounds
         drawOverlay.lineWidth = 2
-        drawOverlay.strokeColor = UIColor.green.cgColor
-        drawOverlay.fillColor = UIColor.clear.cgColor
+//        drawOverlay.strokeColor = UIColor.green.cgColor
+        drawOverlay.fillColor = UIColor.red.cgColor
         view.layer.addSublayer(drawOverlay)
     }
     override func viewDidLayoutSubviews() {
         view.addSubview(backButton)
                NSLayoutConstraint.activate([
-                   backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                   backButton.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -50)
+                backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
+                backButton.topAnchor.constraint(equalTo: view.topAnchor,constant: 40)
                ])
         view.bringSubviewToFront(backButton)
     }
@@ -46,11 +46,11 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         
         do {
             if cameraFeedSession == nil {
-                if let cameraPreviewLayer = cameraView.previewLayer as? AVCaptureVideoPreviewLayer {
+                if let cameraPreviewLayer = cameraVw.previewLayer as? AVCaptureVideoPreviewLayer {
                     cameraPreviewLayer.videoGravity = .resizeAspectFill
                 }
                 try setupAVSession()
-                cameraView.previewLayer?.session = cameraFeedSession
+                cameraVw.previewLayer?.session = cameraFeedSession
             }
             DispatchQueue.global(qos: .userInteractive).async {
                 self.cameraFeedSession?.startRunning()
@@ -66,7 +66,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         super.viewWillDisappear(animated)
     }
     
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         let handler = VNImageRequestHandler(
             cmSampleBuffer: sampleBuffer,
             orientation: .up,
@@ -138,8 +138,8 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             }
         }
     }
-    func setupAVSession() throws {
-        guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
+    private func setupAVSession() throws {
+        guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
             throw AppError.captureSessionSetup(reason: "Could not find a front camera.")
         }
         guard let deviceInput = try? AVCaptureDeviceInput(device: videoDevice) else {
@@ -168,7 +168,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     }
     
     private func drawJoint(joint: VNRecognizedPoint, name: String) {
-        guard let cameraPreviewLayer = cameraView.previewLayer as? AVCaptureVideoPreviewLayer else { return }
+        guard let cameraPreviewLayer = cameraVw.previewLayer as? AVCaptureVideoPreviewLayer else { return }
         let jointPoint = cameraPreviewLayer.layerPointConverted(fromCaptureDevicePoint: CGPoint(x: joint.location.x, y: 1 - joint.location.y))
         drawPath.move(to: jointPoint)
         drawPath.addArc(withCenter: jointPoint, radius: 5, startAngle: 0, endAngle: CGFloat(2 * Double.pi), clockwise: true)
@@ -184,6 +184,12 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         drawPath.removeAllPoints()
         drawOverlay.path = drawPath.cgPath
     }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        let viewTouchLocation = touch.location(in: cameraVw)
+    
+    }
+    
     @objc func backButtonTapped() {
         dismiss(animated: true, completion: nil)
     }

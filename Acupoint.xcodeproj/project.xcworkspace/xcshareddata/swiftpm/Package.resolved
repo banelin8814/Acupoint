@@ -1,5 +1,5 @@
 {
-  "originHash" : "9c8a845adb8c28482fdedb3d457b3794519d526e6397449ca8520dc636fab643",
+  "originHash" : "f144b00cc72970041befe13b593dab7db8954a6b3db94aa317b7cb88f7a44704",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "c218c2054299b15ae577e818bbba16084d3eabe6",
         "version" : "10.18.2"
+      }
+    },
+    {
+      "identity" : "chglassmorphismview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Chaehui-Seo/CHGlassmorphismView.git",
+      "state" : {
+        "revision" : "2c686cec71c7cbb7521417b7cd1ec65727c1490f",
+        "version" : "0.0.4"
       }
     },
     {
