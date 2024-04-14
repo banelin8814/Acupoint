@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  Acupoint
-//
-//  Created by 林佑淳 on 2024/4/12.
-//
-
 import UIKit
 import FirebaseCore
 @main

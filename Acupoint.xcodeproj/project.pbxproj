@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		1B964F202BC912690005F1CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F1F2BC912690005F1CF /* AppDelegate.swift */; };
 		1B964F222BC912690005F1CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F212BC912690005F1CF /* SceneDelegate.swift */; };
-		1B964F242BC912690005F1CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F232BC912690005F1CF /* ViewController.swift */; };
+		1B964F242BC912690005F1CF /* FaceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F232BC912690005F1CF /* FaceVC.swift */; };
 		1B964F272BC912690005F1CF /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 1B964F262BC912690005F1CF /* Base */; };
 		1B964F292BC9126A0005F1CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B964F282BC9126A0005F1CF /* Assets.xcassets */; };
 		1B964F2C2BC9126A0005F1CF /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 1B964F2B2BC9126A0005F1CF /* Base */; };
@@ -21,18 +21,26 @@
 		1B964F5B2BC93B340005F1CF /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1B964F5A2BC93B340005F1CF /* FirebaseFirestoreSwift */; };
 		1B964F5D2BC93B340005F1CF /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1B964F5C2BC93B340005F1CF /* FirebaseStorage */; };
 		1B964F602BC93B7E0005F1CF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1B964F5F2BC93B7E0005F1CF /* FirebaseAnalytics */; };
+		1B964F702BCAE7F60005F1CF /* HandVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F6F2BCAE7F60005F1CF /* HandVC.swift */; };
+		1B964F722BCAE8B10005F1CF /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F712BCAE8B10005F1CF /* CameraView.swift */; };
+		1B964F742BCAE8D80005F1CF /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F732BCAE8D80005F1CF /* AppError.swift */; };
+		1B964F782BCB83220005F1CF /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F772BCB83220005F1CF /* HomeVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1B964F1C2BC912690005F1CF /* Acupoint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Acupoint.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B964F1F2BC912690005F1CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1B964F212BC912690005F1CF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1B964F232BC912690005F1CF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1B964F232BC912690005F1CF /* FaceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceVC.swift; sourceTree = "<group>"; };
 		1B964F262BC912690005F1CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1B964F282BC9126A0005F1CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B964F2B2BC9126A0005F1CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1B964F2D2BC9126A0005F1CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B964F332BC915090005F1CF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1B964F6F2BCAE7F60005F1CF /* HandVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandVC.swift; sourceTree = "<group>"; };
+		1B964F712BCAE8B10005F1CF /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		1B964F732BCAE8D80005F1CF /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
+		1B964F772BCB83220005F1CF /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +83,9 @@
 			children = (
 				1B964F1F2BC912690005F1CF /* AppDelegate.swift */,
 				1B964F212BC912690005F1CF /* SceneDelegate.swift */,
-				1B964F232BC912690005F1CF /* ViewController.swift */,
+				1B964F772BCB83220005F1CF /* HomeVC.swift */,
+				1B964F762BCAE9410005F1CF /* FaceTrack */,
+				1B964F752BCAE9330005F1CF /* HandTrack */,
 				1B964F252BC912690005F1CF /* Main.storyboard */,
 				1B964F282BC9126A0005F1CF /* Assets.xcassets */,
 				1B964F2A2BC9126A0005F1CF /* LaunchScreen.storyboard */,
@@ -90,6 +100,24 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1B964F752BCAE9330005F1CF /* HandTrack */ = {
+			isa = PBXGroup;
+			children = (
+				1B964F6F2BCAE7F60005F1CF /* HandVC.swift */,
+				1B964F712BCAE8B10005F1CF /* CameraView.swift */,
+				1B964F732BCAE8D80005F1CF /* AppError.swift */,
+			);
+			path = HandTrack;
+			sourceTree = "<group>";
+		};
+		1B964F762BCAE9410005F1CF /* FaceTrack */ = {
+			isa = PBXGroup;
+			children = (
+				1B964F232BC912690005F1CF /* FaceVC.swift */,
+			);
+			path = FaceTrack;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -178,8 +206,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B964F242BC912690005F1CF /* ViewController.swift in Sources */,
+				1B964F702BCAE7F60005F1CF /* HandVC.swift in Sources */,
+				1B964F782BCB83220005F1CF /* HomeVC.swift in Sources */,
+				1B964F242BC912690005F1CF /* FaceVC.swift in Sources */,
+				1B964F742BCAE8D80005F1CF /* AppError.swift in Sources */,
 				1B964F202BC912690005F1CF /* AppDelegate.swift in Sources */,
+				1B964F722BCAE8B10005F1CF /* CameraView.swift in Sources */,
 				1B964F222BC912690005F1CF /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

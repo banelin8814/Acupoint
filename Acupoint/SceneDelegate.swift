@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  Acupoint
-//
-//  Created by 林佑淳 on 2024/4/12.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
