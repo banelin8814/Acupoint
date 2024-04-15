@@ -8,17 +8,24 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     
     lazy var faceOutLineVw = UIImageView()
     
-    let thePoint = faceAcupoints[1]
+    var thePoint = faceAcupoints[1] {
+        didSet {
+            introTitle.text = thePoint.name
+            methodLbl.text = "手法： \(thePoint.method)"
+            frequencyLbl.text = "頻率： \(thePoint.frequency)"
+            noticeLbl.text = "注意： \(thePoint.notice)"
+        }
+    }
     
     var dotNode = SCNNode()
-    
-    lazy var backButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Back", for: .normal)
-        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+        
+//    lazy var backButton: UIButton = {
+//        let button = UIButton(type: .system)
+//        button.setTitle("Back", for: .normal)
+//        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        return button
+//    }()
     
     lazy var introTitle: UILabel = {
         let label = UILabel()
@@ -31,7 +38,6 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     
     lazy var methodLbl: UILabel = {
         let label = UILabel()
-        label.text =  "手法： \(thePoint.method)"
         label.numberOfLines = 2
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
@@ -41,7 +47,6 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     
     lazy var frequencyLbl: UILabel = {
         let label = UILabel()
-        label.text =  "頻率： \(thePoint.frequency)"
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -50,13 +55,12 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     
     lazy var noticeLbl: UILabel = {
         let label = UILabel()
-        label.text = "注意： \(thePoint.notice)"
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
     let frossGlass = CHGlassmorphismView()
     
     override func viewDidLoad() {
@@ -68,38 +72,45 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         
         sceneVw.delegate = self
         
-        sceneVw.session.run(ARFaceTrackingConfiguration(), options: [.resetTracking, .removeExistingAnchors])
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        view.addSubview(sceneVw)
+        //        view.addSubview(sceneVw)
         
+        print(thePoint)
         let configuration = ARFaceTrackingConfiguration()
         sceneVw.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
     }
+    
     override func viewDidLayoutSubviews() {
-        view.addSubview(backButton)
-        //        view.bringSubviewToFront(backButton)
-        view.addSubview(faceOutLineVw)
-        view.addSubview(frossGlass)
-        view.addSubview(introTitle)
-        view.addSubview(methodLbl)
-        view.addSubview(frequencyLbl)
-        view.addSubview(noticeLbl)
-
-        addImageView()
-        setIntroView()
-        setUpText()
+        
+//            view.addSubview(backButton)
+            view.addSubview(faceOutLineVw)
+            view.addSubview(frossGlass)
+            view.addSubview(introTitle)
+            view.addSubview(methodLbl)
+            view.addSubview(frequencyLbl)
+            view.addSubview(noticeLbl)
+            
+            addImageView()
+            setIntroView()
+            setUpText()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        view.addSubview(sceneVw)
+        
+        // ... 其他初始化和設置 ...
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         sceneVw.session.pause()
-        
         sceneVw.removeFromSuperview()
     }
     
@@ -118,16 +129,16 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         frossGlass.setTheme(theme: .dark)
         frossGlass.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
-            backButton.topAnchor.constraint(equalTo: view.topAnchor,constant: 40),
+//            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
+//            backButton.topAnchor.constraint(equalTo: view.topAnchor,constant: 40),
             frossGlass.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            frossGlass.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -3),
+            frossGlass.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 3),
             frossGlass.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.28),
             frossGlass.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
         frossGlass.setCornerRadius(40)
         frossGlass.setDistance(5)
-        frossGlass.setBlurDensity(with: 0.75)
+        frossGlass.setBlurDensity(with: 0.65)
     }
     
     func setUpText() {
@@ -188,9 +199,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
             }
         }
     }
-    
-    @objc func backButtonTapped() {
-        dismiss(animated: true, completion: nil)
-    }
-    
+//    @objc func backButtonTapped() {
+//        dismiss(animated: true, completion: nil)
+//    }
 }

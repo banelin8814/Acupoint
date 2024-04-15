@@ -9,6 +9,9 @@ class HandJointService {
     
     let jointTouchRadius: CGFloat = 20
     
+    private var thumbCMCMCPMidPoint = CGPoint()
+
+    
     enum VisionError: Error {
         case unknownHandJoint
     }
@@ -46,7 +49,7 @@ class HandJointService {
             }
         }
     }
-    
+
     let drawOverlay = CAShapeLayer()
     
     let drawPath = UIBezierPath()
@@ -61,6 +64,12 @@ class HandJointService {
         jointPoints = try HandJoints.allCases.map { joint in
             try observation.recognizedPoint(joint.jointName)
         }
+        if let middleMCP = try? observation.recognizedPoint(.middleMCP),
+              let ringMCP = try? observation.recognizedPoint(.ringMCP),
+              let wrist = try? observation.recognizedPoint(.wrist) {
+               thumbCMCMCPMidPoint = CGPoint(x: (middleMCP.location.x + ringMCP.location.x + wrist.location.x) / 3,
+                                             y: (middleMCP.location.y + ringMCP.location.y + wrist.location.y) / 3)
+           }
     }
     
     func setSelectedJoints(_ joint1: VNHumanHandPoseObservation.JointName, _ joint2: VNHumanHandPoseObservation.JointName) {
@@ -73,6 +82,9 @@ class HandJointService {
             drawPath.move(to: jointPoint)
             drawPath.addArc(withCenter: jointPoint, radius: 5, startAngle: 0, endAngle: CGFloat(2 * Double.pi), clockwise: true)
         }
+        let thumbCMCMCPLayerPoint = previewLayer.layerPointConverted(fromCaptureDevicePoint: CGPoint(x: thumbCMCMCPMidPoint.x, y: 1 - thumbCMCMCPMidPoint.y))
+        self.drawPath.move(to: thumbCMCMCPLayerPoint)
+        self.drawPath.addArc(withCenter: thumbCMCMCPLayerPoint, radius: 3, startAngle: 0, endAngle: CGFloat(2 * Double.pi), clockwise: true)
         drawOverlay.path = drawPath.cgPath
     }
     

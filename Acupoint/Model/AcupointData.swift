@@ -57,7 +57,18 @@ let faceAcupoints: [Acupoint] = [
         postion: [381, 812]
     )
 ]
+
 let handAcupoints: [Acupoint] = [
+    Acupoint(
+        name: "勞宮穴",
+        location: "掌心兩橫紋中點與第3掌骨中線交叉處",
+        effect: "活血化瘀、理氣止痛",
+        method: "用拇指指腹按壓勞宮穴",
+        frequency: "1次約 30秒",
+        notice: "按壓時稍用力，但勿過度",
+        postion: [250, 250]
+    ),
+    
     Acupoint(
         name: "內關穴",
         location: "腕橫紋上2寸，掌長肌腱與橈側腕屈肌腱之間",
@@ -76,16 +87,6 @@ let handAcupoints: [Acupoint] = [
         frequency: "1次約 1分鐘",
         notice: "按壓時感到酸脹感為宜",
         postion: [200, 200]
-    ),
-
-    Acupoint(
-        name: "勞宮穴",
-        location: "掌心兩橫紋中點與第3掌骨中線交叉處",
-        effect: "活血化瘀、理氣止痛",
-        method: "用拇指指腹按壓勞宮穴",
-        frequency: "1次約 30秒",
-        notice: "按壓時稍用力，但勿過度",
-        postion: [250, 250]
     ),
 
     Acupoint(

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1B04ACFB2BCD0F5D00F6FB8D /* AcupointLst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B04ACFA2BCD0F5D00F6FB8D /* AcupointLst.swift */; };
 		1B04ACFD2BCD129900F6FB8D /* AcupointData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B04ACFC2BCD129900F6FB8D /* AcupointData.swift */; };
+		1B04AD002BCD331400F6FB8D /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B04ACFF2BCD331400F6FB8D /* SearchVC.swift */; };
+		1B04AD022BCD38A300F6FB8D /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B04AD012BCD38A300F6FB8D /* SearchTableViewCell.swift */; };
 		1B964F202BC912690005F1CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F1F2BC912690005F1CF /* AppDelegate.swift */; };
 		1B964F222BC912690005F1CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F212BC912690005F1CF /* SceneDelegate.swift */; };
 		1B964F242BC912690005F1CF /* FaceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F232BC912690005F1CF /* FaceVC.swift */; };
@@ -34,6 +36,8 @@
 /* Begin PBXFileReference section */
 		1B04ACFA2BCD0F5D00F6FB8D /* AcupointLst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcupointLst.swift; sourceTree = "<group>"; };
 		1B04ACFC2BCD129900F6FB8D /* AcupointData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcupointData.swift; sourceTree = "<group>"; };
+		1B04ACFF2BCD331400F6FB8D /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
+		1B04AD012BCD38A300F6FB8D /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		1B964F1C2BC912690005F1CF /* Acupoint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Acupoint.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B964F1F2BC912690005F1CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1B964F212BC912690005F1CF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +82,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		1B04ACFE2BCD32EE00F6FB8D /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				1B04ACFF2BCD331400F6FB8D /* SearchVC.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		1B964F132BC912680005F1CF = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +113,8 @@
 				1B964F1F2BC912690005F1CF /* AppDelegate.swift */,
 				1B964F212BC912690005F1CF /* SceneDelegate.swift */,
 				1B964F772BCB83220005F1CF /* HomeVC.swift */,
+				1B04AD012BCD38A300F6FB8D /* SearchTableViewCell.swift */,
+				1B04ACFE2BCD32EE00F6FB8D /* Search */,
 				1B04ACF92BCD0F3500F6FB8D /* Model */,
 				1B964F762BCAE9410005F1CF /* FaceTrack */,
 				1B964F752BCAE9330005F1CF /* HandTrack */,
@@ -228,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B964F702BCAE7F60005F1CF /* HandVC.swift in Sources */,
+				1B04AD002BCD331400F6FB8D /* SearchVC.swift in Sources */,
 				1B9D2AC72BCBD7CC004FDF17 /* HandJointService.swift in Sources */,
 				1B964F782BCB83220005F1CF /* HomeVC.swift in Sources */,
 				1B964F242BC912690005F1CF /* FaceVC.swift in Sources */,
@@ -235,6 +250,7 @@
 				1B964F742BCAE8D80005F1CF /* AppError.swift in Sources */,
 				1B964F202BC912690005F1CF /* AppDelegate.swift in Sources */,
 				1B964F722BCAE8B10005F1CF /* CameraView.swift in Sources */,
+				1B04AD022BCD38A300F6FB8D /* SearchTableViewCell.swift in Sources */,
 				1B04ACFB2BCD0F5D00F6FB8D /* AcupointLst.swift in Sources */,
 				1B964F222BC912690005F1CF /* SceneDelegate.swift in Sources */,
 			);
