@@ -14,8 +14,10 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         return request
     }()
     private var thumbCMCMCPMidPoint = CGPoint()
-    private let drawOverlay = CAShapeLayer()
-    private let drawPath = UIBezierPath()
+    
+    let drawOverlay = CAShapeLayer()
+    let drawPath = UIBezierPath()
+    
     lazy var backButton: UIButton = {
            let button = UIButton(type: .system)
            button.setTitle("Back", for: .normal)
@@ -26,12 +28,8 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        drawOverlay.frame = view.layer.bounds
-        drawOverlay.lineWidth = 2
-//        drawOverlay.strokeColor = UIColor.green.cgColor
-        drawOverlay.fillColor = UIColor.red.cgColor
-        view.layer.addSublayer(drawOverlay)
     }
+    
     override func viewDidLayoutSubviews() {
         view.addSubview(backButton)
                NSLayoutConstraint.activate([
@@ -39,6 +37,12 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                 backButton.topAnchor.constraint(equalTo: view.topAnchor,constant: 40)
                ])
         view.bringSubviewToFront(backButton)
+        
+        drawOverlay.frame = view.layer.bounds
+        drawOverlay.lineWidth = 2
+        drawOverlay.fillColor = UIColor.red.cgColor
+        view.layer.addSublayer(drawOverlay)
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -60,7 +64,6 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         }
     }
     
-    
     override func viewWillDisappear(_ animated: Bool) {
         cameraFeedSession?.stopRunning()
         super.viewWillDisappear(animated)
@@ -75,62 +78,23 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         do {
             try handler.perform([handPoseRequest])
             guard let observation = handPoseRequest.results?.first else {
-                clearDrawing()
+                HandJointService.shared.clearDrawing()
                 return
             }
-            let wristJoint = try observation.recognizedPoint(.wrist)
-            let thumbCMCJoint = try observation.recognizedPoint(.thumbCMC)
-            let thumbMCPJoint = try observation.recognizedPoint(.thumbMP)
-            let thumbIPJoint = try observation.recognizedPoint(.thumbIP)
-            let thumbTipJoint = try observation.recognizedPoint(.thumbTip)
-            let indexMCPJoint = try observation.recognizedPoint(.indexMCP)
-            let indexPIPJoint = try observation.recognizedPoint(.indexPIP)
-            let indexDIPJoint = try observation.recognizedPoint(.indexDIP)
-            let indexTipJoint = try observation.recognizedPoint(.indexTip)
-            let middleMCPJoint = try observation.recognizedPoint(.middleMCP)
-            let middlePIPJoint = try observation.recognizedPoint(.middlePIP)
-            let middleDIPJoint = try observation.recognizedPoint(.middleDIP)
-            let middleTipJoint = try observation.recognizedPoint(.middleTip)
-            let ringMCPJoint = try observation.recognizedPoint(.ringMCP)
-            let ringPIPJoint = try observation.recognizedPoint(.ringPIP)
-            let ringDIPJoint = try observation.recognizedPoint(.ringDIP)
-            let ringTipJoint = try observation.recognizedPoint(.ringTip)
-            let littleMCPJoint = try observation.recognizedPoint(.littleMCP)
-            let littlePIPJoint = try observation.recognizedPoint(.littlePIP)
-            let littleDIPJoint = try observation.recognizedPoint(.littleDIP)
-            let littleTipJoint = try observation.recognizedPoint(.littleTip)
-            
-            thumbCMCMCPMidPoint = CGPoint(
-                x: (thumbCMCJoint.location.x + thumbMCPJoint.location.x) / 2,
-                y: (thumbCMCJoint.location.y + thumbMCPJoint.location.y) / 2
-            )
-            
+            // 為什麼要寫 try
+            try HandJointService.shared.extractJointPoints(from: observation)
             
             DispatchQueue.main.async {
-                self.drawJoint(joint: wristJoint, name: "wrist")
-                self.drawJoint(joint: thumbCMCJoint, name: "thumbCMC")
-                self.drawJoint(joint: thumbMCPJoint, name: "thumbMCP")
-                self.drawJoint(joint: thumbIPJoint, name: "thumbIP")
-                self.drawJoint(joint: thumbTipJoint, name: "thumbTip")
-                self.drawJoint(joint: indexMCPJoint, name: "indexMCP")
-                self.drawJoint(joint: indexPIPJoint, name: "indexPIP")
-                self.drawJoint(joint: indexDIPJoint, name: "indexDIP")
-                self.drawJoint(joint: indexTipJoint, name: "indexTip")
-                self.drawJoint(joint: middleMCPJoint, name: "middleMCP")
-                self.drawJoint(joint: middlePIPJoint, name: "middlePIP")
-                self.drawJoint(joint: middleDIPJoint, name: "middleDIP")
-                self.drawJoint(joint: middleTipJoint, name: "middleTip")
-                self.drawJoint(joint: ringMCPJoint, name: "ringMCP")
-                self.drawJoint(joint: ringPIPJoint, name: "ringPIP")
-                self.drawJoint(joint: ringDIPJoint, name: "ringDIP")
-                self.drawJoint(joint: ringTipJoint, name: "ringTip")
-                self.drawJoint(joint: littleMCPJoint, name: "littleMCP")
-                self.drawJoint(joint: littlePIPJoint, name: "littlePIP")
-                self.drawJoint(joint: littleDIPJoint, name: "littleDIP")
-                self.drawJoint(joint: littleTipJoint, name: "littleTip")
+                guard let cameraPreviewLayer = self.cameraVw.previewLayer else { return }
+                HandJointService.shared.setSelectedJoints(.wrist, .littleMCP)
+                HandJointService.shared.drawJoints(on:   self.drawOverlay,
+                                                   with: self.drawPath,
+                                                   in:   cameraPreviewLayer)
                 self.drawPath.removeAllPoints()
-            }
+//                HandJointService.shared.clearDrawing()
+                    }
         } catch {
+            //這邊在寫什麼
             cameraFeedSession?.stopRunning()
             let error = AppError.visionError(error: error)
             DispatchQueue.main.async {
@@ -138,6 +102,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             }
         }
     }
+    
     private func setupAVSession() throws {
         guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
             throw AppError.captureSessionSetup(reason: "Could not find a front camera.")
@@ -167,27 +132,26 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         cameraFeedSession = session
     }
     
-    private func drawJoint(joint: VNRecognizedPoint, name: String) {
-        guard let cameraPreviewLayer = cameraVw.previewLayer as? AVCaptureVideoPreviewLayer else { return }
-        let jointPoint = cameraPreviewLayer.layerPointConverted(fromCaptureDevicePoint: CGPoint(x: joint.location.x, y: 1 - joint.location.y))
-        drawPath.move(to: jointPoint)
-        drawPath.addArc(withCenter: jointPoint, radius: 5, startAngle: 0, endAngle: CGFloat(2 * Double.pi), clockwise: true)
-        
-        let thumbCMCMCPLayerPoint = cameraPreviewLayer.layerPointConverted(fromCaptureDevicePoint: CGPoint(x: thumbCMCMCPMidPoint.x, y: 1 - thumbCMCMCPMidPoint.y))
-        self.drawPath.move(to: thumbCMCMCPLayerPoint)
-        self.drawPath.addArc(withCenter: thumbCMCMCPLayerPoint, radius: 3, startAngle: 0, endAngle: CGFloat(2 * Double.pi), clockwise: true)
-        
-        drawOverlay.path = drawPath.cgPath
-    }
-    
-    private func clearDrawing() {
-        drawPath.removeAllPoints()
-        drawOverlay.path = drawPath.cgPath
-    }
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        guard let touch = touches.first else { return }
+//        let viewTouchLocation = touch.location(in: cameraVw)
+//    
+//    }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let viewTouchLocation = touch.location(in: cameraVw)
-    
+        
+        // 將觸控點的座標轉換為 CALayer 的座標系統
+        let touchLocationInLayer = cameraVw.layer.convert(viewTouchLocation, to: drawOverlay)
+        
+        // 檢查觸控點是否在任何一個手部節點的範圍內
+        for joint in HandJointService.shared.jointPoints {
+            let jointPath = HandJointService.shared.createJointPath(for: joint, in: cameraVw.previewLayer!)
+            if jointPath.contains(touchLocationInLayer) {
+                print("Touched joint: \(joint)")
+                break
+            }
+        }
     }
     
     @objc func backButtonTapped() {
