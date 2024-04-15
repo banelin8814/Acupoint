@@ -174,7 +174,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         for feature in features {
             for vertexIndex in feature {
                 let dotGeometry = SCNSphere(radius: 0.005)
-                dotGeometry.firstMaterial?.diffuse.contents = UIColor.red
+                dotGeometry.firstMaterial?.diffuse.contents = UIColor.systemYellow
                 dotNode = SCNNode(geometry: dotGeometry)
                 let vertices = faceAnchor.geometry.vertices
                 let vertex = vertices[vertexIndex]
