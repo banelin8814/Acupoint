@@ -8,6 +8,8 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     
     lazy var faceOutLineVw = UIImageView()
     
+    let thePoint = faceAcupoints[1]
+    
     var dotNode = SCNNode()
     
     lazy var backButton: UIButton = {
@@ -20,34 +22,41 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     
     lazy var introTitle: UILabel = {
         let label = UILabel()
-        label.text = "迎香穴"
+        label.text = thePoint.name
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 30, weight: .heavy)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    lazy var introContent: UITextView = {
-        let textVw = UITextView()
-        textVw.textAlignment = .left
-        textVw.textColor = UIColor.white
-        textVw.font = UIFont.systemFont(ofSize: 20, weight: .regular)
-        textVw.backgroundColor = .clear
-        let attributedString = NSMutableAttributedString(string: """
-        手法：用手指指尖，點壓按摩迎香穴
-        
-        頻率：1次約 1分鐘
-        
-        注意：若有疼痛，請勿按壓
-        """)
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 2
-        
-        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
-        textVw.attributedText = attributedString
-        textVw.textContainerInset.left = 0
-        return textVw
+    
+    lazy var methodLbl: UILabel = {
+        let label = UILabel()
+        label.text =  "手法： \(thePoint.method)"
+        label.numberOfLines = 2
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
+    lazy var frequencyLbl: UILabel = {
+        let label = UILabel()
+        label.text =  "頻率： \(thePoint.frequency)"
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var noticeLbl: UILabel = {
+        let label = UILabel()
+        label.text = "注意： \(thePoint.notice)"
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
     let frossGlass = CHGlassmorphismView()
     
     override func viewDidLoad() {
@@ -78,7 +87,10 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         view.addSubview(faceOutLineVw)
         view.addSubview(frossGlass)
         view.addSubview(introTitle)
-        view.addSubview(introContent)
+        view.addSubview(methodLbl)
+        view.addSubview(frequencyLbl)
+        view.addSubview(noticeLbl)
+
         addImageView()
         setIntroView()
         setUpText()
@@ -103,31 +115,34 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     }
     
     func setIntroView() {
-        frossGlass.setTheme(theme: .light)
+        frossGlass.setTheme(theme: .dark)
         frossGlass.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
             backButton.topAnchor.constraint(equalTo: view.topAnchor,constant: 40),
             frossGlass.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            frossGlass.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            frossGlass.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -3),
             frossGlass.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.28),
             frossGlass.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
         frossGlass.setCornerRadius(40)
-        frossGlass.setDistance(20)
-        frossGlass.setBlurDensity(with: 0.5)
+        frossGlass.setDistance(5)
+        frossGlass.setBlurDensity(with: 0.75)
     }
     
     func setUpText() {
-        introTitle.translatesAutoresizingMaskIntoConstraints = false
-        introContent.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             introTitle.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
             introTitle.topAnchor.constraint(equalTo: frossGlass.topAnchor, constant: 20),
-            introContent.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-            introContent.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
-            introContent.bottomAnchor.constraint(equalTo: frossGlass.bottomAnchor, constant: -20),
-            introContent.topAnchor.constraint(equalTo: introTitle.bottomAnchor, constant: 10)
+            methodLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
+            methodLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: 20),
+            methodLbl.topAnchor.constraint(equalTo: introTitle.topAnchor, constant: 40),
+            frequencyLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
+            frequencyLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: 20),
+            frequencyLbl.topAnchor.constraint(equalTo: methodLbl.topAnchor, constant: 20),
+            noticeLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
+            noticeLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: 20),
+            noticeLbl.topAnchor.constraint(equalTo: frequencyLbl.topAnchor, constant: 20)
         ])
     }
     
@@ -141,7 +156,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         
         faceNode.geometry?.firstMaterial?.transparency = 0.0
         
-        let mouthTopCenter = [746,311]
+        let mouthTopCenter = thePoint.postion
         
         let features = [mouthTopCenter]
         
@@ -173,6 +188,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
             }
         }
     }
+    
     @objc func backButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
