@@ -11,10 +11,11 @@
 		1B04ACFD2BCD129900F6FB8D /* AcupointData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B04ACFC2BCD129900F6FB8D /* AcupointData.swift */; };
 		1B04AD002BCD331400F6FB8D /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B04ACFF2BCD331400F6FB8D /* SearchVC.swift */; };
 		1B04AD022BCD38A300F6FB8D /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B04AD012BCD38A300F6FB8D /* SearchTableViewCell.swift */; };
+		1B83A8BF2BCE7ADC00E0C440 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B83A8BE2BCE7ADC00E0C440 /* HomeCollectionViewCell.swift */; };
+		1B83A8C12BCE829000E0C440 /* TabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B83A8C02BCE829000E0C440 /* TabController.swift */; };
 		1B964F202BC912690005F1CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F1F2BC912690005F1CF /* AppDelegate.swift */; };
 		1B964F222BC912690005F1CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F212BC912690005F1CF /* SceneDelegate.swift */; };
 		1B964F242BC912690005F1CF /* FaceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F232BC912690005F1CF /* FaceVC.swift */; };
-		1B964F272BC912690005F1CF /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 1B964F262BC912690005F1CF /* Base */; };
 		1B964F292BC9126A0005F1CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B964F282BC9126A0005F1CF /* Assets.xcassets */; };
 		1B964F2C2BC9126A0005F1CF /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 1B964F2B2BC9126A0005F1CF /* Base */; };
 		1B964F342BC915090005F1CF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1B964F332BC915090005F1CF /* GoogleService-Info.plist */; };
@@ -38,11 +39,12 @@
 		1B04ACFC2BCD129900F6FB8D /* AcupointData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcupointData.swift; sourceTree = "<group>"; };
 		1B04ACFF2BCD331400F6FB8D /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		1B04AD012BCD38A300F6FB8D /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
+		1B83A8BE2BCE7ADC00E0C440 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
+		1B83A8C02BCE829000E0C440 /* TabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabController.swift; sourceTree = "<group>"; };
 		1B964F1C2BC912690005F1CF /* Acupoint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Acupoint.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B964F1F2BC912690005F1CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1B964F212BC912690005F1CF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		1B964F232BC912690005F1CF /* FaceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceVC.swift; sourceTree = "<group>"; };
-		1B964F262BC912690005F1CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1B964F282BC9126A0005F1CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B964F2B2BC9126A0005F1CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1B964F2D2BC9126A0005F1CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -82,12 +84,22 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		1B04ACFE2BCD32EE00F6FB8D /* Search */ = {
+		1B04ACFE2BCD32EE00F6FB8D /* SearchPage */ = {
 			isa = PBXGroup;
 			children = (
 				1B04ACFF2BCD331400F6FB8D /* SearchVC.swift */,
+				1B04AD012BCD38A300F6FB8D /* SearchTableViewCell.swift */,
 			);
-			path = Search;
+			path = SearchPage;
+			sourceTree = "<group>";
+		};
+		1B83A8BB2BCE752100E0C440 /* HomePage */ = {
+			isa = PBXGroup;
+			children = (
+				1B964F772BCB83220005F1CF /* HomeVC.swift */,
+				1B83A8BE2BCE7ADC00E0C440 /* HomeCollectionViewCell.swift */,
+			);
+			path = HomePage;
 			sourceTree = "<group>";
 		};
 		1B964F132BC912680005F1CF = {
@@ -112,13 +124,12 @@
 			children = (
 				1B964F1F2BC912690005F1CF /* AppDelegate.swift */,
 				1B964F212BC912690005F1CF /* SceneDelegate.swift */,
-				1B964F772BCB83220005F1CF /* HomeVC.swift */,
-				1B04AD012BCD38A300F6FB8D /* SearchTableViewCell.swift */,
-				1B04ACFE2BCD32EE00F6FB8D /* Search */,
+				1B83A8C02BCE829000E0C440 /* TabController.swift */,
+				1B83A8BB2BCE752100E0C440 /* HomePage */,
+				1B04ACFE2BCD32EE00F6FB8D /* SearchPage */,
 				1B04ACF92BCD0F3500F6FB8D /* Model */,
 				1B964F762BCAE9410005F1CF /* FaceTrack */,
 				1B964F752BCAE9330005F1CF /* HandTrack */,
-				1B964F252BC912690005F1CF /* Main.storyboard */,
 				1B964F282BC9126A0005F1CF /* Assets.xcassets */,
 				1B964F2A2BC9126A0005F1CF /* LaunchScreen.storyboard */,
 				1B964F2D2BC9126A0005F1CF /* Info.plist */,
@@ -230,7 +241,6 @@
 				1B964F292BC9126A0005F1CF /* Assets.xcassets in Resources */,
 				1B964F342BC915090005F1CF /* GoogleService-Info.plist in Resources */,
 				1B964F2C2BC9126A0005F1CF /* Base in Resources */,
-				1B964F272BC912690005F1CF /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,9 +253,11 @@
 			files = (
 				1B964F702BCAE7F60005F1CF /* HandVC.swift in Sources */,
 				1B04AD002BCD331400F6FB8D /* SearchVC.swift in Sources */,
+				1B83A8C12BCE829000E0C440 /* TabController.swift in Sources */,
 				1B9D2AC72BCBD7CC004FDF17 /* HandJointService.swift in Sources */,
 				1B964F782BCB83220005F1CF /* HomeVC.swift in Sources */,
 				1B964F242BC912690005F1CF /* FaceVC.swift in Sources */,
+				1B83A8BF2BCE7ADC00E0C440 /* HomeCollectionViewCell.swift in Sources */,
 				1B04ACFD2BCD129900F6FB8D /* AcupointData.swift in Sources */,
 				1B964F742BCAE8D80005F1CF /* AppError.swift in Sources */,
 				1B964F202BC912690005F1CF /* AppDelegate.swift in Sources */,
@@ -266,14 +278,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1B964F252BC912690005F1CF /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1B964F262BC912690005F1CF /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		1B964F2A2BC9126A0005F1CF /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -414,9 +418,9 @@
 				DEVELOPMENT_TEAM = 96FT7QHVFB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Acupoint/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Acupoint想要使用您的相機";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -443,9 +447,9 @@
 				DEVELOPMENT_TEAM = 96FT7QHVFB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Acupoint/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Acupoint想要使用您的相機";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;

@@ -4,26 +4,33 @@ import ARKit
 class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     private var cameraVw: CameraView {
-        return view as? CameraView ?? CameraView()
+        return view as? CameraView ?? CameraView() //為什麼要這樣寫？
     }
+    //指定一個佇列來處理影像資料輸出，使用者互動級別
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
+    
     private var cameraFeedSession: AVCaptureSession?
+    
     private var handPoseRequest: VNDetectHumanHandPoseRequest = {
         let request = VNDetectHumanHandPoseRequest()
         request.maximumHandCount = 1
         return request
     }()
-    private var thumbCMCMCPMidPoint = CGPoint()
     
     let drawOverlay = CAShapeLayer()
+    
     let drawPath = UIBezierPath()
     
+    private var thumbCMCMCPMidPoint = CGPoint()
+    
+    
+    
     lazy var backButton: UIButton = {
-           let button = UIButton(type: .system)
-           button.setTitle("Back", for: .normal)
+        let button = UIButton(type: .system)
+        button.setTitle("Back", for: .normal)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-           button.translatesAutoresizingMaskIntoConstraints = false
-           return button
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     override func viewDidLoad() {
@@ -32,17 +39,17 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     override func viewDidLayoutSubviews() {
         view.addSubview(backButton)
-               NSLayoutConstraint.activate([
-                backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
-                backButton.topAnchor.constraint(equalTo: view.topAnchor,constant: 40)
-               ])
+        NSLayoutConstraint.activate([
+            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
+            backButton.topAnchor.constraint(equalTo: view.topAnchor,constant: 40)
+        ])
         view.bringSubviewToFront(backButton)
         
         drawOverlay.frame = view.layer.bounds
         drawOverlay.lineWidth = 2
         drawOverlay.fillColor = UIColor.red.cgColor
         view.layer.addSublayer(drawOverlay)
-
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -68,8 +75,8 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         cameraFeedSession?.stopRunning()
         super.viewWillDisappear(animated)
     }
-    
-     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+      
         let handler = VNImageRequestHandler(
             cmSampleBuffer: sampleBuffer,
             orientation: .up,
@@ -79,9 +86,9 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             try handler.perform([handPoseRequest])
             guard let observation = handPoseRequest.results?.first else {
                 HandJointService.shared.clearDrawing()
+                self.drawPath.removeAllPoints()
                 return
             }
-            // 為什麼要寫 try
             try HandJointService.shared.extractJointPoints(from: observation)
             
             DispatchQueue.main.async {
@@ -91,10 +98,9 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                                                    with: self.drawPath,
                                                    in:   cameraPreviewLayer)
                 self.drawPath.removeAllPoints()
-//                HandJointService.shared.clearDrawing()
-                    }
+            }
+            
         } catch {
-            //這邊在寫什麼
             cameraFeedSession?.stopRunning()
             let error = AppError.visionError(error: error)
             DispatchQueue.main.async {
@@ -113,12 +119,10 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         let session = AVCaptureSession()
         session.beginConfiguration()
         session.sessionPreset = AVCaptureSession.Preset.high
-        
         guard session.canAddInput(deviceInput) else {
             throw AppError.captureSessionSetup(reason: "Could not add video device input to the session")
         }
         session.addInput(deviceInput)
-        
         let dataOutput = AVCaptureVideoDataOutput()
         if session.canAddOutput(dataOutput) {
             session.addOutput(dataOutput)
@@ -132,11 +136,11 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         cameraFeedSession = session
     }
     
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        guard let touch = touches.first else { return }
-//        let viewTouchLocation = touch.location(in: cameraVw)
-//    
-//    }
+    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    //        guard let touch = touches.first else { return }
+    //        let viewTouchLocation = touch.location(in: cameraVw)
+    //
+    //    }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let viewTouchLocation = touch.location(in: cameraVw)

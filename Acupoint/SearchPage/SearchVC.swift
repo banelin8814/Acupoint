@@ -1,6 +1,6 @@
 import UIKit
 
-class HomeVC: UIViewController {
+class SearchVC: UIViewController {
     
     private let searchTableView = UITableView()
     
@@ -35,16 +35,14 @@ class HomeVC: UIViewController {
         self.searchController.searchResultsUpdater = self
         self.searchController.obscuresBackgroundDuringPresentation = false
         self.searchController.hidesNavigationBarDuringPresentation = false
-        self.searchController
-            .dimsBackgroundDuringPresentation = true
         self.searchController.searchBar.searchBarStyle = .prominent
         
         self.searchController.searchBar.placeholder = "輸入穴位，或疼痛部位"
         self.navigationItem.searchController = searchController
         self.definesPresentationContext = false
-        self.navigationItem.hidesSearchBarWhenScrolling = false
-        self.searchTableView.tableHeaderView = self.searchController.searchBar
-        
+        self.navigationItem.hidesSearchBarWhenScrolling = true
+//        self.searchTableView.tableHeaderView = self.searchController.searchBar
+        self.navigationItem.titleView = searchController.searchBar
     }
     func filterContent(for searchText: String) {
         filterResult = faceAcupoints.filter({ (filterArray) -> Bool in
@@ -55,12 +53,12 @@ class HomeVC: UIViewController {
     }
 }
 
-extension HomeVC: UISearchResultsUpdating, UISearchBarDelegate {
+extension SearchVC: UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         if let searchText = searchController.searchBar.text {
             if searchText.isEmpty {
                 filterResult = faceAcupoints
-            }  else {
+            } else {
                 filterContent(for: searchText)
             }
             searchTableView.reloadData()
@@ -68,7 +66,7 @@ extension HomeVC: UISearchResultsUpdating, UISearchBarDelegate {
     }
 }
 
-extension HomeVC: UITableViewDelegate, UITableViewDataSource {
+extension SearchVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (self.searchController.isActive) {
@@ -93,8 +91,22 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("didTap")
+        self.tabBarController?.tabBar.isHidden = true
         faceVC.thePoint = faceAcupoints[indexPath.row]
         self.navigationController?.pushViewController(faceVC, animated: true)
+    }
+}
+import SwiftUI
+
+struct SearchViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        Container().edgesIgnoringSafeArea(.all)
+    }
+    struct Container: UIViewControllerRepresentable {
+        func makeUIViewController(context: Context) -> UIViewController {
+            UINavigationController(rootViewController: SearchVC())
+        }
+        func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+        typealias UViewControllerType = UIViewController
     }
 }

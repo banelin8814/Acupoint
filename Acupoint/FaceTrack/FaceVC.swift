@@ -112,6 +112,15 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         
         sceneVw.session.pause()
         sceneVw.removeFromSuperview()
+        
+        self.tabBarController?.tabBar.isHidden = false
+
+    }
+    
+    
+    override func viewDidDisappear(_ animated: Bool) {
+//        self.navigationController?.isNavigationBarHidden = false
+
     }
     
     func addImageView() {
