@@ -367,7 +367,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     }
     
     var lesserSurge: CGPoint {
-        calculateOffsetPoint(point: wrist?.location, offsetX: -0.09, offsetY: 0)
+        calculateOffsetPoint(point: littleTIP?.location, offsetX: 0, offsetY: -0.009)
     }
     
     func calculateOffsetPoint(point: CGPoint?, offsetX: CGFloat, offsetY: CGFloat) -> CGPoint {
