@@ -25,7 +25,9 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     let drawPath = UIBezierPath()
     
-    private var thumbCMCMCPMidPoint = CGPoint()
+    var jointPoints: [VNRecognizedPoint] = []
+    
+    var customJointPoints: [CGPoint] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,17 +79,15 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                 self.drawPath.removeAllPoints()
                 return
             }
-            try HandJointService.shared.extractJointPoints(from: observation)
             
             DispatchQueue.main.async {
                 guard let cameraPreviewLayer = self.cameraVw.previewLayer else { return }
-                HandJointService.shared.setSelectedJoints(.wrist, .littleMCP)
-                HandJointService.shared.drawJoints(on:   self.drawOverlay,
-                                                   with: self.drawPath,
-                                                   in:   cameraPreviewLayer)
+                // 這邊畫穴位
+                HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: self.drawPath, in: cameraPreviewLayer, from: observation)
+//                HandJointService.shared.drawExistingJoints(on: self.drawOverlay, with: self.drawPath, in: cameraPreviewLayer, from: observation)
                 self.drawPath.removeAllPoints()
             }
-            
+        //: 這邊畫穴位
         } catch {
             cameraFeedSession?.stopRunning()
             let error = AppError.visionError(error: error)
@@ -123,26 +123,21 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         session.commitConfiguration()
         cameraFeedSession = session
     }
-    
-    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    //        guard let touch = touches.first else { return }
-    //        let viewTouchLocation = touch.location(in: cameraVw)
-    //
-    //    }
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else { return }
-        let viewTouchLocation = touch.location(in: cameraVw)
-        
-        // 將觸控點的座標轉換為 CALayer 的座標系統
-        let touchLocationInLayer = cameraVw.layer.convert(viewTouchLocation, to: drawOverlay)
-        
-        // 檢查觸控點是否在任何一個手部節點的範圍內
-        for joint in HandJointService.shared.jointPoints {
-            let jointPath = HandJointService.shared.createJointPath(for: joint, in: cameraVw.previewLayer!)
-            if jointPath.contains(touchLocationInLayer) {
-                print("Touched joint: \(joint)")
-                break
-            }
-        }
-    }
+//   // 應該是手點擊的功能
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        guard let touch = touches.first else { return }
+//        let viewTouchLocation = touch.location(in: cameraVw)
+//        
+//        // 將觸控點的座標轉換為 CALayer 的座標系統
+//        let touchLocationInLayer = cameraVw.layer.convert(viewTouchLocation, to: drawOverlay)
+//        
+//        // 檢查觸控點是否在任何一個手部節點的範圍內
+//        for joint in HandJointService.shared.jointPoints {
+//            let jointPath = HandJointService.shared.createJointPath(for: joint, in: cameraVw.previewLayer!)
+//            if jointPath.contains(touchLocationInLayer) {
+//                print("Touched joint: \(joint)")
+//                break
+//            }
+//        }
+//    }
 }
