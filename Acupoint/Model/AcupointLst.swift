@@ -4,14 +4,10 @@ import SwiftData
 //@Model
 //class AcupointList {
 //    @Attribute(.unique) var id: String
-//    let name: String
-//    let intro: String
-//    let node: Int
-//    
-//    init(id: String, name: String, intro: String, node: Int) {
+//    let faceAcupoints: [Acupoint]
+//
+//    init(id: String, faceAcupoints: [Acupoint]) {
 //        self.id = id
-//        self.name = name
-//        self.intro = intro
-//        self.node = node
+//        self.faceAcupoints = faceAcupoints
 //    }
 //}

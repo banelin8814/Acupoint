@@ -3,6 +3,8 @@ import StoreKit
 
 class HomeVC: UIViewController {
     
+    let archiveVC = ArchiveVC()
+    
     lazy var userAvatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -18,6 +20,17 @@ class HomeVC: UIViewController {
         label.text = "曹操"
         label.font = UIFont.systemFont(ofSize: 18)
         return label
+    }()
+    
+    lazy var bookmarkBtn: UIButton = {
+        let button = UIButton()
+//        let bookmarkTapped = false
+        button.setImage(UIImage(systemName: "bookmark"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+      
+        button.addTarget(self, action: #selector(archiveButtonTapped), for: .touchUpInside)
+        button.tintColor = .black
+        return button
     }()
     
     lazy var collectionView: UICollectionView = {
@@ -43,6 +56,7 @@ class HomeVC: UIViewController {
         setupUserAvatarImageView()
         setupUserNameLabel()
         setupCollectionView()
+        setupArchiveBtn()
         collectionView.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: "HomeCollectionViewCell")
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -76,6 +90,18 @@ class HomeVC: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 20)
         ])
+    }
+    
+    func setupArchiveBtn() {
+        view.addSubview(bookmarkBtn)
+        NSLayoutConstraint.activate([
+            bookmarkBtn.centerYAnchor.constraint(equalTo: userAvatarImageView.centerYAnchor),
+            bookmarkBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        ])
+    }
+    
+    @objc func archiveButtonTapped() {
+        self.navigationController?.pushViewController(archiveVC, animated: true)
     }
 }
 

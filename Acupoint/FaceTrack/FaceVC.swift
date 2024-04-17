@@ -4,6 +4,8 @@ import CHGlassmorphismView
 
 class FaceVC: UIViewController, ARSCNViewDelegate {
     
+    var isSaved = false
+    
     private let sceneVw = ARSCNView(frame: UIScreen.main.bounds)
     
     lazy var faceOutLineVw = UIImageView()
@@ -18,14 +20,14 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     }
     
     var dotNode = SCNNode()
-        
-//    lazy var backButton: UIButton = {
-//        let button = UIButton(type: .system)
-//        button.setTitle("Back", for: .normal)
-//        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        return button
-//    }()
+    
+    //    lazy var backButton: UIButton = {
+    //        let button = UIButton(type: .system)
+    //        button.setTitle("Back", for: .normal)
+    //        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+    //        button.translatesAutoresizingMaskIntoConstraints = false
+    //        return button
+    //    }()
     
     lazy var introTitle: UILabel = {
         let label = UILabel()
@@ -61,7 +63,19 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         return label
     }()
     
-    let frossGlass = CHGlassmorphismView()
+    lazy var frossGlass = CHGlassmorphismView()
+    
+    lazy var bookmarkBtn: UIButton = {
+        let button = UIButton()
+//        let bookmarkTapped = false
+        button.setImage(UIImage(systemName: "bookmark"), for: .normal)
+        button.setImage(UIImage(systemName: "bookmark.fill"), for: .selected)
+        button.translatesAutoresizingMaskIntoConstraints = false
+      
+        button.addTarget(self, action: #selector(bookmarkButtonTapped), for: .touchUpInside)
+        button.tintColor = .white
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,17 +100,17 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     
     override func viewDidLayoutSubviews() {
         
-//            view.addSubview(backButton)
-            view.addSubview(faceOutLineVw)
-            view.addSubview(frossGlass)
-            view.addSubview(introTitle)
-            view.addSubview(methodLbl)
-            view.addSubview(frequencyLbl)
-            view.addSubview(noticeLbl)
-            
-            addImageView()
-            setIntroView()
-            setUpText()
+        //            view.addSubview(backButton)
+        view.addSubview(faceOutLineVw)
+        view.addSubview(frossGlass)
+        view.addSubview(introTitle)
+        view.addSubview(methodLbl)
+        view.addSubview(frequencyLbl)
+        view.addSubview(noticeLbl)
+        view.addSubview(bookmarkBtn)
+        addImageView()
+        setIntroView()
+        setUpText()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -114,13 +128,13 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         sceneVw.removeFromSuperview()
         
         self.tabBarController?.tabBar.isHidden = false
-
+        
     }
     
     
     override func viewDidDisappear(_ animated: Bool) {
-//        self.navigationController?.isNavigationBarHidden = false
-
+        //        self.navigationController?.isNavigationBarHidden = false
+        
     }
     
     func addImageView() {
@@ -138,8 +152,8 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         frossGlass.setTheme(theme: .dark)
         frossGlass.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-//            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
-//            backButton.topAnchor.constraint(equalTo: view.topAnchor,constant: 40),
+            //            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
+            //            backButton.topAnchor.constraint(equalTo: view.topAnchor,constant: 40),
             frossGlass.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             frossGlass.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 3),
             frossGlass.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.28),
@@ -155,16 +169,20 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
             introTitle.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
             introTitle.topAnchor.constraint(equalTo: frossGlass.topAnchor, constant: 20),
             methodLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-            methodLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: 20),
+            methodLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
             methodLbl.topAnchor.constraint(equalTo: introTitle.topAnchor, constant: 40),
             frequencyLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-            frequencyLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: 20),
+            frequencyLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
             frequencyLbl.topAnchor.constraint(equalTo: methodLbl.topAnchor, constant: 20),
             noticeLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-            noticeLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: 20),
-            noticeLbl.topAnchor.constraint(equalTo: frequencyLbl.topAnchor, constant: 20)
+            noticeLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
+            noticeLbl.topAnchor.constraint(equalTo: frequencyLbl.topAnchor, constant: 20),
+            bookmarkBtn.topAnchor.constraint(equalTo: frossGlass.topAnchor, constant: 20),
+            bookmarkBtn.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20)
         ])
     }
+    
+    
     
     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
         
@@ -208,7 +226,18 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
             }
         }
     }
-//    @objc func backButtonTapped() {
-//        dismiss(animated: true, completion: nil)
-//    }
+    //    @objc func backButtonTapped() {
+    //        dismiss(animated: true, completion: nil)
+    //    }
+    // 點擊事件處理函數
+    @objc func bookmarkButtonTapped() {
+        bookmarkBtn.isSelected = !bookmarkBtn.isSelected
+        if isSaved == false {
+            saveData.append(thePoint)
+            isSaved = true
+        } else {
+            saveData.remove(at: 0)
+            isSaved = false
+        }
+    }
 }

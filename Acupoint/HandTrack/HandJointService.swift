@@ -120,7 +120,6 @@ class HandJointService {
         return jointPath.cgPath
     }
     
-    
     func clearDrawing() {
         drawPath.removeAllPoints()
         drawOverlay.path = drawPath.cgPath

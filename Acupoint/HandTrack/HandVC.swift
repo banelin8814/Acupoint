@@ -6,6 +6,10 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     private var cameraVw: CameraView {
         return view as? CameraView ?? CameraView() //為什麼要這樣寫？
     }
+    //處理push HandVC沒有畫面的問題
+    override func loadView() {
+        view = CameraView()
+    }
     //指定一個佇列來處理影像資料輸出，使用者互動級別
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
     
@@ -23,27 +27,11 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     private var thumbCMCMCPMidPoint = CGPoint()
     
-    
-    
-    lazy var backButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Back", for: .normal)
-        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func viewDidLayoutSubviews() {
-        view.addSubview(backButton)
-        NSLayoutConstraint.activate([
-            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
-            backButton.topAnchor.constraint(equalTo: view.topAnchor,constant: 40)
-        ])
-        view.bringSubviewToFront(backButton)
         
         drawOverlay.frame = view.layer.bounds
         drawOverlay.lineWidth = 2
@@ -72,8 +60,8 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        cameraFeedSession?.stopRunning()
         super.viewWillDisappear(animated)
+        cameraFeedSession?.stopRunning()
     }
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
       
@@ -108,7 +96,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             }
         }
     }
-    
+
     private func setupAVSession() throws {
         guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
             throw AppError.captureSessionSetup(reason: "Could not find a front camera.")
@@ -156,9 +144,5 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                 break
             }
         }
-    }
-    
-    @objc func backButtonTapped() {
-        dismiss(animated: true, completion: nil)
     }
 }

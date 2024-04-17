@@ -5,6 +5,7 @@ class SearchVC: UIViewController {
     private let searchTableView = UITableView()
     
     private let faceVC = FaceVC()
+    private let handVC = HandVC()
     
     private let searchController = UISearchController(searchResultsController: nil)
     
@@ -41,7 +42,7 @@ class SearchVC: UIViewController {
         self.navigationItem.searchController = searchController
         self.definesPresentationContext = false
         self.navigationItem.hidesSearchBarWhenScrolling = true
-//        self.searchTableView.tableHeaderView = self.searchController.searchBar
+        //        self.searchTableView.tableHeaderView = self.searchController.searchBar
         self.navigationItem.titleView = searchController.searchBar
     }
     func filterContent(for searchText: String) {
@@ -72,7 +73,11 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         if (self.searchController.isActive) {
             return self.filterResult.count
         } else {
-            return faceAcupoints.count
+            if section == 0 {
+                return faceAcupoints.count
+            } else {
+                return 1
+            }
         }
     }
     
@@ -80,33 +85,30 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchTableViewCell", for: indexPath) as? SearchTableViewCell else {
             return UITableViewCell() }
         if (self.searchController.isActive) {
-            cell.textLabel?.text =
-            self.filterResult[indexPath.row].name
+            cell.textLabel?.text = filterResult[indexPath.row].name 
             return cell
         } else {
-            cell.textLabel?.text =
-            faceAcupoints[indexPath.row].name
+            if indexPath.section == 0 {
+                cell.textLabel?.text = faceAcupoints[indexPath.row].name
+            } else {
+                cell.textLabel?.text = "手部穴位"
+            }
             return cell
         }
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        2
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tabBarController?.tabBar.isHidden = true
-        faceVC.thePoint = faceAcupoints[indexPath.row]
-        self.navigationController?.pushViewController(faceVC, animated: true)
-    }
-}
-import SwiftUI
-
-struct SearchViewController_Previews: PreviewProvider {
-    static var previews: some View {
-        Container().edgesIgnoringSafeArea(.all)
-    }
-    struct Container: UIViewControllerRepresentable {
-        func makeUIViewController(context: Context) -> UIViewController {
-            UINavigationController(rootViewController: SearchVC())
+        if indexPath.section == 0 {
+            faceVC.thePoint = faceAcupoints[indexPath.row]
+            self.navigationController?.pushViewController(faceVC, animated: true)
+        } else {
+            self.navigationController?.pushViewController(handVC, animated: true)
         }
-        func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
-        typealias UViewControllerType = UIViewController
     }
 }
+
