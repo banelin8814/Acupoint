@@ -93,7 +93,6 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         
         //        view.addSubview(sceneVw)
         
-        print(thePoint)
         let configuration = ARFaceTrackingConfiguration()
         sceneVw.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
     }
@@ -141,8 +140,8 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         faceOutLineVw.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             faceOutLineVw.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            faceOutLineVw.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 85),
-            faceOutLineVw.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1.1),
+            faceOutLineVw.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 75),
+            faceOutLineVw.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1.3),
             faceOutLineVw.heightAnchor.constraint(equalTo: faceOutLineVw.widthAnchor)
         ])
         faceOutLineVw.image = UIImage(named: "faceOutline")

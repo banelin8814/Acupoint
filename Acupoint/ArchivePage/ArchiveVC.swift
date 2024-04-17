@@ -6,7 +6,7 @@ class ArchiveVC: UIViewController {
     
     private let faceVC = FaceVC()
     
-    var filterResult: [Acupoint] = []
+    var filterResult: [FaceAcupoint] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()

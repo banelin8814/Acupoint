@@ -9,8 +9,7 @@ class SearchVC: UIViewController {
     
     private let searchController = UISearchController(searchResultsController: nil)
     
-    var filterResult: [Acupoint] = []
-    
+    var filterResult: [FaceAcupoint] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         searchTableView.dataSource = self
@@ -76,7 +75,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
             if section == 0 {
                 return faceAcupoints.count
             } else {
-                return 1
+                return handAcupoints.count
             }
         }
     }
@@ -91,7 +90,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
             if indexPath.section == 0 {
                 cell.textLabel?.text = faceAcupoints[indexPath.row].name
             } else {
-                cell.textLabel?.text = "手部穴位"
+                cell.textLabel?.text = handAcupoints[indexPath.row].name
             }
             return cell
         }
@@ -107,6 +106,8 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
             faceVC.thePoint = faceAcupoints[indexPath.row]
             self.navigationController?.pushViewController(faceVC, animated: true)
         } else {
+            handVC.acupointIndex = indexPath.row
+            handVC.handPoint = handAcupoints[indexPath.row]
             self.navigationController?.pushViewController(handVC, animated: true)
         }
     }

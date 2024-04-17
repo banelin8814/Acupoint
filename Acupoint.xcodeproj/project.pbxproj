@@ -20,7 +20,6 @@
 		1B964F202BC912690005F1CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F1F2BC912690005F1CF /* AppDelegate.swift */; };
 		1B964F222BC912690005F1CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F212BC912690005F1CF /* SceneDelegate.swift */; };
 		1B964F242BC912690005F1CF /* FaceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F232BC912690005F1CF /* FaceVC.swift */; };
-		1B964F292BC9126A0005F1CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B964F282BC9126A0005F1CF /* Assets.xcassets */; };
 		1B964F2C2BC9126A0005F1CF /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 1B964F2B2BC9126A0005F1CF /* Base */; };
 		1B964F342BC915090005F1CF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1B964F332BC915090005F1CF /* GoogleService-Info.plist */; };
 		1B964F532BC93B340005F1CF /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1B964F522BC93B340005F1CF /* FirebaseAuth */; };
@@ -36,6 +35,7 @@
 		1B964F782BCB83220005F1CF /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F772BCB83220005F1CF /* HomeVC.swift */; };
 		1B9D2AC72BCBD7CC004FDF17 /* HandJointService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9D2AC62BCBD7CC004FDF17 /* HandJointService.swift */; };
 		1B9D2ACA2BCBF988004FDF17 /* CHGlassmorphismView in Frameworks */ = {isa = PBXBuildFile; productRef = 1B9D2AC92BCBF988004FDF17 /* CHGlassmorphismView */; };
+		1BF9C9052BD0057F00EBEA0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,7 +53,6 @@
 		1B964F1F2BC912690005F1CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1B964F212BC912690005F1CF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		1B964F232BC912690005F1CF /* FaceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceVC.swift; sourceTree = "<group>"; };
-		1B964F282BC9126A0005F1CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B964F2B2BC9126A0005F1CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1B964F2D2BC9126A0005F1CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B964F332BC915090005F1CF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -62,6 +61,7 @@
 		1B964F732BCAE8D80005F1CF /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		1B964F772BCB83220005F1CF /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		1B9D2AC62BCBD7CC004FDF17 /* HandJointService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandJointService.swift; sourceTree = "<group>"; };
+		1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,8 +149,8 @@
 				1B04ACFE2BCD32EE00F6FB8D /* SearchPage */,
 				1B964F762BCAE9410005F1CF /* FaceTrack */,
 				1B964F752BCAE9330005F1CF /* HandTrack */,
-				1B964F282BC9126A0005F1CF /* Assets.xcassets */,
 				1B964F2A2BC9126A0005F1CF /* LaunchScreen.storyboard */,
+				1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */,
 				1B964F2D2BC9126A0005F1CF /* Info.plist */,
 				1B964F332BC915090005F1CF /* GoogleService-Info.plist */,
 			);
@@ -258,8 +258,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B964F292BC9126A0005F1CF /* Assets.xcassets in Resources */,
 				1B964F342BC915090005F1CF /* GoogleService-Info.plist in Resources */,
+				1BF9C9052BD0057F00EBEA0E /* Assets.xcassets in Resources */,
 				1B964F2C2BC9126A0005F1CF /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
