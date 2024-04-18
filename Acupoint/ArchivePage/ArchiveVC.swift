@@ -6,7 +6,7 @@ class ArchiveVC: UIViewController {
     
     private let faceVC = FaceVC()
     
-    var filterResult: [FaceAcupoint] = []
+    var filterResult: [FaceAcupointData] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,9 +41,9 @@ extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
         
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tabBarController?.tabBar.isHidden = true
-        faceVC.thePoint = saveData[indexPath.row]
-        self.navigationController?.pushViewController(faceVC, animated: true)
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        self.tabBarController?.tabBar.isHidden = true
+//        faceVC.thePoint = saveData[indexPath.row]
+//        self.navigationController?.pushViewController(faceVC, animated: true)
+//    }
 }

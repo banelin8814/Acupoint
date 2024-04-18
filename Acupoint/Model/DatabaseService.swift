@@ -1,44 +1,50 @@
 import Foundation
 import SwiftData
-//
-//class DatabaseService {
-//    static var shared = DatabaseService()
-//    var container: ModelContainer?
-//    var context: ModelContext?
-//    
-//    init() {
-//        do {
-////             container = try ModelContainer(for: [TodoModel.self])
-//            if let container {
-//                 
-//                context = ModelContext(container)
-//                
-//            }
-//
-//             
-//        }
-//        catch {
-//            print(error)
-//        }
-//    }
-//    
-//    func saveTask(faceAcupoints: [Acupoint]?) {
-//            guard let faceAcupoints else { return }
-//            if let context {
-//                let taskToBeSaved = AcupointList(id: <#T##String#>, faceAcupoints: <#T##[Acupoint]#>)
-//                context.insert(taskToBeSaved)
-//            }
-//        }
-//    func fetchTasks(onCompletion:@escaping([Acupoint]?,Error?) -> (Void)) {
-//          let descriptor = FetchDescriptor<AcupointList>
-//          if let context{
-//              do {
-//                  let data = try context.fetch(descriptor)
-//                  onCompletion(data,nil)
-//              }
-//              catch {
-//                  onCompletion(nil,error)
-//              }
-//          }
-//     }
-//}
+
+@MainActor
+class DatabaseService {
+    static let shared = DatabaseService()
+    
+    private var container: ModelContainer?
+    
+    private var context: ModelContext?
+    
+    init() {
+        do {
+            container = try ModelContainer(for: FaceAcupointData.self)
+            context = container?.mainContext
+        } catch {
+            print("Failed to create ModelContainer: \(error)")
+        }
+    }
+    
+    func saveDefaultAcupoints(_ acupoints: [FaceAcupointData]) {
+        if let context {
+            for acupoint in acupoints {
+                let newAcupoint = FaceAcupointData(
+                    name: acupoint.name,
+                    location: acupoint.location,
+                    effect: acupoint.effect,
+                    method: acupoint.method,
+                    frequency: acupoint.frequency,
+                    notice: acupoint.notice,
+                    position: acupoint.position
+                )
+                context.insert(newAcupoint)
+            }
+        }
+    }
+    
+    func fetchAcupoints() -> [FaceAcupointData] {
+        let descriptor = FetchDescriptor<FaceAcupointData>()
+        do {
+            if let context = context {
+                let objects = try context.fetch(descriptor)
+                return objects
+            }
+        } catch {
+            print("Failed to fetch acupoints: \(error)")
+        }
+        return []
+    }
+}

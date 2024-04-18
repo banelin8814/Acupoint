@@ -1,5 +1,6 @@
 import UIKit
 import ARKit
+import SwiftData
 import CHGlassmorphismView
 
 class FaceVC: UIViewController, ARSCNViewDelegate {
@@ -7,15 +8,25 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
 //    var isSaved = false
     
     private let sceneVw = ARSCNView(frame: UIScreen.main.bounds)
-    
+            
     lazy var faceOutLineVw = UIImageView()
     
-    var thePoint = faceAcupoints[1] {
+//    var thePoint = faceAcupoints[1] {
+//        didSet {
+//            introTitle.text = thePoint.name
+//            methodLbl.text = "手法： \(thePoint.method)"
+//            frequencyLbl.text = "頻率： \(thePoint.frequency)"
+//            noticeLbl.text = "注意： \(thePoint.notice)"
+//        }
+//    }
+    var thePoint: FaceAcupointData? {
         didSet {
-            introTitle.text = thePoint.name
-            methodLbl.text = "手法： \(thePoint.method)"
-            frequencyLbl.text = "頻率： \(thePoint.frequency)"
-            noticeLbl.text = "注意： \(thePoint.notice)"
+            if let thePoint = thePoint {
+                introTitle.text = thePoint.name
+                methodLbl.text = "手法： \(thePoint.method)"
+                frequencyLbl.text = "频率： \(thePoint.frequency)"
+                noticeLbl.text = "注意： \(thePoint.notice)"
+            }
         }
     }
     
@@ -31,7 +42,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     
     lazy var introTitle: UILabel = {
         let label = UILabel()
-        label.text = thePoint.name
+        label.text = thePoint?.name
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 30, weight: .heavy)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -76,6 +87,9 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         button.tintColor = .white
         return button
     }()
+    
+    
+    private var container: ModelContainer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -193,7 +207,9 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         
         faceNode.geometry?.firstMaterial?.transparency = 0.0
         
-        let mouthTopCenter = thePoint.postion
+        guard let mouthTopCenter = thePoint?.position else {
+            return faceNode
+        }
         
         let features = [mouthTopCenter]
         
@@ -225,6 +241,8 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
             }
         }
     }
+    
+   
     //    @objc func backButtonTapped() {
     //        dismiss(animated: true, completion: nil)
     //    }

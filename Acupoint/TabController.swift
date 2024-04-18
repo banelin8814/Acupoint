@@ -27,8 +27,8 @@ class TabController: UITabBarController {
     
     
     private func setupTabs() {
-        let homePage = self.createNav(with: "Acupoint", and: UIImage(systemName: "house"), viewController: HomeVC())
-        let searchPage = self.createNav(with: "search", and: UIImage(systemName: "magnifyingglass"), viewController: SearchVC())
+        let homePage = self.createNav(with: "首頁", and: UIImage(systemName: "house"), viewController: HomeVC())
+        let searchPage = self.createNav(with: "搜尋穴位", and: UIImage(systemName: "magnifyingglass"), viewController: SearchVC())
         let wikiPage = self.createNav(with: "穴位小百科", and: UIImage(systemName: "book"), viewController: WikiVC())
         
         self.setViewControllers([homePage, searchPage, wikiPage], animated: true)

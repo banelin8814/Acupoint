@@ -6,18 +6,20 @@ class SearchVC: UIViewController {
     
     private let faceVC = FaceVC()
     private let handVC = HandVC()
+    //    private let searchController = UISearchController(searchResultsController: nil)
     
-    private let searchController = UISearchController(searchResultsController: nil)
-    
-    var filterResult: [FaceAcupoint] = []
+    var allAcupoints: [FaceAcupointData]?
     override func viewDidLoad() {
         super.viewDidLoad()
         searchTableView.dataSource = self
         searchTableView.delegate = self
         searchTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: "SearchTableViewCell")
         setupTableView()
-        setupSearchController()
-        
+        //        setupSearchController()
+        let service = DatabaseService.shared
+        service.saveDefaultAcupoints(faceAcupoints)
+        // 從 SwiftData 取得所有穴位資料
+        allAcupoints = service.fetchAcupoints()
     }
     
     func setupTableView() {
@@ -31,69 +33,69 @@ class SearchVC: UIViewController {
         ])
     }
     
-    func setupSearchController() {
-        self.searchController.searchResultsUpdater = self
-        self.searchController.obscuresBackgroundDuringPresentation = false
-        self.searchController.hidesNavigationBarDuringPresentation = false
-        self.searchController.searchBar.searchBarStyle = .prominent
-        
-        self.searchController.searchBar.placeholder = "輸入穴位，或疼痛部位"
-        self.navigationItem.searchController = searchController
-        self.definesPresentationContext = false
-        self.navigationItem.hidesSearchBarWhenScrolling = true
-        //        self.searchTableView.tableHeaderView = self.searchController.searchBar
-        self.navigationItem.titleView = searchController.searchBar
-    }
-    func filterContent(for searchText: String) {
-        filterResult = faceAcupoints.filter({ (filterArray) -> Bool in
-            let words = filterArray
-            let isMach = words.name.localizedCaseInsensitiveContains(searchText)
-            return isMach
-        })
-    }
+    //    func setupSearchController() {
+    //        self.searchController.searchResultsUpdater = self
+    //        self.searchController.obscuresBackgroundDuringPresentation = false
+    //        self.searchController.hidesNavigationBarDuringPresentation = false
+    //        self.searchController.searchBar.searchBarStyle = .prominent
+    //
+    //        self.searchController.searchBar.placeholder = "輸入穴位，或疼痛部位"
+    //        self.navigationItem.searchController = searchController
+    //        self.definesPresentationContext = false
+    //        self.navigationItem.hidesSearchBarWhenScrolling = true
+    //        //        self.searchTableView.tableHeaderView = self.searchController.searchBar
+    //        self.navigationItem.titleView = searchController.searchBar
+    //    }
+    //    func filterContent(for searchText: String) {
+    //        filterResult = faceAcupoints.filter({ (filterArray) -> Bool in
+    //            let words = filterArray
+    //            let isMach = words.name.localizedCaseInsensitiveContains(searchText)
+    //            return isMach
+    //        })
+    //    }
 }
 
-extension SearchVC: UISearchResultsUpdating, UISearchBarDelegate {
-    func updateSearchResults(for searchController: UISearchController) {
-        if let searchText = searchController.searchBar.text {
-            if searchText.isEmpty {
-                filterResult = faceAcupoints
-            } else {
-                filterContent(for: searchText)
-            }
-            searchTableView.reloadData()
-        }
-    }
-}
+//extension SearchVC: UISearchResultsUpdating, UISearchBarDelegate {
+//    func updateSearchResults(for searchController: UISearchController) {
+//        if let searchText = searchController.searchBar.text {
+//            if searchText.isEmpty {
+//                filterResult = faceAcupoints
+//            } else {
+//                filterContent(for: searchText)
+//            }
+//            searchTableView.reloadData()
+//        }
+//    }
+//}
 
 extension SearchVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (self.searchController.isActive) {
-            return self.filterResult.count
+        //        if (self.searchController.isActive) {
+        //            return self.filterResult.count
+        //        } else {
+        if section == 0 {
+            return faceAcupoints.count
         } else {
-            if section == 0 {
-                return faceAcupoints.count
-            } else {
-                return handAcupoints.count
-            }
+            return handAcupoints.count
         }
     }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchTableViewCell", for: indexPath) as? SearchTableViewCell else {
             return UITableViewCell() }
-        if (self.searchController.isActive) {
-            cell.textLabel?.text = filterResult[indexPath.row].name 
-            return cell
+        //        if (self.searchController.isActive) {
+        //            cell.textLabel?.text = filterResult[indexPath.row].name
+        //            return cell
+        //        } else {
+        if indexPath.section == 0 {
+            cell.textLabel?.text = allAcupoints?[indexPath.row].name
         } else {
-            if indexPath.section == 0 {
-                cell.textLabel?.text = faceAcupoints[indexPath.row].name
-            } else {
-                cell.textLabel?.text = handAcupoints[indexPath.row].name
-            }
-            return cell
+            cell.textLabel?.text = handAcupoints[indexPath.row].name
         }
+        return cell
+        //        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -101,10 +103,11 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tabBarController?.tabBar.isHidden = true
+        //        self.tabBarController?.tabBar.isHidden = true
         if indexPath.section == 0 {
-            faceVC.thePoint = faceAcupoints[indexPath.row]
             self.navigationController?.pushViewController(faceVC, animated: true)
+            faceVC.thePoint = allAcupoints?[indexPath.row]
+
         } else {
             handVC.acupointIndex = indexPath.row
             handVC.handPoint = handAcupoints[indexPath.row]
@@ -112,4 +115,5 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
-
+    
+    

@@ -104,7 +104,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         let method: String
         let frequency: String
         let notice: String
-        let postion: CGPoint
+        let position: CGPoint
         let isBackHand: Bool
     }
     
@@ -224,7 +224,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                 method: "用拇指指腹按壓合谷穴",
                 frequency: "每天按壓 2-3 次，每次約 1-2 分鐘",
                 notice: "按壓時若感到疼痛，可適當減輕力道",
-                postion: joiningValley,
+                position: joiningValley,
                 isBackHand: true),
             
             HandAcupoint(
@@ -234,7 +234,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                 method: "用拇指或中指指腹按壓內關穴",
                 frequency: "每天按壓 2-3 次，每次約 1-2 分鐘",
                 notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
-                postion: innerPass,
+                position: innerPass,
                 isBackHand: false),
             
             HandAcupoint(
@@ -244,7 +244,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                 method: "用拇指指腹按壓勞宮穴",
                 frequency: "每天按壓 2-3 次，每次約 1-2 分鐘",
                 notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
-                postion: palaceOfToil,
+                position: palaceOfToil,
                 isBackHand: false),
             
             HandAcupoint(
@@ -254,11 +254,11 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                 method: "用拇指指腹按壓少沖穴",
                 frequency: "每天按壓 2-3 次，每次約 1-2 分鐘",
                 notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
-                postion: lesserSurge,
+                position: lesserSurge,
                 isBackHand: true)
         ]
         
-        selectedAcupoint = handAcupoints[self.acupointIndex].postion
+        selectedAcupoint = handAcupoints[self.acupointIndex].position
         print(handAcupoints[self.acupointIndex].isBackHand)
         DispatchQueue.main.async {
             if handAcupoints[self.acupointIndex].isBackHand == true {
