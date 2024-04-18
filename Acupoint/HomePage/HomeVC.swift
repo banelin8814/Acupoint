@@ -121,17 +121,17 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 }
 
-import SwiftUI
-
-struct CollectionViewController_Previews: PreviewProvider {
-    static var previews: some View {
-        Container().edgesIgnoringSafeArea(.all)
-    }
-    struct Container: UIViewControllerRepresentable {
-        func makeUIViewController(context: Context) -> UIViewController {
-            UINavigationController(rootViewController: HomeVC())
-        }
-        func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
-        typealias UViewControllerType = UIViewController
-    }
-}
+//import SwiftUI
+//
+//struct CollectionViewController_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Container().edgesIgnoringSafeArea(.all)
+//    }
+//    struct Container: UIViewControllerRepresentable {
+//        func makeUIViewController(context: Context) -> UIViewController {
+//            UINavigationController(rootViewController: HomeVC())
+//        }
+//        func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+//        typealias UViewControllerType = UIViewController
+//    }
+//}

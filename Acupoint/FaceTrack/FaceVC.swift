@@ -4,7 +4,7 @@ import CHGlassmorphismView
 
 class FaceVC: UIViewController, ARSCNViewDelegate {
     
-    var isSaved = false
+//    var isSaved = false
     
     private let sceneVw = ARSCNView(frame: UIScreen.main.bounds)
     
@@ -72,7 +72,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         button.setImage(UIImage(systemName: "bookmark.fill"), for: .selected)
         button.translatesAutoresizingMaskIntoConstraints = false
       
-        button.addTarget(self, action: #selector(bookmarkButtonTapped), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(bookmarkButtonTapped), for: .touchUpInside)
         button.tintColor = .white
         return button
     }()
@@ -229,14 +229,14 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     //        dismiss(animated: true, completion: nil)
     //    }
     // 點擊事件處理函數
-    @objc func bookmarkButtonTapped() {
-        bookmarkBtn.isSelected = !bookmarkBtn.isSelected
-        if isSaved == false {
-            saveData.append(thePoint)
-            isSaved = true
-        } else {
-            saveData.remove(at: 0)
-            isSaved = false
-        }
-    }
+//    @objc func bookmarkButtonTapped() {
+//        bookmarkBtn.isSelected = !bookmarkBtn.isSelected
+//        if isSaved == false {
+//            saveData.append(thePoint)
+//            isSaved = true
+//        } else {
+//            saveData.remove(at: 0)
+//            isSaved = false
+//        }
+//    }
 }
