@@ -7,4 +7,4 @@
 
 import Foundation
 
-var saveData: [FaceAcupointData] = []
+var saveData: [FaceAcupointModel] = []

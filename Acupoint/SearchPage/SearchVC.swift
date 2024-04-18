@@ -8,7 +8,7 @@ class SearchVC: UIViewController {
     private let handVC = HandVC()
     //    private let searchController = UISearchController(searchResultsController: nil)
     
-    var allAcupoints: [FaceAcupointData]?
+//    var allAcupoints: [FaceAcupointModel]?
     override func viewDidLoad() {
         super.viewDidLoad()
         searchTableView.dataSource = self
@@ -16,10 +16,10 @@ class SearchVC: UIViewController {
         searchTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: "SearchTableViewCell")
         setupTableView()
         //        setupSearchController()
-        let service = DatabaseService.shared
-        service.saveDefaultAcupoints(faceAcupoints)
+//        let service = SwiftDataService.shared
+//        service.saveDefaultAcupoints(faceAcupoints)
         // 從 SwiftData 取得所有穴位資料
-        allAcupoints = service.fetchAcupoints()
+//        allAcupoints = service.fetchAcupoints()
     }
     
     func setupTableView() {
@@ -81,7 +81,6 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchTableViewCell", for: indexPath) as? SearchTableViewCell else {
             return UITableViewCell() }
@@ -90,7 +89,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         //            return cell
         //        } else {
         if indexPath.section == 0 {
-            cell.textLabel?.text = allAcupoints?[indexPath.row].name
+            cell.textLabel?.text = faceAcupoints[indexPath.row].name
         } else {
             cell.textLabel?.text = handAcupoints[indexPath.row].name
         }
@@ -106,14 +105,38 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         //        self.tabBarController?.tabBar.isHidden = true
         if indexPath.section == 0 {
             self.navigationController?.pushViewController(faceVC, animated: true)
-            faceVC.thePoint = allAcupoints?[indexPath.row]
-
+            faceVC.thePoint = faceAcupoints[indexPath.row]
+            
         } else {
             handVC.acupointIndex = indexPath.row
             handVC.handPoint = handAcupoints[indexPath.row]
             self.navigationController?.pushViewController(handVC, animated: true)
         }
+        
+    }
+    
+    @objc func saveAction(_ sender: UIButton) {
+        //用convert得到button的indextPath：簡單說是用button的位置得到indexPath
+        let buttonPosition = sender.convert(CGPoint.zero, to: searchTableView)
+        guard let indexPath = searchTableView.indexPathForRow(at:buttonPosition) else {
+            return
+        }
+        let name: String
+           
+           if indexPath.section == 0 {
+               guard indexPath.row < faceAcupoints.count else {
+                   return
+               }
+               let acupoint = faceAcupoints[indexPath.row]
+               name = acupoint.name
+           } else {
+               guard indexPath.row < handAcupoints.count else {
+                   return
+               }
+               let acupoint = handAcupoints[indexPath.row]
+               name = acupoint.name
+           }
+        print("button被點了")
+        SwiftDataService.shared.saveAcupointName(name)
     }
 }
-    
-    

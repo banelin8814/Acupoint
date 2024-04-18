@@ -19,7 +19,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
 //            noticeLbl.text = "注意： \(thePoint.notice)"
 //        }
 //    }
-    var thePoint: FaceAcupointData? {
+    var thePoint: FaceAcupointModel? {
         didSet {
             if let thePoint = thePoint {
                 introTitle.text = thePoint.name

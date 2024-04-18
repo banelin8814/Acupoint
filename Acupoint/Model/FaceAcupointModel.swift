@@ -1,8 +1,8 @@
 import SwiftData
 import UIKit
 
-@Model 
-class FaceAcupointData:Identifiable, Hashable {
+//@Model 
+class FaceAcupointModel {
     var id: UUID?
     var name: String
     var location: String
