@@ -12,7 +12,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         view = CameraView()
     }
     
-    var handPoint = handAcupoints [1] {
+    var handPoint = handAcupoints[1] {
         didSet {
             introTitle.text = handPoint.name
             methodLbl.text = "手法： \(handPoint.method)"
@@ -37,7 +37,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     lazy var methodLbl: UILabel = {
         let label = UILabel()
         label.text = "Test"
-
+        
         label.numberOfLines = 2
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
@@ -105,11 +105,13 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         let frequency: String
         let notice: String
         let postion: CGPoint
+        let isBackHand: Bool
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -222,7 +224,8 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                 method: "用拇指指腹按壓合谷穴",
                 frequency: "每天按壓 2-3 次，每次約 1-2 分鐘",
                 notice: "按壓時若感到疼痛，可適當減輕力道",
-                postion: joiningValley),
+                postion: joiningValley,
+                isBackHand: true),
             
             HandAcupoint(
                 name: "內關穴",
@@ -231,7 +234,8 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                 method: "用拇指或中指指腹按壓內關穴",
                 frequency: "每天按壓 2-3 次，每次約 1-2 分鐘",
                 notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
-                postion: innerPass),
+                postion: innerPass,
+                isBackHand: false),
             
             HandAcupoint(
                 name: "勞宮穴",
@@ -240,7 +244,8 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                 method: "用拇指指腹按壓勞宮穴",
                 frequency: "每天按壓 2-3 次，每次約 1-2 分鐘",
                 notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
-                postion: palaceOfToil),
+                postion: palaceOfToil,
+                isBackHand: false),
             
             HandAcupoint(
                 name: "少沖穴",
@@ -249,10 +254,19 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                 method: "用拇指指腹按壓少沖穴",
                 frequency: "每天按壓 2-3 次，每次約 1-2 分鐘",
                 notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
-                postion: lesserSurge)
+                postion: lesserSurge,
+                isBackHand: true)
         ]
         
         selectedAcupoint = handAcupoints[self.acupointIndex].postion
+        print(handAcupoints[self.acupointIndex].isBackHand)
+        DispatchQueue.main.async {
+            if handAcupoints[self.acupointIndex].isBackHand == true {
+                self.handOutLineVw.image = UIImage(named: "handOutlineBack")
+            } else {
+                self.handOutLineVw.image = UIImage(named: "handOutlinePalm")
+            }
+        }
     }
     
     private func setupAVSession() throws {
@@ -290,8 +304,9 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             handOutLineVw.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1.1),
             handOutLineVw.heightAnchor.constraint(equalTo: handOutLineVw.widthAnchor)
         ])
-        handOutLineVw.image = UIImage(named: "handOutlineBack")
+//        handOutLineVw.image = UIImage(named: "handOutlineBack")
     }
+    
     func setIntroView() {
         frossGlass.setTheme(theme: .dark)
         frossGlass.translatesAutoresizingMaskIntoConstraints = false
@@ -381,20 +396,20 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     }
     
     //   // 應該是手點擊的功能
-    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    //        guard let touch = touches.first else { return }
-    //        let viewTouchLocation = touch.location(in: cameraVw)
+    //        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    //            guard let touch = touches.first else { return }
+    //            let viewTouchLocation = touch.location(in: cameraVw)
     //
-    //        // 將觸控點的座標轉換為 CALayer 的座標系統
-    //        let touchLocationInLayer = cameraVw.layer.convert(viewTouchLocation, to: drawOverlay)
+    //            // 將觸控點的座標轉換為 CALayer 的座標系統
+    //            let touchLocationInLayer = cameraVw.layer.convert(viewTouchLocation, to: drawOverlay)
     //
-    //        // 檢查觸控點是否在任何一個手部節點的範圍內
-    //        for joint in HandJointService.shared.jointPoints {
-    //            let jointPath = HandJointService.shared.createJointPath(for: joint, in: cameraVw.previewLayer!)
-    //            if jointPath.contains(touchLocationInLayer) {
-    //                print("Touched joint: \(joint)")
-    //                break
+    //            // 檢查觸控點是否在任何一個手部節點的範圍內
+    //            for joint in HandJointService.shared.jointPoints {
+    //                let jointPath = HandJointService.shared.createJointPath(for: joint, in: cameraVw.previewLayer!)
+    //                if jointPath.contains(touchLocationInLayer) {
+    //                    print("Touched joint: \(joint)")
+    //                    break
+    //                }
     //            }
     //        }
-    //    }
 }
