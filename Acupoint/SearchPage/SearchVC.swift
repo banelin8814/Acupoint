@@ -122,7 +122,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
             return
         }
         let name: String
-           
+        
            if indexPath.section == 0 {
                guard indexPath.row < faceAcupoints.count else {
                    return
@@ -137,6 +137,12 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                name = acupoint.name
            }
         print("button被點了")
-        SwiftDataService.shared.saveAcupointName(name)
+        SwiftDataService.shared.checkAcupointNames(name)
+
+//        SwiftDataService.shared.saveAcupointName(name)
     }
 }
+
+
+
+//有名字就刪除，沒名字就儲存

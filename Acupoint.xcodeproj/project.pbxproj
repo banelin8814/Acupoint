@@ -39,6 +39,7 @@
 		1BA2DF562BD118E1005A841E /* HandAcupointModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA2DF552BD118E1005A841E /* HandAcupointModel.swift */; };
 		1BA2DF582BD12623005A841E /* FavoriteAcupointsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA2DF572BD12623005A841E /* FavoriteAcupointsModel.swift */; };
 		1BA2DF5A2BD1265B005A841E /* SaveFavoriteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA2DF592BD1265B005A841E /* SaveFavoriteManager.swift */; };
+		1BAC823B2BD1F6BB0034299B /* ArchiveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC823A2BD1F6BB0034299B /* ArchiveTableViewCell.swift */; };
 		1BF232182BD13ACA00E2BD5E /* SavedAcupName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF232172BD13ACA00E2BD5E /* SavedAcupName.swift */; };
 		1BF9C9052BD0057F00EBEA0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -70,6 +71,7 @@
 		1BA2DF552BD118E1005A841E /* HandAcupointModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandAcupointModel.swift; sourceTree = "<group>"; };
 		1BA2DF572BD12623005A841E /* FavoriteAcupointsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteAcupointsModel.swift; sourceTree = "<group>"; };
 		1BA2DF592BD1265B005A841E /* SaveFavoriteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveFavoriteManager.swift; sourceTree = "<group>"; };
+		1BAC823A2BD1F6BB0034299B /* ArchiveTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveTableViewCell.swift; sourceTree = "<group>"; };
 		1BF232172BD13ACA00E2BD5E /* SavedAcupName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedAcupName.swift; sourceTree = "<group>"; };
 		1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -130,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				1B83A8C32BCEADA200E0C440 /* ArchiveVC.swift */,
+				1BAC823A2BD1F6BB0034299B /* ArchiveTableViewCell.swift */,
 			);
 			path = ArchivePage;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 				1B964F742BCAE8D80005F1CF /* AppError.swift in Sources */,
 				1B97B0E72BD0C17A006761CD /* WikiVC.swift in Sources */,
 				1B964F202BC912690005F1CF /* AppDelegate.swift in Sources */,
+				1BAC823B2BD1F6BB0034299B /* ArchiveTableViewCell.swift in Sources */,
 				1B964F722BCAE8B10005F1CF /* CameraView.swift in Sources */,
 				1B83A8C42BCEADA200E0C440 /* ArchiveVC.swift in Sources */,
 				1B04AD022BCD38A300F6FB8D /* SearchTableViewCell.swift in Sources */,

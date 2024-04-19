@@ -16,16 +16,15 @@ class ArchiveVC: UIViewController {
         super.viewDidLoad()
         archiveTableView.dataSource = self
         archiveTableView.delegate = self
-        archiveTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: "SearchTableViewCell")
+        archiveTableView.register(ArchiveTableViewCell.self, forCellReuseIdentifier: "ArchiveTableViewCell")
+
         setupTableView()
 
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        DispatchQueue.main.async {
             self.theName = self.service.fetchAcupointNames()
             self.archiveTableView.reloadData()
-        }
     }
     
     func setupTableView() {
@@ -38,6 +37,34 @@ class ArchiveVC: UIViewController {
             archiveTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
+    
+    
+    @objc func deleteAction(_ sender: UIButton) {
+
+        let buttonPosition = sender.convert(CGPoint.zero, to: archiveTableView)
+        guard let indexPath = archiveTableView.indexPathForRow(at:buttonPosition) else {
+            return
+        }
+        
+        let entityTODelete = theName?[indexPath.row]
+        
+        if let entity = entityTODelete {
+            SwiftDataService.shared.acupointNameContainer?.mainContext.delete(entity)
+            
+            do {
+                try SwiftDataService.shared.acupointNameContainer?.mainContext.save()
+                
+                theName?.remove(at: indexPath.row)
+                
+                archiveTableView.deleteRows(at: [indexPath], with: .fade)
+                self.archiveTableView.reloadData()
+
+                
+            } catch {
+                print("Error deleting entity: \(error)")
+            }
+        }
+    }
 }
 
 extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
@@ -47,7 +74,8 @@ extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchTableViewCell", for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ArchiveTableViewCell", for: indexPath) as? ArchiveTableViewCell else { return UITableViewCell() }
+                
         if let name = theName?[indexPath.row].name {
             cell.textLabel?.text = name
         } else {
@@ -56,10 +84,25 @@ extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
         return cell
         
     }
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+////            archiveTableView.deselectRow(at: indexPath, animated: true)
+//            
+//
+//            
+//        } else if editingStyle == .insert {
+//            print("++++")
+//        }
+//    }
+    
     
 //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        self.tabBarController?.tabBar.isHidden = true
-//        faceVC.thePoint = saveData[indexPath.row]
-//        self.navigationController?.pushViewController(faceVC, animated: true)
+//        //灰色消失
+//
+//        //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        //        self.tabBarController?.tabBar.isHidden = true
+//        //        faceVC.thePoint = saveData[indexPath.row]
+//        //        self.navigationController?.pushViewController(faceVC, animated: true)
+//        //    }
 //    }
 }

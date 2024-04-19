@@ -6,8 +6,8 @@ class SwiftDataService {
     
     static let shared = SwiftDataService()
     
-    private var acupointNameContainer: ModelContainer?
-    private var acupointNameContext: ModelContext?
+    var acupointNameContainer: ModelContainer?
+    var acupointNameContext: ModelContext?
     
     init() { //初始化方法
         do {
@@ -39,4 +39,47 @@ class SwiftDataService {
         }
         return []
     }
+    
+//    func checkAcupointNames(_ name: String) {
+//        if let context = acupointNameContext {
+//
+//            var allAcuupoint = fetchAcupointNames()
+//            
+//            var isAlreadySaved = false
+//
+//            var deleteAcupoint = AcupointName(name: name)
+//            for nameInAll  in allAcuupoint {
+//                if nameInAll.name == name {
+//                    context.delete(nameInAll)
+//
+//                    isAlreadySaved = false
+//                }
+//            }
+//            if !isAlreadySaved {
+//                context.insert(deleteAcupoint)
+//            }
+//        }
+//    }
+    func checkAcupointNames(_ name: String) {
+        if let context = acupointNameContext {
+            var allAcupoint = fetchAcupointNames()
+            var isAlreadySaved = false
+            
+            for (index, nameInAll) in allAcupoint.enumerated() {
+                if nameInAll.name == name {
+                    context.delete(nameInAll)
+                    allAcupoint.remove(at: index)
+                    isAlreadySaved = true
+                    break
+                }
+            }
+            
+            if !isAlreadySaved {
+                let newAcupoint = AcupointName(name: name)
+                context.insert(newAcupoint)
+                allAcupoint.append(newAcupoint)
+            }
+        }
+    }
+
 }

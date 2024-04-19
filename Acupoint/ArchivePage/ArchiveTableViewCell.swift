@@ -1,23 +1,19 @@
 //
-//  SearchTableViewCell.swift
+//  ArchiveTableViewCell.swift
 //  Acupoint
 //
-//  Created by 林佑淳 on 2024/4/15.
+//  Created by 林佑淳 on 2024/4/19.
 //
 
 import UIKit
 
-class SearchTableViewCell: UITableViewCell {
+class ArchiveTableViewCell: UITableViewCell {
     
     lazy var bookmarkBtn: UIButton = {
         let button = UIButton()
         //        let bookmarkTapped = false
-        button.setImage(UIImage(systemName: "bookmark"), for: .normal)
+        button.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        
-        button.addTarget(self, action: #selector(archiveButtonTapped), for: .touchUpInside)
-        button.addTarget(nil, action: #selector(SearchVC.saveAction(_:)), for: .touchUpInside)
-
         button.tintColor = .black
         return button
     }()
@@ -26,7 +22,8 @@ class SearchTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupArchiveBtn()
-        
+        bookmarkBtn.addTarget(nil, action: #selector(ArchiveVC.deleteAction(_:)), for: .touchUpInside)
+        bookmarkBtn.addTarget(nil, action: #selector(SearchTableViewCell.archiveButtonTapped), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -50,16 +47,5 @@ class SearchTableViewCell: UITableViewCell {
             bookmarkBtn.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             bookmarkBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
-    }
-    
-    @objc func archiveButtonTapped() {
-        bookmarkBtn.isSelected.toggle()
-        if bookmarkBtn.isSelected {
-            bookmarkBtn.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-            //儲存
-        } else {
-            bookmarkBtn.setImage(UIImage(systemName: "bookmark"), for: .normal)
-            //刪除
-        }
     }
 }
