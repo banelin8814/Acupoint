@@ -5,44 +5,28 @@ import CHGlassmorphismView
 
 class FaceVC: UIViewController, ARSCNViewDelegate {
     
-//    var isSaved = false
+    //    var isSaved = false
     
     private let sceneVw = ARSCNView(frame: UIScreen.main.bounds)
-            
+    
     lazy var faceOutLineVw = UIImageView()
     
-//    var thePoint = faceAcupoints[1] {
-//        didSet {
-//            introTitle.text = thePoint.name
-//            methodLbl.text = "手法： \(thePoint.method)"
-//            frequencyLbl.text = "頻率： \(thePoint.frequency)"
-//            noticeLbl.text = "注意： \(thePoint.notice)"
-//        }
-//    }
-    var thePoint: FaceAcupointModel? {
+    var thePoint: [FaceAcupointModel]? {
         didSet {
             if let thePoint = thePoint {
-                introTitle.text = thePoint.name
-                methodLbl.text = "手法： \(thePoint.method)"
-                frequencyLbl.text = "频率： \(thePoint.frequency)"
-                noticeLbl.text = "注意： \(thePoint.notice)"
+                introTitle.text = thePoint[0].name
+                methodLbl.text = "手法： \(thePoint[0].method)"
+                frequencyLbl.text = "频率： \(thePoint[0].frequency)"
+                noticeLbl.text = "注意： \(thePoint[0].notice)"
             }
         }
     }
     
     var dotNode = SCNNode()
     
-    //    lazy var backButton: UIButton = {
-    //        let button = UIButton(type: .system)
-    //        button.setTitle("Back", for: .normal)
-    //        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-    //        button.translatesAutoresizingMaskIntoConstraints = false
-    //        return button
-    //    }()
-    
     lazy var introTitle: UILabel = {
         let label = UILabel()
-        label.text = thePoint?.name
+        label.text = thePoint?[0].name
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 30, weight: .heavy)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -78,12 +62,12 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     
     lazy var bookmarkBtn: UIButton = {
         let button = UIButton()
-//        let bookmarkTapped = false
+        //        let bookmarkTapped = false
         button.setImage(UIImage(systemName: "bookmark"), for: .normal)
         button.setImage(UIImage(systemName: "bookmark.fill"), for: .selected)
         button.translatesAutoresizingMaskIntoConstraints = false
-      
-//        button.addTarget(self, action: #selector(bookmarkButtonTapped), for: .touchUpInside)
+        
+        //        button.addTarget(self, action: #selector(bookmarkButtonTapped), for: .touchUpInside)
         button.tintColor = .white
         return button
     }()
@@ -105,15 +89,12 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //        view.addSubview(sceneVw)
-        
         let configuration = ARFaceTrackingConfiguration()
         sceneVw.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
     }
     
     override func viewDidLayoutSubviews() {
         
-        //            view.addSubview(backButton)
         view.addSubview(faceOutLineVw)
         view.addSubview(frossGlass)
         view.addSubview(introTitle)
@@ -131,7 +112,6 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         
         view.addSubview(sceneVw)
         
-        // ... 其他初始化和設置 ...
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -207,26 +187,49 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         
         faceNode.geometry?.firstMaterial?.transparency = 0.0
         
-        guard let mouthTopCenter = thePoint?.position else {
-            return faceNode
-        }
-        
-        let features = [mouthTopCenter]
-        
-        for feature in features {
-            for vertexIndex in feature {
-                let dotGeometry = SCNSphere(radius: 0.005)
-                dotGeometry.firstMaterial?.diffuse.contents = UIColor.systemYellow
-                dotNode = SCNNode(geometry: dotGeometry)
-                let vertices = faceAnchor.geometry.vertices
-                let vertex = vertices[vertexIndex]
-                dotNode.position = SCNVector3(vertex.x, vertex.y, vertex.z)
-                faceNode.addChildNode(dotNode)
+        if let points = thePoint {
+            
+            for point in points {
+                
+                let positions = point.position
+                
+                for position in positions {
+                    
+                    let dotGeometry = SCNSphere(radius: 0.005)
+                    dotGeometry.firstMaterial?.diffuse.contents = UIColor.systemYellow
+                    dotNode = SCNNode(geometry: dotGeometry)
+                    
+                    let vertices = faceAnchor.geometry.vertices
+                    let vertex = vertices[position]
+                    
+                    dotNode.position = SCNVector3(vertex.x, vertex.y, vertex.z)
+                    faceNode.addChildNode(dotNode)
+                    
+                    let nodeId = UUID()
+                    dotNode.name = nodeId.uuidString
+                    acupointNodes[nodeId] = point
+                }
             }
         }
         return faceNode
     }
-    
+//    
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        guard let touch = touches.first else { return }
+//        
+//        let viewTouchLocation = touch.location(in: sceneVw)
+//        
+//        let hitTestResults = sceneVw.hitTest(viewTouchLocation, options: nil)
+//        
+//        for result in hitTestResults {
+//            if let planeNode = result.node as? SCNNode, planeNode == dotNode {
+//                print("match")
+//                break
+//            }
+//        }
+//    }
+    var acupointNodes: [UUID: FaceAcupointModel] = [:]
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         
@@ -235,26 +238,12 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         let hitTestResults = sceneVw.hitTest(viewTouchLocation, options: nil)
         
         for result in hitTestResults {
-            if let planeNode = result.node as? SCNNode, planeNode == dotNode {
-                print("match")
+            if let nodeId = UUID(uuidString: result.node.name ?? ""),
+               let acupoint = acupointNodes[nodeId] {
+                thePoint = [acupoint]
                 break
             }
         }
     }
-    
-   
-    //    @objc func backButtonTapped() {
-    //        dismiss(animated: true, completion: nil)
-    //    }
-    // 點擊事件處理函數
-//    @objc func bookmarkButtonTapped() {
-//        bookmarkBtn.isSelected = !bookmarkBtn.isSelected
-//        if isSaved == false {
-//            saveData.append(thePoint)
-//            isSaved = true
-//        } else {
-//            saveData.remove(at: 0)
-//            isSaved = false
-//        }
-//    }
 }
+

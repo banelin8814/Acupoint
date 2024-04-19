@@ -23,6 +23,9 @@ class WikiVC: UIViewController {
     //dataSource接受兩個泛型類型參數:Section(章節)和AcupointGenre(數據模型)。
     private var dataSource: UITableViewDiffableDataSource<Section, AcupointGenre>!
     
+    private let faceVC = FaceVC()
+    private let handVC = HandVC()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,5 +64,18 @@ class WikiVC: UIViewController {
 extension WikiVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableView.bounds.height * 0.2
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            self.navigationController?.pushViewController(faceVC, animated: true)
+            faceVC.thePoint = faceAcupoints
+            
+        } else {
+            handVC.acupointIndex = indexPath.row
+            handVC.handPoint = handAcupoints[indexPath.row]
+            self.navigationController?.pushViewController(handVC, animated: true)
+        }
+        
     }
 }
