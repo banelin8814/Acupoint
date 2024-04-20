@@ -1,10 +1,3 @@
-//
-//  WikiVC.swift
-//  Acupoint
-//
-//  Created by 林佑淳 on 2024/4/18.
-//
-
 import UIKit
 
 struct AcupointGenre: Hashable {
@@ -37,6 +30,7 @@ class WikiVC: UIViewController {
         tableView.delegate = self
     }
     
+
     func configDataSource() {
         
         dataSource = UITableViewDiffableDataSource<Section, AcupointGenre>(tableView: tableView) { (tableView, indexPath, model) -> UITableViewCell? in
@@ -69,12 +63,18 @@ extension WikiVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             self.navigationController?.pushViewController(faceVC, animated: true)
+            self.tabBarController?.tabBar.isHidden = true
+
             faceVC.thePoint = faceAcupoints
             
+            
         } else {
-            handVC.acupointIndex = indexPath.row
-            handVC.handPoint = handAcupoints[indexPath.row]
+//            handVC.acupointIndex = indexPath.row
+            handVC.handPoint = handAcupoints
+
             self.navigationController?.pushViewController(handVC, animated: true)
+            self.tabBarController?.tabBar.isHidden = true
+
         }
         
     }

@@ -44,6 +44,19 @@
 		1BF9C9052BD0057F00EBEA0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1B90F0FF2BD3BC7200452B6D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1B04ACFA2BCD0F5D00F6FB8D /* FaceAcupointModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceAcupointModel.swift; sourceTree = "<group>"; };
 		1B04ACFC2BCD129900F6FB8D /* AcupointData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcupointData.swift; sourceTree = "<group>"; };
@@ -220,6 +233,7 @@
 				1B964F182BC912690005F1CF /* Sources */,
 				1B964F192BC912690005F1CF /* Frameworks */,
 				1B964F1A2BC912690005F1CF /* Resources */,
+				1B90F0FF2BD3BC7200452B6D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

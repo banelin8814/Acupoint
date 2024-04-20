@@ -5,6 +5,7 @@ class ArchiveVC: UIViewController {
     private let archiveTableView = UITableView()
     
     private let faceVC = FaceVC()
+    private let handVC = HandVC()
     
     var filterResult: [FaceAcupointModel] = []
     
@@ -97,12 +98,18 @@ extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
     
     
 //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        //灰色消失
-//
-//        //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        //        self.tabBarController?.tabBar.isHidden = true
-//        //        faceVC.thePoint = saveData[indexPath.row]
-//        //        self.navigationController?.pushViewController(faceVC, animated: true)
-//        //    }
+//        if indexPath.section == 0 {
+//            self.navigationController?.pushViewController(faceVC, animated: true)
+//            faceVC.thePoint = [faceAcupoints[indexPath.row]]
+//            self.tabBarController?.tabBar.isHidden = true
+//            
+//        } else {
+//            handVC.acupointIndex = indexPath.row
+//            handVC.handPoint = [handAcupoints[indexPath.row]]
+//            self.navigationController?.pushViewController(handVC, animated: true)
+//            self.tabBarController?.tabBar.isHidden = true
+//        }
+//        
 //    }
 }

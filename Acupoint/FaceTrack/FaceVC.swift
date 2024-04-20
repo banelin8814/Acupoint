@@ -119,15 +119,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         
         sceneVw.session.pause()
         sceneVw.removeFromSuperview()
-        
         self.tabBarController?.tabBar.isHidden = false
-        
-    }
-    
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        //        self.navigationController?.isNavigationBarHidden = false
-        
     }
     
     func addImageView() {
@@ -152,7 +144,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
             frossGlass.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.28),
             frossGlass.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
-        frossGlass.setCornerRadius(40)
+        frossGlass.setCornerRadius(25)
         frossGlass.setDistance(5)
         frossGlass.setBlurDensity(with: 0.65)
     }
@@ -195,7 +187,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
                 
                 for position in positions {
                     
-                    let dotGeometry = SCNSphere(radius: 0.005)
+                    let dotGeometry = SCNSphere(radius: 0.006)
                     dotGeometry.firstMaterial?.diffuse.contents = UIColor.systemYellow
                     dotNode = SCNNode(geometry: dotGeometry)
                     
@@ -213,23 +205,26 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         }
         return faceNode
     }
-//    
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        guard let touch = touches.first else { return }
-//        
-//        let viewTouchLocation = touch.location(in: sceneVw)
-//        
-//        let hitTestResults = sceneVw.hitTest(viewTouchLocation, options: nil)
-//        
-//        for result in hitTestResults {
-//            if let planeNode = result.node as? SCNNode, planeNode == dotNode {
-//                print("match")
-//                break
-//            }
-//        }
-//    }
+    //
+    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    //        guard let touch = touches.first else { return }
+    //
+    //        let viewTouchLocation = touch.location(in: sceneVw)
+    //
+    //        let hitTestResults = sceneVw.hitTest(viewTouchLocation, options: nil)
+    //
+    //        for result in hitTestResults {
+    //            if let planeNode = result.node as? SCNNode, planeNode == dotNode {
+    //                print("match")
+    //                break
+    //            }
+    //        }
+    //    }
+    
     var acupointNodes: [UUID: FaceAcupointModel] = [:]
-
+    var previousTouchedNode: SCNNode?
+    
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         
@@ -241,6 +236,18 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
             if let nodeId = UUID(uuidString: result.node.name ?? ""),
                let acupoint = acupointNodes[nodeId] {
                 thePoint = [acupoint]
+                
+                // 將原本被點擊的節點顏色恢復為原始顏色（黃色）
+                if let previousNode = previousTouchedNode {
+                    previousNode.geometry?.firstMaterial?.diffuse.contents = UIColor.systemYellow
+                }
+                
+                // 修改當前被點擊節點的材質顏色為紅色
+                result.node.geometry?.firstMaterial?.diffuse.contents = UIColor.green
+                
+                // 記錄當前被點擊的節點
+                previousTouchedNode = result.node
+                
                 break
             }
         }

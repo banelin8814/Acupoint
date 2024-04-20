@@ -35,7 +35,7 @@ class HandJointService {
 //        let handPoints = HandPoints(observation: observation)
         let jointPoint = previewLayer.layerPointConverted(fromCaptureDevicePoint: CGPoint(x: custonPoint.x, y: 1 - custonPoint.y)) //為什麼是 1 - joint.y
         drawPath.move(to: jointPoint)
-        drawPath.addArc(withCenter: jointPoint, radius: 15, startAngle: 0, endAngle: CGFloat(2 * Double.pi), clockwise: true)
+        drawPath.addArc(withCenter: jointPoint, radius: 5, startAngle: 0, endAngle: CGFloat(2 * Double.pi), clockwise: true)
         
         drawOverlay.path = drawPath.cgPath
     }

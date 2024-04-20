@@ -106,11 +106,13 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 0 {
             self.navigationController?.pushViewController(faceVC, animated: true)
             faceVC.thePoint = [faceAcupoints[indexPath.row]]
+            self.tabBarController?.tabBar.isHidden = true
             
         } else {
             handVC.acupointIndex = indexPath.row
-            handVC.handPoint = handAcupoints[indexPath.row]
+            handVC.handPoint = [handAcupoints[indexPath.row]]
             self.navigationController?.pushViewController(handVC, animated: true)
+            self.tabBarController?.tabBar.isHidden = true
         }
         
     }
