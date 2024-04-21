@@ -16,6 +16,7 @@
 		1B83A8C42BCEADA200E0C440 /* ArchiveVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B83A8C32BCEADA200E0C440 /* ArchiveVC.swift */; };
 		1B83A8C62BCEAF6000E0C440 /* SaveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B83A8C52BCEAF6000E0C440 /* SaveData.swift */; };
 		1B83A8C82BCEBC8F00E0C440 /* SwiftDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B83A8C72BCEBC8F00E0C440 /* SwiftDataService.swift */; };
+		1B90F1052BD4E50D00452B6D /* HandVCCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90F1042BD4E50D00452B6D /* HandVCCollectionViewCell.swift */; };
 		1B964F202BC912690005F1CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F1F2BC912690005F1CF /* AppDelegate.swift */; };
 		1B964F222BC912690005F1CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F212BC912690005F1CF /* SceneDelegate.swift */; };
 		1B964F242BC912690005F1CF /* FaceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B964F232BC912690005F1CF /* FaceVC.swift */; };
@@ -67,6 +68,7 @@
 		1B83A8C32BCEADA200E0C440 /* ArchiveVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveVC.swift; sourceTree = "<group>"; };
 		1B83A8C52BCEAF6000E0C440 /* SaveData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveData.swift; sourceTree = "<group>"; };
 		1B83A8C72BCEBC8F00E0C440 /* SwiftDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataService.swift; sourceTree = "<group>"; };
+		1B90F1042BD4E50D00452B6D /* HandVCCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandVCCollectionViewCell.swift; sourceTree = "<group>"; };
 		1B964F1C2BC912690005F1CF /* Acupoint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Acupoint.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B964F1F2BC912690005F1CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1B964F212BC912690005F1CF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				1B964F6F2BCAE7F60005F1CF /* HandVC.swift */,
+				1B90F1042BD4E50D00452B6D /* HandVCCollectionViewCell.swift */,
 				1B9D2AC62BCBD7CC004FDF17 /* HandJointService.swift */,
 				1B964F712BCAE8B10005F1CF /* CameraView.swift */,
 				1B964F732BCAE8D80005F1CF /* AppError.swift */,
@@ -319,6 +322,7 @@
 				1B964F702BCAE7F60005F1CF /* HandVC.swift in Sources */,
 				1B04AD002BCD331400F6FB8D /* SearchVC.swift in Sources */,
 				1B83A8C62BCEAF6000E0C440 /* SaveData.swift in Sources */,
+				1B90F1052BD4E50D00452B6D /* HandVCCollectionViewCell.swift in Sources */,
 				1B83A8C12BCE829000E0C440 /* TabController.swift in Sources */,
 				1B9D2AC72BCBD7CC004FDF17 /* HandJointService.swift in Sources */,
 				1B964F782BCB83220005F1CF /* HomeVC.swift in Sources */,

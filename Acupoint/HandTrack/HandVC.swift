@@ -19,11 +19,13 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         view = CameraView()
     }
     
+    
+    
     var handPoint = handAcupoints {
         didSet {
             introTitle.text = handPoint[0].name
             methodLbl.text = "手法： \(handPoint[0].method)"
-            frequencyLbl.text = "頻率： \(handPoint[0].frequency)"
+            frequencyLbl.text = "位置： \(handPoint[0].positionDescibition)"
             noticeLbl.text = "注意： \(handPoint[0].notice)"
         }
     }
@@ -70,6 +72,27 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     }()
     
     lazy var frossGlass = CHGlassmorphismView()
+    
+    lazy var acupointCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 20
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        let cellWidth = view.bounds.width * 0.8
+        let leftInset = (view.bounds.width - cellWidth) / 2
+          layout.sectionInset = UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: leftInset)
+          
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.isPagingEnabled = true
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(HandVCCollectionViewCell.self, forCellWithReuseIdentifier: "HandVCCollectionViewCell")
+        
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
     
     lazy var bookmarkBtn: UIButton = {
         let button = UIButton()
@@ -134,13 +157,13 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        view.addSubview(handOutLineVw)
-        view.addSubview(frossGlass)
-        view.addSubview(introTitle)
-        view.addSubview(methodLbl)
-        view.addSubview(frequencyLbl)
-        view.addSubview(noticeLbl)
-        view.addSubview(bookmarkBtn)
+//        view.addSubview(handOutLineVw)
+//        view.addSubview(frossGlass)
+//        view.addSubview(introTitle)
+//        view.addSubview(methodLbl)
+//        view.addSubview(frequencyLbl)
+//        view.addSubview(noticeLbl)
+//        view.addSubview(bookmarkBtn)
         view.addSubview(handSegmentedControl)
         
         drawOverlay.frame = view.layer.bounds
@@ -148,8 +171,16 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         drawOverlay.fillColor = UIColor.systemYellow.cgColor
         view.layer.addSublayer(drawOverlay)
         
-
         setUpUI()
+        
+        view.addSubview(acupointCollectionView)
+        
+        NSLayoutConstraint.activate([
+            acupointCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            acupointCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            acupointCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
+            acupointCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.23)
+        ])
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -400,41 +431,42 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         frossGlass.translatesAutoresizingMaskIntoConstraints = false
         handOutLineVw.translatesAutoresizingMaskIntoConstraints = false
         
-        frossGlass.setCornerRadius(25)
+        frossGlass.setCornerRadius(35)
         frossGlass.setDistance(5)
         frossGlass.setBlurDensity(with: 0.65)
         
         NSLayoutConstraint.activate([
-            handOutLineVw.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            handOutLineVw.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 85),
-            handOutLineVw.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1.1),
-            handOutLineVw.heightAnchor.constraint(equalTo: handOutLineVw.widthAnchor),
-            
-            frossGlass.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            frossGlass.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 3),
-            frossGlass.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.23),
-            frossGlass.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
-            
-            introTitle.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-            introTitle.topAnchor.constraint(equalTo: frossGlass.topAnchor, constant: 20),
-            
-            methodLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-            methodLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
-            methodLbl.topAnchor.constraint(equalTo: introTitle.topAnchor, constant: 40),
-            
-            frequencyLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-            frequencyLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
-            frequencyLbl.topAnchor.constraint(equalTo: methodLbl.topAnchor, constant: 20),
-            
-            noticeLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-            noticeLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
-            noticeLbl.topAnchor.constraint(equalTo: frequencyLbl.topAnchor, constant: 20),
-            
-            bookmarkBtn.topAnchor.constraint(equalTo: frossGlass.topAnchor, constant: 20),
-            bookmarkBtn.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
+//            handOutLineVw.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+//            handOutLineVw.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 85),
+//            handOutLineVw.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1.1),
+//            handOutLineVw.heightAnchor.constraint(equalTo: handOutLineVw.widthAnchor),
+//            
+//            frossGlass.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            frossGlass.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
+//            frossGlass.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.23),
+//            frossGlass.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
+//            
+//            introTitle.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
+//            introTitle.topAnchor.constraint(equalTo: frossGlass.topAnchor, constant: 20),
+//            
+//            methodLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
+//            methodLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
+//            methodLbl.topAnchor.constraint(equalTo: introTitle.topAnchor, constant: 40),
+//            
+//            frequencyLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
+//            frequencyLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
+//            frequencyLbl.topAnchor.constraint(equalTo: methodLbl.topAnchor, constant: 20),
+//            
+//            noticeLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
+//            noticeLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
+//            noticeLbl.topAnchor.constraint(equalTo: frequencyLbl.topAnchor, constant: 20),
+//            
+//            bookmarkBtn.topAnchor.constraint(equalTo: frossGlass.topAnchor, constant: 20),
+//            bookmarkBtn.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
             
             handSegmentedControl.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 0),
             handSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            
             handSegmentedControl.widthAnchor.constraint(equalToConstant: 120),
             handSegmentedControl.heightAnchor.constraint(equalToConstant: 30)
             
@@ -581,4 +613,34 @@ struct HandAcupoint {
     let notice: String
     let position: CGPoint
     let isBackHand: Bool
+}
+
+
+extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    // UICollectionViewDataSource
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return handAcupoints.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HandVCCollectionViewCell", for: indexPath) as! HandVCCollectionViewCell
+        let acupoint = handAcupoints[indexPath.item]
+        cell.configure(with: acupoint)
+        return cell
+    }
+    
+    // UICollectionViewDelegateFlowLayout
+   
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            let width = collectionView.bounds.width * 0.8
+            let height = collectionView.bounds.height
+            return CGSize(width: width, height: height)
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+            let cellWidth = collectionView.bounds.width * 0.8
+            let leftInset = (collectionView.bounds.width - cellWidth) / 2
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: leftInset)
+        }
+   
 }

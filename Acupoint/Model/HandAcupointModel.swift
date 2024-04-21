@@ -15,17 +15,17 @@ class HandAcupointModel: Identifiable, Hashable {
     var location: String
     var effect: String
     var method: String
-    var frequency: String
+    var positionDescibition: String
     var notice: String
     var position: CGPoint
     var isBackHand: Bool
     
-    init(name: String, location: String, effect: String, method: String, frequency: String, notice: String, position: CGPoint, isBackHand: Bool) {
+    init(name: String, location: String, effect: String, method: String, positionDescibition: String, notice: String, position: CGPoint, isBackHand: Bool) {
         self.name = name
         self.location = location
         self.effect = effect
         self.method = method
-        self.frequency = frequency
+        self.positionDescibition = positionDescibition
         self.notice = notice
         self.position = position
         self.isBackHand = isBackHand

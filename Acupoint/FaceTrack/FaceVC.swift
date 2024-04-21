@@ -16,7 +16,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
             if let thePoint = thePoint {
                 introTitle.text = thePoint[0].name
                 methodLbl.text = "手法： \(thePoint[0].method)"
-                frequencyLbl.text = "频率： \(thePoint[0].frequency)"
+                frequencyLbl.text = "位置： \(thePoint[0].positionDescibition)"
                 noticeLbl.text = "注意： \(thePoint[0].notice)"
             }
         }
