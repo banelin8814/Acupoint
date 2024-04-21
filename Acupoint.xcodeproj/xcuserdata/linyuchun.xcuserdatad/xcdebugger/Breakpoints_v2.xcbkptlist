@@ -30,8 +30,8 @@
             filePath = "Acupoint/HandTrack/HandVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "523"
-            endingLineNumber = "523"
+            startingLineNumber = "517"
+            endingLineNumber = "517"
             landmarkName = "innerPass"
             landmarkType = "24">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "Acupoint/HandTrack/HandVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "525"
-            endingLineNumber = "525"
+            startingLineNumber = "519"
+            endingLineNumber = "519"
             landmarkName = "innerPass"
             landmarkType = "24">
          </BreakpointContent>

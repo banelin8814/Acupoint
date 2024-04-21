@@ -83,27 +83,29 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         return button
     }()
     
-    lazy var switchHandBtn: UIButton = {
-        let button = UIButton()
-        button.setTitle("切换左右手", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .systemBlue
-        button.layer.cornerRadius = 10
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(switchHandBtnTapped), for: .touchUpInside)
-        return button
+    lazy var handSegmentedControl: UISegmentedControl = {
+        let segmentedControl = UISegmentedControl(items: ["左手", "右手"])
+        segmentedControl.selectedSegmentIndex = 1 // 默認選擇右手
+        
+        segmentedControl.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        
+        segmentedControl.selectedSegmentTintColor = .white
+        
+        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
+        
+        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
+        
+        segmentedControl.layer.masksToBounds = true
+        
+        // 設置選中的色塊的圓角
+        let selectedSegmentView = segmentedControl.subviews[segmentedControl.selectedSegmentIndex]
+        
+        segmentedControl.addTarget(self, action: #selector(handSegmentedControlValueChanged), for: .valueChanged)
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        
+        return segmentedControl
     }()
     
-    lazy var switchSideBtn: UIButton = {
-        let button = UIButton()
-        button.setTitle("切換手的正反面", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .systemBlue
-        button.layer.cornerRadius = 10
-        button.translatesAutoresizingMaskIntoConstraints = false
-//        button.addTarget(self, action: #selector(switchSideBtnTapped), for: .touchUpInside)
-        return button
-    }()
     
     //指定一個佇列來處理影像資料輸出，使用者互動級別
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
@@ -139,15 +141,14 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         view.addSubview(frequencyLbl)
         view.addSubview(noticeLbl)
         view.addSubview(bookmarkBtn)
-        view.addSubview(switchHandBtn)
-        view.addSubview(switchSideBtn)
+        view.addSubview(handSegmentedControl)
         
         drawOverlay.frame = view.layer.bounds
         drawOverlay.lineWidth = 40
         drawOverlay.fillColor = UIColor.systemYellow.cgColor
         view.layer.addSublayer(drawOverlay)
         
-        
+
         setUpUI()
     }
     
@@ -259,7 +260,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                 frequency: "每天按壓 2-3 次，每次約 1-2 分鐘",
                 notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
                 position: innerPass,
-                isBackHand: true),
+                isBackHand: false),
             
             HandAcupoint(
                 name: "勞宮穴",
@@ -408,62 +409,55 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             handOutLineVw.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 85),
             handOutLineVw.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1.1),
             handOutLineVw.heightAnchor.constraint(equalTo: handOutLineVw.widthAnchor),
-           
+            
             frossGlass.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             frossGlass.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 3),
-            frossGlass.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.28),
-            frossGlass.widthAnchor.constraint(equalTo: view.widthAnchor),
+            frossGlass.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.23),
+            frossGlass.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
             
             introTitle.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
             introTitle.topAnchor.constraint(equalTo: frossGlass.topAnchor, constant: 20),
-          
+            
             methodLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
             methodLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
             methodLbl.topAnchor.constraint(equalTo: introTitle.topAnchor, constant: 40),
-           
+            
             frequencyLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
             frequencyLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
             frequencyLbl.topAnchor.constraint(equalTo: methodLbl.topAnchor, constant: 20),
-           
+            
             noticeLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
             noticeLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
             noticeLbl.topAnchor.constraint(equalTo: frequencyLbl.topAnchor, constant: 20),
-           
+            
             bookmarkBtn.topAnchor.constraint(equalTo: frossGlass.topAnchor, constant: 20),
             bookmarkBtn.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
             
-            switchHandBtn.bottomAnchor.constraint(equalTo: frossGlass.topAnchor, constant: -20),
-            switchHandBtn.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-            switchHandBtn.widthAnchor.constraint(equalToConstant: 100),
-            switchHandBtn.heightAnchor.constraint(equalToConstant: 40),
+            handSegmentedControl.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 0),
+            handSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            handSegmentedControl.widthAnchor.constraint(equalToConstant: 120),
+            handSegmentedControl.heightAnchor.constraint(equalToConstant: 30)
             
-            switchSideBtn.bottomAnchor.constraint(equalTo: frossGlass.topAnchor, constant: -20),
-            switchSideBtn.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
-            switchSideBtn.widthAnchor.constraint(equalToConstant: 160),
-            switchSideBtn.heightAnchor.constraint(equalToConstant: 40)
         ])
         
     }
     
+    
+    
     //MARK: - switch buttons
     
-    @objc func switchHandBtnTapped() {
-        isLeftHand = !isLeftHand
-        if isLeftHand {
-            switchHandBtn.setTitle("已選擇左手", for: .normal)
-        } else {
-            switchHandBtn.setTitle("已選擇右手", for: .normal)
-        }
+    @objc func handSegmentedControlValueChanged() {
+        isLeftHand = handSegmentedControl.selectedSegmentIndex == 0
         updateAcupointPositions()
     }
-
-//    
-//    var isBackHand = true
-//    
-//    @objc func switchSideBtnTapped() {
-//        isBackHand = !isBackHand
-//        updateAcupointPositions()
-//    }
+    
+    //
+    //    var isBackHand = true
+    //
+    //    @objc func switchSideBtnTapped() {
+    //        isBackHand = !isBackHand
+    //        updateAcupointPositions()
+    //    }
     
     //MARK: - setup VNRecognizedPoint
     
