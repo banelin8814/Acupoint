@@ -73,27 +73,6 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     lazy var frossGlass = CHGlassmorphismView()
     
-    lazy var acupointCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 20
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        let cellWidth = view.bounds.width * 0.8
-        let leftInset = (view.bounds.width - cellWidth) / 2
-          layout.sectionInset = UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: leftInset)
-          
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .clear
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.isPagingEnabled = true
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(HandVCCollectionViewCell.self, forCellWithReuseIdentifier: "HandVCCollectionViewCell")
-        
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        return collectionView
-    }()
-    
     lazy var bookmarkBtn: UIButton = {
         let button = UIButton()
         //        let bookmarkTapped = false
@@ -129,7 +108,6 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         return segmentedControl
     }()
     
-    
     //指定一個佇列來處理影像資料輸出，使用者互動級別
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
     
@@ -150,6 +128,16 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     //    var handAcuPoint: CGPoint = handAcupoints[0].postion
     var selectedAcupoint: CGPoint = .zero
     
+    lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .clear
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(HandVCCollectionViewCell.self, forCellWithReuseIdentifier: "HandVCCollectionViewCell")
+        return collectionView
+    }()
+    
     //MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -157,30 +145,24 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-//        view.addSubview(handOutLineVw)
-//        view.addSubview(frossGlass)
-//        view.addSubview(introTitle)
-//        view.addSubview(methodLbl)
-//        view.addSubview(frequencyLbl)
-//        view.addSubview(noticeLbl)
-//        view.addSubview(bookmarkBtn)
+        //        view.addSubview(handOutLineVw)
+        //        view.addSubview(frossGlass)
+        //        view.addSubview(introTitle)
+        //        view.addSubview(methodLbl)
+        //        view.addSubview(frequencyLbl)
+        //        view.addSubview(noticeLbl)
+        //        view.addSubview(bookmarkBtn)
         view.addSubview(handSegmentedControl)
-        
+        view.addSubview(collectionView)
+
         drawOverlay.frame = view.layer.bounds
         drawOverlay.lineWidth = 40
         drawOverlay.fillColor = UIColor.systemYellow.cgColor
         view.layer.addSublayer(drawOverlay)
         
         setUpUI()
-        
-        view.addSubview(acupointCollectionView)
-        
-        NSLayoutConstraint.activate([
-            acupointCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            acupointCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            acupointCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
-            acupointCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.23)
-        ])
+
+      
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -436,45 +418,45 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         frossGlass.setBlurDensity(with: 0.65)
         
         NSLayoutConstraint.activate([
-//            handOutLineVw.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-//            handOutLineVw.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 85),
-//            handOutLineVw.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1.1),
-//            handOutLineVw.heightAnchor.constraint(equalTo: handOutLineVw.widthAnchor),
-//            
-//            frossGlass.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            frossGlass.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
-//            frossGlass.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.23),
-//            frossGlass.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
-//            
-//            introTitle.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-//            introTitle.topAnchor.constraint(equalTo: frossGlass.topAnchor, constant: 20),
-//            
-//            methodLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-//            methodLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
-//            methodLbl.topAnchor.constraint(equalTo: introTitle.topAnchor, constant: 40),
-//            
-//            frequencyLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-//            frequencyLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
-//            frequencyLbl.topAnchor.constraint(equalTo: methodLbl.topAnchor, constant: 20),
-//            
-//            noticeLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-//            noticeLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
-//            noticeLbl.topAnchor.constraint(equalTo: frequencyLbl.topAnchor, constant: 20),
-//            
-//            bookmarkBtn.topAnchor.constraint(equalTo: frossGlass.topAnchor, constant: 20),
-//            bookmarkBtn.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
+            //            handOutLineVw.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            //            handOutLineVw.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 85),
+            //            handOutLineVw.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1.1),
+            //            handOutLineVw.heightAnchor.constraint(equalTo: handOutLineVw.widthAnchor),
+            //
+            //            frossGlass.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            //            frossGlass.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
+            //            frossGlass.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.23),
+            //            frossGlass.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
+            //
+            //            introTitle.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
+            //            introTitle.topAnchor.constraint(equalTo: frossGlass.topAnchor, constant: 20),
+            //
+            //            methodLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
+            //            methodLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
+            //            methodLbl.topAnchor.constraint(equalTo: introTitle.topAnchor, constant: 40),
+            //
+            //            frequencyLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
+            //            frequencyLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
+            //            frequencyLbl.topAnchor.constraint(equalTo: methodLbl.topAnchor, constant: 20),
+            //
+            //            noticeLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
+            //            noticeLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
+            //            noticeLbl.topAnchor.constraint(equalTo: frequencyLbl.topAnchor, constant: 20),
+            //
+            //            bookmarkBtn.topAnchor.constraint(equalTo: frossGlass.topAnchor, constant: 20),
+            //            bookmarkBtn.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
             
             handSegmentedControl.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 0),
             handSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            
             handSegmentedControl.widthAnchor.constraint(equalToConstant: 120),
-            handSegmentedControl.heightAnchor.constraint(equalToConstant: 30)
+            handSegmentedControl.heightAnchor.constraint(equalToConstant: 30),
             
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
+            collectionView.heightAnchor.constraint(equalToConstant: 130)
         ])
-        
     }
-    
-    
     
     //MARK: - switch buttons
     
@@ -615,8 +597,9 @@ struct HandAcupoint {
     let isBackHand: Bool
 }
 
+//MARK: - collectionView delegate
 
-extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
     // UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return handAcupoints.count
@@ -628,19 +611,71 @@ extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         cell.configure(with: acupoint)
         return cell
     }
-    
-    // UICollectionViewDelegateFlowLayout
-   
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            let width = collectionView.bounds.width * 0.8
-            let height = collectionView.bounds.height
-            return CGSize(width: width, height: height)
+}
+
+extension HandVC {
+    func collectionViewLayout() -> UICollectionViewLayout {
+        //        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9),
+        //                                              heightDimension: .absolute(130))
+        //        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        //
+        //        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9),
+        //                                               heightDimension: .absolute(130))
+        //        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+        //                                                       subitems: [item])
+        //
+        //        group.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: nil, trailing: .fixed(15), bottom: nil)
+        //
+        //
+        //        let section = NSCollectionLayoutSection(group: group)
+        //        section.orthogonalScrollingBehavior = .none
+        //
+        //
+        //        let layout = UICollectionViewCompositionalLayout(section: section)
+        //        return layout
+        //    }
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnv) -> NSCollectionLayoutSection? in
+            
+            let galleryItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                                                        heightDimension: .fractionalHeight(1.0)))
+            galleryItem.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 8)
+            
+            if sectionIndex % 2 == 0 {
+                let galleryGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.85),
+                                                                                                         heightDimension: .fractionalHeight(1)),
+                                                                      subitem: galleryItem, count: 1)
+                
+                let gallerySection = NSCollectionLayoutSection(group: galleryGroup)
+                gallerySection.orthogonalScrollingBehavior = .groupPagingCentered
+                return gallerySection
+                
+            } else {
+                
+                let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize.init(widthDimension: .fractionalWidth(1.0),
+                                                                                                                 heightDimension: .fractionalHeight(1)), 
+                                                                                                                 subitem: galleryItem, count: 4)
+                
+                let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize.init(widthDimension: .fractionalWidth(0.25),
+                                                                                                             heightDimension: .fractionalHeight(1.0)), 
+                                                                                                             subitem: galleryItem, count: 3)
+                
+                let centerGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize.init(widthDimension: .fractionalWidth(0.75),
+                                                                                                           heightDimension: .fractionalHeight(1.0)),
+                                                                                                           subitem: galleryItem, count: 1)
+                
+                let showcaseSubGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize.init(widthDimension: .fractionalWidth(1.0),
+                                                                                                                  heightDimension: .fractionalHeight(1)),
+                                                                                                                  subitems: [verticalGroup, centerGroup])
+                
+                let showcaseMegagroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize.init(widthDimension: .fractionalWidth(1.0),
+                                                                                                                 heightDimension: .fractionalHeight(1)),
+                                                                                                                 subitems: [horizontalGroup, showcaseSubGroup])
+
+                let showcaseSection = NSCollectionLayoutSection(group: showcaseMegagroup)
+
+                return showcaseSection
+            }
         }
-        
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-            let cellWidth = collectionView.bounds.width * 0.8
-            let leftInset = (collectionView.bounds.width - cellWidth) / 2
-            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: leftInset)
-        }
-   
+        return layout
+    }
 }
