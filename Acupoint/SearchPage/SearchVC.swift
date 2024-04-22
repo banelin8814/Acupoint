@@ -6,7 +6,18 @@ class SearchVC: UIViewController {
     
     private let faceVC = FaceVC()
     private let handVC = HandVC()
-    //    private let searchController = UISearchController(searchResultsController: nil)
+    
+    var acupoitData = AcupointData.shared
+    
+    lazy var facePoints: [FaceAcupointModel] = {
+        return acupoitData.faceAcupoints
+    }()
+    
+    lazy var handPoints: [HandAcupointModel] = {
+           return acupoitData.handAcupoints
+    }()
+  
+//    private let searchController = UISearchController(searchResultsController: nil)
     
 //    var allAcupoints: [FaceAcupointModel]?
     override func viewDidLoad() {
@@ -75,9 +86,9 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         //            return self.filterResult.count
         //        } else {
         if section == 0 {
-            return faceAcupoints.count
+            return facePoints.count
         } else {
-            return handAcupoints.count
+            return handPoints.count
         }
     }
     
@@ -89,9 +100,9 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         //            return cell
         //        } else {
         if indexPath.section == 0 {
-            cell.textLabel?.text = faceAcupoints[indexPath.row].name
+            cell.textLabel?.text = facePoints[indexPath.row].name
         } else {
-            cell.textLabel?.text = handAcupoints[indexPath.row].name
+            cell.textLabel?.text = handPoints[indexPath.row].name
         }
         return cell
         //        }
@@ -105,12 +116,15 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         //        self.tabBarController?.tabBar.isHidden = true
         if indexPath.section == 0 {
             self.navigationController?.pushViewController(faceVC, animated: true)
-            faceVC.thePoint = [faceAcupoints[indexPath.row]]
+            faceVC.selectedFacePoint = [facePoints[indexPath.row]]
             self.tabBarController?.tabBar.isHidden = true
             
         } else {
             handVC.acupointIndex = indexPath.row
-            handVC.handPoint = [handAcupoints[indexPath.row]]
+            handVC.currentDisplayMode = .specific(name: handPoints[indexPath.row].name)
+            handVC.collectionView.reloadData()
+            handVC.handPoints = [handPoints[indexPath.row]]
+            handVC.handSideSegmentedControl.isHidden = true
             self.navigationController?.pushViewController(handVC, animated: true)
             self.tabBarController?.tabBar.isHidden = true
         }
@@ -126,16 +140,16 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         let name: String
         
            if indexPath.section == 0 {
-               guard indexPath.row < faceAcupoints.count else {
+               guard indexPath.row < facePoints.count else {
                    return
                }
-               let acupoint = faceAcupoints[indexPath.row]
+               let acupoint = facePoints[indexPath.row]
                name = acupoint.name
            } else {
-               guard indexPath.row < handAcupoints.count else {
+               guard indexPath.row < handPoints.count else {
                    return
                }
-               let acupoint = handAcupoints[indexPath.row]
+               let acupoint = handPoints[indexPath.row]
                name = acupoint.name
            }
         print("button被點了")

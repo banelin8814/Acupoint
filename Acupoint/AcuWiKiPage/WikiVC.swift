@@ -19,6 +19,16 @@ class WikiVC: UIViewController {
     private let faceVC = FaceVC()
     private let handVC = HandVC()
     
+    var acupoitData = AcupointData.shared
+    
+    lazy var facePoints: [FaceAcupointModel] = {
+        return acupoitData.faceAcupoints
+    }()
+    
+    lazy var handPoints: [HandAcupointModel] = {
+           return acupoitData.handAcupoints
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -65,17 +75,16 @@ extension WikiVC: UITableViewDelegate {
             self.navigationController?.pushViewController(faceVC, animated: true)
             self.tabBarController?.tabBar.isHidden = true
 
-            faceVC.thePoint = faceAcupoints
+            faceVC.selectedFacePoint = facePoints
             
             
         } else {
-//            handVC.acupointIndex = indexPath.row
-            handVC.handPoint = handAcupoints
+            handVC.currentDisplayMode = .allPoint
+            handVC.handSideSegmentedControl.isHidden = false
 
             self.navigationController?.pushViewController(handVC, animated: true)
             self.tabBarController?.tabBar.isHidden = true
 
         }
-        
     }
 }

@@ -11,9 +11,9 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     
     lazy var faceOutLineVw = UIImageView()
     
-    var thePoint: [FaceAcupointModel]? {
+    var selectedFacePoint: [FaceAcupointModel]? {
         didSet {
-            if let thePoint = thePoint {
+            if let thePoint = selectedFacePoint {
                 introTitle.text = thePoint[0].name
                 methodLbl.text = "手法： \(thePoint[0].method)"
                 frequencyLbl.text = "位置： \(thePoint[0].positionDescibition)"
@@ -26,7 +26,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     
     lazy var introTitle: UILabel = {
         let label = UILabel()
-        label.text = thePoint?[0].name
+        label.text = selectedFacePoint?[0].name
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 30, weight: .heavy)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -179,7 +179,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         
         faceNode.geometry?.firstMaterial?.transparency = 0.0
         
-        if let points = thePoint {
+        if let points = selectedFacePoint {
             
             for point in points {
                 
@@ -235,7 +235,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         for result in hitTestResults {
             if let nodeId = UUID(uuidString: result.node.name ?? ""),
                let acupoint = acupointNodes[nodeId] {
-                thePoint = [acupoint]
+                selectedFacePoint = [acupoint]
                 
                 // 將原本被點擊的節點顏色恢復為原始顏色（黃色）
                 if let previousNode = previousTouchedNode {

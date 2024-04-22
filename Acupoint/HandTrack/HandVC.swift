@@ -5,83 +5,51 @@ import SnapKit
 
 class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {
     //MARK: - property
-    
     private var cameraVw: CameraView {
         return view as? CameraView ?? CameraView() //為什麼要這樣寫？
     }
-    //新的
-    var observation: VNHumanHandPoseObservation?
-    
-    var isLeftHand: Bool = false
-    
-    // 處理push HandVC沒有畫面的問題
     override func loadView() {
         view = CameraView()
     }
     
-    var handPoint = handAcupoints {
-        didSet {
-            introTitle.text = handPoint[0].name
-            methodLbl.text = "手法： \(handPoint[0].method)"
-            frequencyLbl.text = "位置： \(handPoint[0].positionDescibition)"
-            noticeLbl.text = "注意： \(handPoint[0].notice)"
-        }
-    }
+    private var cameraFeedSession: AVCaptureSession?
     
+    private var handPoseRequest: VNDetectHumanHandPoseRequest = {
+        let request = VNDetectHumanHandPoseRequest()
+        request.maximumHandCount = 1
+        return request
+    }()
+    
+    var observation: VNHumanHandPoseObservation?
+    
+    var isLeftHand: Bool = false
+    
+    private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
+    //selected
     var acupointIndex: Int = 2
     
-    lazy var handOutLineVw = UIImageView()
+    enum DisplayMode {
+        case allPoint
+        case specific(name: String)
+    }
     
-    lazy var introTitle: UILabel = {
-        let label = UILabel()
-        label.text = "Test"
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 30, weight: .heavy)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    var currentDisplayMode: DisplayMode = .allPoint
+    
+    var selectedAcupointPosition: CGPoint = .zero
+    
+    var selectedNameByCell: String?
+    //data
+    var acupoitData = AcupointData.shared
+    
+    lazy var handPoints: [HandAcupointModel] = {
+        return acupoitData.handAcupoints
     }()
+    //    graphic
+    let drawOverlay = CAShapeLayer()
     
-    lazy var methodLbl: UILabel = {
-        let label = UILabel()
-        label.text = "Test"
-        label.numberOfLines = 2
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    let drawPath = UIBezierPath()
     
-    lazy var frequencyLbl: UILabel = {
-        let label = UILabel()
-        label.text = "Test"
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    lazy var noticeLbl: UILabel = {
-        let label = UILabel()
-        label.text = "Test"
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    lazy var frossGlass = CHGlassmorphismView()
-    
-    lazy var bookmarkBtn: UIButton = {
-        let button = UIButton()
-        //        let bookmarkTapped = false
-        button.setImage(UIImage(systemName: "bookmark"), for: .normal)
-        button.setImage(UIImage(systemName: "bookmark.fill"), for: .selected)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        //        button.addTarget(self, action: #selector(bookmarkButtonTapped), for: .touchUpInside)
-        button.tintColor = .white
-        return button
-    }()
+    var jointPoints: [VNRecognizedPoint] = []
     
     lazy var handSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["左手", "右手"])
@@ -111,29 +79,6 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         return segmentedControl
     }()
     
-    
-    //指定一個佇列來處理影像資料輸出，使用者互動級別
-    private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
-    
-    private var cameraFeedSession: AVCaptureSession?
-    
-    private var handPoseRequest: VNDetectHumanHandPoseRequest = {
-        let request = VNDetectHumanHandPoseRequest()
-        request.maximumHandCount = 1
-        return request
-    }()
-    
-    let drawOverlay = CAShapeLayer()
-    
-    let drawPath = UIBezierPath()
-    
-    var jointPoints: [VNRecognizedPoint] = []
-    
-    //    var handAcuPoint: CGPoint = handAcupoints[0].postion
-    var selectedAcupoint: CGPoint = .zero
-    
-    var selectedName: String?
-    
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -151,13 +96,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        //        view.addSubview(handOutLineVw)
-        //        view.addSubview(frossGlass)
-        //        view.addSubview(introTitle)
-        //        view.addSubview(methodLbl)
-        //        view.addSubview(frequencyLbl)
-        //        view.addSubview(noticeLbl)
-        //        view.addSubview(bookmarkBtn)
+        
         view.addSubview(handSegmentedControl)
         view.addSubview(handSideSegmentedControl)
         view.addSubview(collectionView)
@@ -166,7 +105,6 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         drawOverlay.lineWidth = 40
         drawOverlay.fillColor = .none
         view.layer.addSublayer(drawOverlay)
-        
         setUpUI()
     }
     
@@ -246,7 +184,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             DispatchQueue.main.async {
                 guard let cameraPreviewLayer = self.cameraVw.previewLayer else { return }
                 // 這邊畫穴位
-                HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: self.drawPath, in: cameraPreviewLayer, observation: self.observation!, with: self.selectedAcupoint)
+                HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: self.drawPath, in: cameraPreviewLayer, observation: self.observation!, with: self.selectedAcupointPosition)
                 self.drawPath.removeAllPoints()
             }
         } catch {
@@ -262,63 +200,55 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         let handAcupoints: [HandAcupointModel] = [
             HandAcupointModel(
                 name: "合谷穴",
-                location: "虎口肌肉隆起處，大拇指與食指相接處",
                 effect: "疏通經絡、緩解頭痛、牙痛、鼻塞等症狀",
                 method: "用拇指指腹按壓合谷穴",
-                positionDescibition: "手部虎口，大拇指與食指相接處",
+                location: "手部虎口，大拇指與食指相接處",
                 notice: "按壓時若感到疼痛，可適當減輕力道",
                 position: joiningValley,
                 isBackHand: true),
             
             HandAcupointModel(
                 name: "少沖穴",
-                location: "小指尖端，指甲角旁",
                 effect: "鎮靜安神、緩解心悸、失眠、健忘等症狀",
                 method: "用拇指指腹按壓少沖穴",
-                positionDescibition: "小指指甲內側下缘",
+                location: "小指指甲內側下缘",
                 notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
                 position: lesserSurge,
                 isBackHand: true),
             
             HandAcupointModel(
                 name: "內關穴",
-                location: "手腕橫紋上方兩寸，掌側兩筋之間",
                 effect: "鎮靜安神、改善失眠、緩解心悸、胸悶等症狀",
                 method: "用拇指或中指指腹按壓內關穴",
-                positionDescibition: "手腕橫紋中點往下三橫指寬處",
+                location: "手腕橫紋中點往下三橫指寬處",
                 notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
                 position: innerPass,
                 isBackHand: false),
             
             HandAcupointModel(
                 name: "勞宮穴",
-                location: "手掌心兩橫紋交叉處中點",
                 effect: "養心安神、改善心悸、失眠、健忘等症狀",
                 method: "用拇指指腹按壓勞宮穴",
-                positionDescibition: "握拳，中指紙尖對應的掌心中央處",
+                location: "握拳，中指紙尖對應的掌心中央處",
                 notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
                 position: palaceOfToil,
                 isBackHand: false)
-            
-            
         ]
         
-        selectedAcupoint = handAcupoints[self.acupointIndex].position
+        selectedAcupointPosition = handAcupoints[self.acupointIndex].position
         
-        if handPoint.count == 1 {
+        if handPoints.count == 1 {
             var acupointPaths: [UIBezierPath] = []
             
-            for acupoint in handPoint {
-                if isLeftHand == true {
-                    
-                    let position = acupoint.position
-                    let path = UIBezierPath()
-                    
-                    DispatchQueue.main.async { [self] in
-                        guard let cameraPreviewLayer = self.cameraVw.previewLayer, let observation = observation else { return }
-                        HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: path, in: cameraPreviewLayer, observation: observation, with: position)
-                        acupointPaths.append(path)
-                    }
+            if isLeftHand == true {
+                
+//                let position = handPoints[acupointIndex].position
+                let path = UIBezierPath()
+                
+                DispatchQueue.main.async { [self] in
+                    guard let cameraPreviewLayer = self.cameraVw.previewLayer, let observation = observation else { return }
+                    HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: path, in: cameraPreviewLayer, observation: observation, with: selectedAcupointPosition)
+                    acupointPaths.append(path)
                 }
             }
             DispatchQueue.main.async { [self] in
@@ -336,36 +266,30 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             }
         } else {
             
-            
             var acupointPaths: [UIBezierPath] = []
             
-            let isBackHand = handSideSegmentedControl.selectedSegmentIndex == 0
-            
-            for acupoint in handAcupoints {
+            DispatchQueue.main.async { [self] in
+                let isBackHand = handSideSegmentedControl.selectedSegmentIndex == 0
                 
-                if acupoint.isBackHand == isBackHand {
-                    
-                    let position = acupoint.position
-                    let path = UIBezierPath()
-                    
-                    DispatchQueue.main.async { [self] in
-                        guard let cameraPreviewLayer = self.cameraVw.previewLayer, let observation = observation else { return }
+                for acupoint in handAcupoints {
+                    if acupoint.isBackHand == isBackHand {
+                        let position = acupoint.position
+                        let path = UIBezierPath()
+                        
+                        guard let cameraPreviewLayer = self.cameraVw.previewLayer, let observation = observation else { continue }
                         HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: path, in: cameraPreviewLayer, observation: observation, with: position)
                         acupointPaths.append(path)
                     }
                 }
-            }
-            //研究
-            DispatchQueue.main.async { [self] in
-                // 移除先前的子層 //研究
+                
+                // 移除先前的子層
                 self.drawOverlay.sublayers?.forEach { $0.removeFromSuperlayer() }
                 
-                // 為每個穴位路徑創建一個新的子層 //研究
-                for (index,path) in acupointPaths.enumerated() {
+                // 為每個穴位路徑創建一個新的子層
+                for (index, path) in acupointPaths.enumerated() {
                     let shapeLayer = CAShapeLayer()
                     shapeLayer.path = path.cgPath
-                    shapeLayer.fillColor = (handAcupoints[index].name == selectedName) ? UIColor.red.cgColor : UIColor.yellow.cgColor
-                    shapeLayer.lineWidth = 10
+                    shapeLayer.fillColor = (handAcupoints[index].name == selectedNameByCell) ? UIColor.red.cgColor : UIColor.yellow.cgColor
                     shapeLayer.lineWidth = 10
                     self.drawOverlay.addSublayer(shapeLayer)
                 }
@@ -405,43 +329,8 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     
     func setUpUI() {
-        frossGlass.setTheme(theme: .dark)
-        handOutLineVw.translatesAutoresizingMaskIntoConstraints = false
-        frossGlass.translatesAutoresizingMaskIntoConstraints = false
-        handOutLineVw.translatesAutoresizingMaskIntoConstraints = false
-        
-        frossGlass.setCornerRadius(35)
-        frossGlass.setDistance(5)
-        frossGlass.setBlurDensity(with: 0.65)
         
         NSLayoutConstraint.activate([
-            //            handOutLineVw.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            //            handOutLineVw.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 85),
-            //            handOutLineVw.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1.1),
-            //            handOutLineVw.heightAnchor.constraint(equalTo: handOutLineVw.widthAnchor),
-            //
-            //            frossGlass.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            //            frossGlass.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
-            //            frossGlass.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.23),
-            //            frossGlass.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
-            //
-            //            introTitle.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-            //            introTitle.topAnchor.constraint(equalTo: frossGlass.topAnchor, constant: 20),
-            //
-            //            methodLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-            //            methodLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
-            //            methodLbl.topAnchor.constraint(equalTo: introTitle.topAnchor, constant: 40),
-            //
-            //            frequencyLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-            //            frequencyLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
-            //            frequencyLbl.topAnchor.constraint(equalTo: methodLbl.topAnchor, constant: 20),
-            //
-            //            noticeLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-            //            noticeLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
-            //            noticeLbl.topAnchor.constraint(equalTo: frequencyLbl.topAnchor, constant: 20),
-            //
-            //            bookmarkBtn.topAnchor.constraint(equalTo: frossGlass.topAnchor, constant: 20),
-            //            bookmarkBtn.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
             
             handSegmentedControl.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 0),
             handSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
@@ -463,11 +352,15 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     //MARK: - @Objc
     
     @objc func handSegmentedControlValueChanged() {
-        isLeftHand = handSegmentedControl.selectedSegmentIndex == 0
-        updateAcupointPositions()
+        DispatchQueue.main.async {
+            let isLeftHand = self.handSegmentedControl.selectedSegmentIndex == 0
+        }
     }
     
     @objc func handSideSegmentedControlValueChanged() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
         updateAcupointPositions()
     }
     
@@ -500,22 +393,6 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     var wrist: VNRecognizedPoint?
     // 設定預定義關節點
     
-    //    var joiningValley: CGPoint {
-    //        calculateOffsetPoint(point: thumbMP?.location, offsetX: 0, offsetY: 0.08)
-    //    }
-    //
-    //    var innerPass: CGPoint {
-    //        calculateOffsetPoint(point: wrist?.location, offsetX: 0.2
-    //                             , offsetY: 0)
-    //    }
-    //
-    //    var palaceOfToil: CGPoint {
-    //        calculateMidPoint(point1: wrist?.location, point2: middleMCP?.location)
-    //    }
-    //
-    //    var lesserSurge: CGPoint {
-    //        calculateOffsetPoint(point: littleTIP?.location, offsetX: 0, offsetY: -0.009)
-    //    }
     var joiningValley: CGPoint {
         if isLeftHand {
             calculateOffsetPoint(point: thumbMP?.location, offsetX: 0, offsetY: 0.1)
@@ -562,24 +439,6 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         guard let point1 = point1, let point2 = point2 else { return .zero }
         return CGPoint(x: (point1.x + point2.x) / 2, y: (point1.y + point2.y) / 2)
     }
-    
-    // 應該是手點擊的功能
-    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    //        guard let touch = touches.first else { return }
-    //        let viewTouchLocation = touch.location(in: cameraVw)
-    //
-    //        // 將觸控點的座標轉換為 CALayer 的座標系統
-    //        let touchLocationInLayer = cameraVw.layer.convert(viewTouchLocation, to: drawOverlay)
-    //
-    //        // 檢查觸控點是否在任何一個手部節點的範圍內
-    //        for joint in HandJointService.shared.jointPoints {
-    //            let jointPath = HandJointService.shared.createJointPath(for: joint, in: cameraVw.previewLayer!)
-    //            if jointPath.contains(touchLocationInLayer) {
-    //                print("Touched joint: \(joint)")
-    //                break
-    //            }
-    //        }
-    //    }
 }
 
 //MARK: - struct of Acupoint
@@ -600,82 +459,67 @@ struct HandAcupoint {
 extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
     // UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return handAcupoints.count
+        switch currentDisplayMode {
+        case .allPoint:
+            let isBackHand = handSideSegmentedControl.selectedSegmentIndex == 0
+            let filteredAcupoints = handPoints.filter { $0.isBackHand == isBackHand }
+            return filteredAcupoints.count
+            //                return handPoints.count
+        case .specific:
+            return 1
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HandVCCollectionViewCell", for: indexPath) as! HandVCCollectionViewCell
-        let acupoint = handAcupoints[indexPath.item]
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HandVCCollectionViewCell", for: indexPath) as? HandVCCollectionViewCell else { return HandVCCollectionViewCell()}
+        let acupoint: HandAcupointModel
+        switch currentDisplayMode {
+        case .allPoint:
+            let isBackHand = handSideSegmentedControl.selectedSegmentIndex == 0
+            let filteredAcupoints = handPoints.filter( { $0.isBackHand == isBackHand})
+            acupoint = filteredAcupoints[indexPath.item]
+            
+            //                acupoint = handPoints[indexPath.item]
+        case .specific(let name):
+            if let index = handPoints.firstIndex(where: { $0.name == name }) {
+                acupoint = handPoints[index]
+            } else {
+                return cell
+            }
+        }
         cell.configure(with: acupoint)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.item == 0 {
-            let acupoint = handAcupoints[0]
-            selectedName = acupoint.name
+            let acupoint = handPoints[0]
+            selectedNameByCell = acupoint.name
         } else {
-            let acupoint = handAcupoints[indexPath.item - 1]
-            selectedName = acupoint.name
+            let acupoint = handPoints[indexPath.item - 1]
+            selectedNameByCell = acupoint.name
         }
         updateAcupointPositions()
     }
-    
-    //    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-    //        let centerPoint = CGPoint(x: collectionView.contentOffset.x + collectionView.bounds.size.width / 2, y: collectionView.bounds.height / 2)
-    //        if let indexPath = collectionView.indexPathForItem(at: centerPoint) {
-    //            let acupoint = handAcupoints[indexPath.item]
-    //            selectedName = acupoint.name
-    //            updateAcupointPositions()
-    //        }
-    //    }
 }
 
 extension HandVC {
     func collectionViewLayout() -> UICollectionViewLayout {
         
-        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnv) -> NSCollectionLayoutSection? in
-            
-            let galleryItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                                                        heightDimension: .fractionalHeight(1.0)))
-            galleryItem.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 8)
-            
-            if sectionIndex % 2 == 0 {
-                let galleryGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.85),
-                                                                                                         heightDimension: .fractionalHeight(1)),
-                                                                      subitem: galleryItem, count: 1)
-                
-                let gallerySection = NSCollectionLayoutSection(group: galleryGroup)
-                gallerySection.orthogonalScrollingBehavior = .groupPagingCentered
-                return gallerySection
-                
-            } else {
-                
-                let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize.init(widthDimension: .fractionalWidth(1.0),
-                                                                                                                 heightDimension: .fractionalHeight(1)),
-                                                                         subitem: galleryItem, count: 4)
-                
-                let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize.init(widthDimension: .fractionalWidth(0.25),
-                                                                                                             heightDimension: .fractionalHeight(1.0)),
-                                                                     subitem: galleryItem, count: 3)
-                
-                let centerGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize.init(widthDimension: .fractionalWidth(0.75),
-                                                                                                           heightDimension: .fractionalHeight(1.0)),
-                                                                   subitem: galleryItem, count: 1)
-                
-                let showcaseSubGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize.init(widthDimension: .fractionalWidth(1.0),
-                                                                                                                  heightDimension: .fractionalHeight(1)),
-                                                                          subitems: [verticalGroup, centerGroup])
-                
-                let showcaseMegagroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize.init(widthDimension: .fractionalWidth(1.0),
-                                                                                                                 heightDimension: .fractionalHeight(1)),
-                                                                         subitems: [horizontalGroup, showcaseSubGroup])
-                
-                let showcaseSection = NSCollectionLayoutSection(group: showcaseMegagroup)
-                
-                return showcaseSection
-            }
-        }
+        let galleryItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                                                    heightDimension: .fractionalHeight(1.0)))
+        galleryItem.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 8)
+        
+        let galleryGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.85),
+                                                                                                 heightDimension: .fractionalHeight(1)),
+                                                              subitem: galleryItem, count: 1)
+        
+        let gallerySection = NSCollectionLayoutSection(group: galleryGroup)
+        gallerySection.orthogonalScrollingBehavior = .groupPagingCentered
+        
+        let layout = UICollectionViewCompositionalLayout(section: gallerySection)
         return layout
+        
     }
 }
+

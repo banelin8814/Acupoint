@@ -7,11 +7,21 @@ class ArchiveVC: UIViewController {
     private let faceVC = FaceVC()
     private let handVC = HandVC()
     
-    var filterResult: [FaceAcupointModel] = []
+//    var filterResult: [FaceAcupointModel] = []
     
-    var theName: [AcupointName]?
-    
+    var archivePointName: [AcupointName]?
+    // swiftdata
     let service = SwiftDataService.shared
+    //Data
+    var acupoitData = AcupointData.shared
+    
+    lazy var facePoints: [FaceAcupointModel] = {
+        return acupoitData.faceAcupoints
+    }()
+    
+    lazy var handPoints: [HandAcupointModel] = {
+           return acupoitData.handAcupoints
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +34,7 @@ class ArchiveVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-            self.theName = self.service.fetchAcupointNames()
+            self.archivePointName = self.service.fetchAcupointNames()
             self.archiveTableView.reloadData()
     }
     
@@ -47,7 +57,7 @@ class ArchiveVC: UIViewController {
             return
         }
         
-        let entityTODelete = theName?[indexPath.row]
+        let entityTODelete = archivePointName?[indexPath.row]
         
         if let entity = entityTODelete {
             SwiftDataService.shared.acupointNameContainer?.mainContext.delete(entity)
@@ -55,7 +65,7 @@ class ArchiveVC: UIViewController {
             do {
                 try SwiftDataService.shared.acupointNameContainer?.mainContext.save()
                 
-                theName?.remove(at: indexPath.row)
+                archivePointName?.remove(at: indexPath.row)
                 
                 archiveTableView.deleteRows(at: [indexPath], with: .fade)
                 self.archiveTableView.reloadData()
@@ -71,13 +81,13 @@ class ArchiveVC: UIViewController {
 extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return theName?.count ?? 2
+        return archivePointName?.count ?? 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ArchiveTableViewCell", for: indexPath) as? ArchiveTableViewCell else { return UITableViewCell() }
-                
-        if let name = theName?[indexPath.row].name {
+        
+        if let name = archivePointName?[indexPath.row].name {
             cell.textLabel?.text = name
         } else {
             cell.textLabel?.text = "non"
@@ -85,31 +95,23 @@ extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
         return cell
         
     }
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-////            archiveTableView.deselectRow(at: indexPath, animated: true)
-//            
-//
-//            
-//        } else if editingStyle == .insert {
-//            print("++++")
-//        }
-//    }
-    
-    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        //        self.tabBarController?.tabBar.isHidden = true
-//        if indexPath.section == 0 {
-//            self.navigationController?.pushViewController(faceVC, animated: true)
-//            faceVC.thePoint = [faceAcupoints[indexPath.row]]
-//            self.tabBarController?.tabBar.isHidden = true
-//            
-//        } else {
-//            handVC.acupointIndex = indexPath.row
-//            handVC.handPoint = [handAcupoints[indexPath.row]]
-//            self.navigationController?.pushViewController(handVC, animated: true)
-//            self.tabBarController?.tabBar.isHidden = true
-//        }
-//        
-//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //        self.tabBarController?.tabBar.isHidden = true
+        if let index = facePoints.firstIndex(where: { $0.name == archivePointName?[indexPath.row].name }) {
+ 
+            faceVC.selectedFacePoint = [facePoints[index]]
+            self.navigationController?.pushViewController(faceVC, animated: true)
+            self.tabBarController?.tabBar.isHidden = true
+            
+        } else if let index = handPoints.firstIndex(where: { $0.name == archivePointName?[indexPath.row].name }) {
+     
+            handVC.currentDisplayMode = .specific(name: handPoints[index].name)
+            handVC.handSideSegmentedControl.isHidden = true
+            handVC.collectionView.reloadData()
+            self.navigationController?.pushViewController(handVC, animated: true)
+            self.tabBarController?.tabBar.isHidden = true
+        } else {
+            
+        }
+    }
 }
