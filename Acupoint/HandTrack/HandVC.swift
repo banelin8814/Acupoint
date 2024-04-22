@@ -86,25 +86,31 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     lazy var handSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["左手", "右手"])
         segmentedControl.selectedSegmentIndex = 1 // 默認選擇右手
-        
         segmentedControl.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-        
         segmentedControl.selectedSegmentTintColor = .white
-        
         segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
-        
         segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
-        
         segmentedControl.layer.masksToBounds = true
-        
         // 設置選中的色塊的圓角
         let selectedSegmentView = segmentedControl.subviews[segmentedControl.selectedSegmentIndex]
-        
         segmentedControl.addTarget(self, action: #selector(handSegmentedControlValueChanged), for: .valueChanged)
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        
         return segmentedControl
     }()
+    
+    lazy var handSideSegmentedControl: UISegmentedControl = {
+        let segmentedControl = UISegmentedControl(items: ["手背", "手心"])
+        segmentedControl.selectedSegmentIndex = 0 // 默认选择手背
+        segmentedControl.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        segmentedControl.selectedSegmentTintColor = .white
+        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
+        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
+        segmentedControl.layer.masksToBounds = true
+        segmentedControl.addTarget(self, action: #selector(handSideSegmentedControlValueChanged), for: .valueChanged)
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        return segmentedControl
+    }()
+    
     
     //指定一個佇列來處理影像資料輸出，使用者互動級別
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
@@ -153,6 +159,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         //        view.addSubview(noticeLbl)
         //        view.addSubview(bookmarkBtn)
         view.addSubview(handSegmentedControl)
+        view.addSubview(handSideSegmentedControl)
         view.addSubview(collectionView)
         
         drawOverlay.frame = view.layer.bounds
@@ -332,9 +339,11 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             
             var acupointPaths: [UIBezierPath] = []
             
+            let isBackHand = handSideSegmentedControl.selectedSegmentIndex == 0
+            
             for acupoint in handAcupoints {
                 
-                if acupoint.isBackHand == true {
+                if acupoint.isBackHand == isBackHand {
                     
                     let position = acupoint.position
                     let path = UIBezierPath()
@@ -442,24 +451,25 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
-            collectionView.heightAnchor.constraint(equalToConstant: 130)
+            collectionView.heightAnchor.constraint(equalToConstant: 130),
+            
+            handSideSegmentedControl.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 0),
+            handSideSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            handSideSegmentedControl.widthAnchor.constraint(equalToConstant: 120),
+            handSideSegmentedControl.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
     
-    //MARK: - switch buttons
+    //MARK: - @Objc
     
     @objc func handSegmentedControlValueChanged() {
         isLeftHand = handSegmentedControl.selectedSegmentIndex == 0
         updateAcupointPositions()
     }
     
-    //
-    //    var isBackHand = true
-    //
-    //    @objc func switchSideBtnTapped() {
-    //        isBackHand = !isBackHand
-    //        updateAcupointPositions()
-    //    }
+    @objc func handSideSegmentedControlValueChanged() {
+        updateAcupointPositions()
+    }
     
     //MARK: - setup VNRecognizedPoint
     
@@ -611,14 +621,14 @@ extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
         updateAcupointPositions()
     }
     
-//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        let centerPoint = CGPoint(x: collectionView.contentOffset.x + collectionView.bounds.size.width / 2, y: collectionView.bounds.height / 2)
-//        if let indexPath = collectionView.indexPathForItem(at: centerPoint) {
-//            let acupoint = handAcupoints[indexPath.item]
-//            selectedName = acupoint.name
-//            updateAcupointPositions()
-//        }
-//    }
+    //    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    //        let centerPoint = CGPoint(x: collectionView.contentOffset.x + collectionView.bounds.size.width / 2, y: collectionView.bounds.height / 2)
+    //        if let indexPath = collectionView.indexPathForItem(at: centerPoint) {
+    //            let acupoint = handAcupoints[indexPath.item]
+    //            selectedName = acupoint.name
+    //            updateAcupointPositions()
+    //        }
+    //    }
 }
 
 extension HandVC {
