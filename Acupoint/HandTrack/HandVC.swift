@@ -19,8 +19,6 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         view = CameraView()
     }
     
-    
-    
     var handPoint = handAcupoints {
         didSet {
             introTitle.text = handPoint[0].name
@@ -128,6 +126,8 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     //    var handAcuPoint: CGPoint = handAcupoints[0].postion
     var selectedAcupoint: CGPoint = .zero
     
+    var selectedName: String?
+    
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -154,15 +154,13 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         //        view.addSubview(bookmarkBtn)
         view.addSubview(handSegmentedControl)
         view.addSubview(collectionView)
-
+        
         drawOverlay.frame = view.layer.bounds
         drawOverlay.lineWidth = 40
-        drawOverlay.fillColor = UIColor.systemYellow.cgColor
+        drawOverlay.fillColor = .none
         view.layer.addSublayer(drawOverlay)
         
         setUpUI()
-
-      
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -254,46 +252,48 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     }
     func updateAcupointPositions() {
         
-        let handAcupoints: [HandAcupoint] = [
-            HandAcupoint(
+        let handAcupoints: [HandAcupointModel] = [
+            HandAcupointModel(
                 name: "合谷穴",
                 location: "虎口肌肉隆起處，大拇指與食指相接處",
                 effect: "疏通經絡、緩解頭痛、牙痛、鼻塞等症狀",
                 method: "用拇指指腹按壓合谷穴",
-                frequency: "每天按壓 2-3 次，每次約 1-2 分鐘",
+                positionDescibition: "手部虎口，大拇指與食指相接處",
                 notice: "按壓時若感到疼痛，可適當減輕力道",
                 position: joiningValley,
                 isBackHand: true),
             
-            HandAcupoint(
-                name: "內關穴",
-                location: "手腕橫紋上方兩寸，掌側兩筋之間",
-                effect: "鎮靜安神、改善失眠、緩解心悸、胸悶等症狀",
-                method: "用拇指或中指指腹按壓內關穴",
-                frequency: "每天按壓 2-3 次，每次約 1-2 分鐘",
-                notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
-                position: innerPass,
-                isBackHand: false),
-            
-            HandAcupoint(
-                name: "勞宮穴",
-                location: "手掌心兩橫紋交叉處中點",
-                effect: "養心安神、改善心悸、失眠、健忘等症狀",
-                method: "用拇指指腹按壓勞宮穴",
-                frequency: "每天按壓 2-3 次，每次約 1-2 分鐘",
-                notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
-                position: palaceOfToil,
-                isBackHand: false),
-            
-            HandAcupoint(
+            HandAcupointModel(
                 name: "少沖穴",
                 location: "小指尖端，指甲角旁",
                 effect: "鎮靜安神、緩解心悸、失眠、健忘等症狀",
                 method: "用拇指指腹按壓少沖穴",
-                frequency: "每天按壓 2-3 次，每次約 1-2 分鐘",
+                positionDescibition: "小指指甲內側下缘",
                 notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
                 position: lesserSurge,
-                isBackHand: true)
+                isBackHand: true),
+            
+            HandAcupointModel(
+                name: "內關穴",
+                location: "手腕橫紋上方兩寸，掌側兩筋之間",
+                effect: "鎮靜安神、改善失眠、緩解心悸、胸悶等症狀",
+                method: "用拇指或中指指腹按壓內關穴",
+                positionDescibition: "手腕橫紋中點往下三橫指寬處",
+                notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
+                position: innerPass,
+                isBackHand: false),
+            
+            HandAcupointModel(
+                name: "勞宮穴",
+                location: "手掌心兩橫紋交叉處中點",
+                effect: "養心安神、改善心悸、失眠、健忘等症狀",
+                method: "用拇指指腹按壓勞宮穴",
+                positionDescibition: "握拳，中指紙尖對應的掌心中央處",
+                notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
+                position: palaceOfToil,
+                isBackHand: false)
+            
+            
         ]
         
         selectedAcupoint = handAcupoints[self.acupointIndex].position
@@ -346,34 +346,22 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                     }
                 }
             }
-            
+            //研究
             DispatchQueue.main.async { [self] in
-                // 移除先前的子層
+                // 移除先前的子層 //研究
                 self.drawOverlay.sublayers?.forEach { $0.removeFromSuperlayer() }
                 
-                // 為每個穴位路徑創建一個新的子層
-                for path in acupointPaths {
+                // 為每個穴位路徑創建一個新的子層 //研究
+                for (index,path) in acupointPaths.enumerated() {
                     let shapeLayer = CAShapeLayer()
                     shapeLayer.path = path.cgPath
-                    shapeLayer.fillColor = UIColor.systemRed.cgColor
+                    shapeLayer.fillColor = (handAcupoints[index].name == selectedName) ? UIColor.red.cgColor : UIColor.yellow.cgColor
+                    shapeLayer.lineWidth = 10
                     shapeLayer.lineWidth = 10
                     self.drawOverlay.addSublayer(shapeLayer)
                 }
             }
         }
-        //        if isLeftHand {
-        //            // 計算左手穴位的對稱位置
-        //            selectedAcupoint.x = 1 - selectedAcupoint.x
-        //        }
-        
-        //        DispatchQueue.main.async {
-        //            if handAcupoints[self.acupointIndex].isBackHand == true {
-        //                self.handOutLineVw.image = UIImage(named: "handOutlineBack")
-        //            } else {
-        //                self.handOutLineVw.image = UIImage(named: "handOutlinePalm")
-        //            }
-        //        }
-        
     }
     
     private func setupAVSession() throws {
@@ -611,29 +599,31 @@ extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.configure(with: acupoint)
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.item == 0 {
+            let acupoint = handAcupoints[0]
+            selectedName = acupoint.name
+        } else {
+            let acupoint = handAcupoints[indexPath.item - 1]
+            selectedName = acupoint.name
+        }
+        updateAcupointPositions()
+    }
+    
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        let centerPoint = CGPoint(x: collectionView.contentOffset.x + collectionView.bounds.size.width / 2, y: collectionView.bounds.height / 2)
+//        if let indexPath = collectionView.indexPathForItem(at: centerPoint) {
+//            let acupoint = handAcupoints[indexPath.item]
+//            selectedName = acupoint.name
+//            updateAcupointPositions()
+//        }
+//    }
 }
 
 extension HandVC {
     func collectionViewLayout() -> UICollectionViewLayout {
-        //        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9),
-        //                                              heightDimension: .absolute(130))
-        //        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        //
-        //        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9),
-        //                                               heightDimension: .absolute(130))
-        //        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-        //                                                       subitems: [item])
-        //
-        //        group.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: nil, trailing: .fixed(15), bottom: nil)
-        //
-        //
-        //        let section = NSCollectionLayoutSection(group: group)
-        //        section.orthogonalScrollingBehavior = .none
-        //
-        //
-        //        let layout = UICollectionViewCompositionalLayout(section: section)
-        //        return layout
-        //    }
+        
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnv) -> NSCollectionLayoutSection? in
             
             let galleryItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -652,27 +642,27 @@ extension HandVC {
             } else {
                 
                 let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize.init(widthDimension: .fractionalWidth(1.0),
-                                                                                                                 heightDimension: .fractionalHeight(1)), 
-                                                                                                                 subitem: galleryItem, count: 4)
+                                                                                                                 heightDimension: .fractionalHeight(1)),
+                                                                         subitem: galleryItem, count: 4)
                 
                 let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize.init(widthDimension: .fractionalWidth(0.25),
-                                                                                                             heightDimension: .fractionalHeight(1.0)), 
-                                                                                                             subitem: galleryItem, count: 3)
+                                                                                                             heightDimension: .fractionalHeight(1.0)),
+                                                                     subitem: galleryItem, count: 3)
                 
                 let centerGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize.init(widthDimension: .fractionalWidth(0.75),
                                                                                                            heightDimension: .fractionalHeight(1.0)),
-                                                                                                           subitem: galleryItem, count: 1)
+                                                                   subitem: galleryItem, count: 1)
                 
                 let showcaseSubGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize.init(widthDimension: .fractionalWidth(1.0),
                                                                                                                   heightDimension: .fractionalHeight(1)),
-                                                                                                                  subitems: [verticalGroup, centerGroup])
+                                                                          subitems: [verticalGroup, centerGroup])
                 
                 let showcaseMegagroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize.init(widthDimension: .fractionalWidth(1.0),
                                                                                                                  heightDimension: .fractionalHeight(1)),
-                                                                                                                 subitems: [horizontalGroup, showcaseSubGroup])
-
+                                                                         subitems: [horizontalGroup, showcaseSubGroup])
+                
                 let showcaseSection = NSCollectionLayoutSection(group: showcaseMegagroup)
-
+                
                 return showcaseSection
             }
         }

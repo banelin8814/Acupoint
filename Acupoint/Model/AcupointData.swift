@@ -69,6 +69,16 @@ import Vision
                 isBackHand: true),
             
             HandAcupointModel(
+                name: "少沖穴",
+                location: "小指尖端，指甲角旁",
+                effect: "鎮靜安神、緩解心悸、失眠、健忘等症狀",
+                method: "用拇指指腹按壓少沖穴",
+                positionDescibition: "小指指甲內側下缘",
+                notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
+                position: lesserSurge,
+                isBackHand: true),
+            
+            HandAcupointModel(
                 name: "內關穴",
                 location: "手腕橫紋上方兩寸，掌側兩筋之間",
                 effect: "鎮靜安神、改善失眠、緩解心悸、胸悶等症狀",
@@ -86,17 +96,7 @@ import Vision
                 positionDescibition: "握拳，中指紙尖對應的掌心中央處",
                 notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
                 position: palaceOfToil,
-                isBackHand: false),
-            
-            HandAcupointModel(
-                name: "少沖穴",
-                location: "小指尖端，指甲角旁",
-                effect: "鎮靜安神、緩解心悸、失眠、健忘等症狀",
-                method: "用拇指指腹按壓少沖穴",
-                positionDescibition: "小指指甲內側下缘",
-                notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
-                position: lesserSurge,
-                isBackHand: true)
+                isBackHand: false)
         ]
     //:1 創建這些點，他們是VNRecognizedPoint
     var thumbTIP: VNRecognizedPoint?

@@ -73,6 +73,6 @@ class HandVCCollectionViewCell: UICollectionViewCell {
     
     func configure(with acupoint: HandAcupointModel) {
         acupointNameLabel.text = acupoint.name
-        acupointLocationLabel.text = "位置：\(acupoint.location)"
+        acupointLocationLabel.text = "位置：\(acupoint.positionDescibition)"
     }
 }
