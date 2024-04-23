@@ -24,6 +24,7 @@ class ArchiveTableViewCell: UITableViewCell {
         setupArchiveBtn()
         bookmarkBtn.addTarget(nil, action: #selector(ArchiveVC.deleteAction(_:)), for: .touchUpInside)
         bookmarkBtn.addTarget(nil, action: #selector(SearchTableViewCell.archiveButtonTapped), for: .touchUpInside)
+        self.selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {

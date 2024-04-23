@@ -67,6 +67,10 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         
         let configuration = ARFaceTrackingConfiguration()
         sceneVw.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+        
+        //intro Page
+        let introVC = IntroVC()
+        present(introVC, animated: true, completion: nil)
     }
     
     override func viewDidLayoutSubviews() {

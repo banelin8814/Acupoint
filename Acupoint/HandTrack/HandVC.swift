@@ -112,6 +112,9 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        //intro Page
+        let introVC = IntroVC()
+        present(introVC, animated: true, completion: nil)
         
         do {
             if cameraFeedSession == nil {
