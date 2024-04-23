@@ -101,6 +101,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         //        } else {
         if indexPath.section == 0 {
             cell.textLabel?.text = facePoints[indexPath.row].name
+            
         } else {
             cell.textLabel?.text = handPoints[indexPath.row].name
         }
@@ -117,6 +118,9 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 0 {
             self.navigationController?.pushViewController(faceVC, animated: true)
             faceVC.selectedFacePoint = [facePoints[indexPath.row]]
+            faceVC.selectedIndex = indexPath.row
+            faceVC.currentDisplayMode = .specific(name: facePoints[indexPath.row].name)
+            faceVC.collectionView.reloadData()
             self.tabBarController?.tabBar.isHidden = true
             
         } else {

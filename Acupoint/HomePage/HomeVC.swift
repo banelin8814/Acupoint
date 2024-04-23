@@ -10,14 +10,14 @@ class HomeVC: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 35
         imageView.layer.masksToBounds = true
-        imageView.image = UIImage(named: "曹操")
+        imageView.image = UIImage(named: "貂蟬")
         return imageView
     }()
     
     lazy var userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "曹操"
+        label.text = "貂蟬"
         label.font = UIFont.systemFont(ofSize: 18)
         return label
     }()
@@ -52,7 +52,7 @@ class HomeVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .clear
         setupUserAvatarImageView()
         setupUserNameLabel()
         setupCollectionView()
@@ -60,9 +60,22 @@ class HomeVC: UIViewController {
         collectionView.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: "HomeCollectionViewCell")
         collectionView.delegate = self
         collectionView.dataSource = self
-        
+        assignbackground()
+
     }
     
+    func assignbackground(){
+            let background = UIImage(named: "background.png")
+            var imageView : UIImageView!
+            imageView = UIImageView(frame: view.bounds)
+            imageView.contentMode =  .scaleAspectFill
+            imageView.clipsToBounds = true
+            imageView.image = background
+            imageView.center = view.center
+            view.addSubview(imageView)
+            self.view.sendSubviewToBack(imageView)
+        }
+
     func setupUserAvatarImageView() {
         view.addSubview(userAvatarImageView)
         
@@ -84,6 +97,7 @@ class HomeVC: UIViewController {
     
     func setupCollectionView() {
         view.addSubview(collectionView)
+        collectionView.backgroundColor = .clear
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: userAvatarImageView.bottomAnchor, constant: 20),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),

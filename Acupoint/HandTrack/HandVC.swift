@@ -26,6 +26,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
     //selected
+    //負責給畫點的位置 selectedAcupointPosition = handAcupoints[self.acupointIndex].position
     var acupointIndex: Int = 2
     
     enum DisplayMode {
@@ -40,7 +41,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     var selectedNameByCell: String?
     //data
     var acupoitData = AcupointData.shared
-    
+    //有時候被賦予一個，或全部的點
     lazy var handPoints: [HandAcupointModel] = {
         return acupoitData.handAcupoints
     }()
@@ -51,7 +52,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     var jointPoints: [VNRecognizedPoint] = []
     
-    lazy var handSegmentedControl: UISegmentedControl = {
+    lazy var leftRightSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["左手", "右手"])
         segmentedControl.selectedSegmentIndex = 1 // 默認選擇右手
         segmentedControl.backgroundColor = UIColor.black.withAlphaComponent(0.6)
@@ -61,7 +62,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         segmentedControl.layer.masksToBounds = true
         // 設置選中的色塊的圓角
         let selectedSegmentView = segmentedControl.subviews[segmentedControl.selectedSegmentIndex]
-        segmentedControl.addTarget(self, action: #selector(handSegmentedControlValueChanged), for: .valueChanged)
+        segmentedControl.addTarget(self, action: #selector(leftRightSegmentedControlValueChanged), for: .valueChanged)
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentedControl
     }()
@@ -85,19 +86,20 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(HandVCCollectionViewCell.self, forCellWithReuseIdentifier: "HandVCCollectionViewCell")
+        collectionView.register(InfoCollectionViewCell.self, forCellWithReuseIdentifier: "InfoCollectionViewCell")
         return collectionView
     }()
     
     //MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        view.addSubview(handSegmentedControl)
+        view.addSubview(leftRightSegmentedControl)
         view.addSubview(handSideSegmentedControl)
         view.addSubview(collectionView)
         
@@ -195,6 +197,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             }
         }
     }
+    
     func updateAcupointPositions() {
         
         let handAcupoints: [HandAcupointModel] = [
@@ -237,11 +240,10 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         
         selectedAcupointPosition = handAcupoints[self.acupointIndex].position
         
+        // 如果是一個
         if handPoints.count == 1 {
             var acupointPaths: [UIBezierPath] = []
-            
-            if isLeftHand == true {
-                
+                            
 //                let position = handPoints[acupointIndex].position
                 let path = UIBezierPath()
                 
@@ -250,7 +252,8 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                     HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: path, in: cameraPreviewLayer, observation: observation, with: selectedAcupointPosition)
                     acupointPaths.append(path)
                 }
-            }
+           
+
             DispatchQueue.main.async { [self] in
                 // 移除先前的子層
                 self.drawOverlay.sublayers?.forEach { $0.removeFromSuperlayer() }
@@ -259,39 +262,40 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                 for path in acupointPaths {
                     let shapeLayer = CAShapeLayer()
                     shapeLayer.path = path.cgPath
-                    shapeLayer.fillColor = UIColor.systemBlue.cgColor
+                    shapeLayer.fillColor = UIColor.systemYellow.cgColor
                     shapeLayer.lineWidth = 10
                     self.drawOverlay.addSublayer(shapeLayer)
                 }
             }
+        // 如果是很多個
         } else {
             
-            var acupointPaths: [UIBezierPath] = []
-            
+            var acupointPaths: [(path: UIBezierPath, acupoint: HandAcupointModel)] = []
+
             DispatchQueue.main.async { [self] in
                 let isBackHand = handSideSegmentedControl.selectedSegmentIndex == 0
                 
                 for acupoint in handAcupoints {
-                    if acupoint.isBackHand == isBackHand {
-                        let position = acupoint.position
-                        let path = UIBezierPath()
-                        
-                        guard let cameraPreviewLayer = self.cameraVw.previewLayer, let observation = observation else { continue }
-                        HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: path, in: cameraPreviewLayer, observation: observation, with: position)
-                        acupointPaths.append(path)
-                    }
+                    let position = acupoint.position
+                    let path = UIBezierPath()
+                    
+                    guard let cameraPreviewLayer = self.cameraVw.previewLayer, let observation = observation else { continue }
+                    HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: path, in: cameraPreviewLayer, observation: observation, with: position)
+                    acupointPaths.append((path, acupoint))
                 }
                 
                 // 移除先前的子層
                 self.drawOverlay.sublayers?.forEach { $0.removeFromSuperlayer() }
                 
                 // 為每個穴位路徑創建一個新的子層
-                for (index, path) in acupointPaths.enumerated() {
-                    let shapeLayer = CAShapeLayer()
-                    shapeLayer.path = path.cgPath
-                    shapeLayer.fillColor = (handAcupoints[index].name == selectedNameByCell) ? UIColor.red.cgColor : UIColor.yellow.cgColor
-                    shapeLayer.lineWidth = 10
-                    self.drawOverlay.addSublayer(shapeLayer)
+                for (path, acupoint) in acupointPaths {
+                    if acupoint.isBackHand == isBackHand {
+                        let shapeLayer = CAShapeLayer()
+                        shapeLayer.path = path.cgPath
+                        shapeLayer.fillColor = (acupoint.name == selectedNameByCell) ? UIColor.systemRed.cgColor : UIColor.systemYellow.cgColor
+                        shapeLayer.lineWidth = 10
+                        self.drawOverlay.addSublayer(shapeLayer)
+                    }
                 }
             }
         }
@@ -332,10 +336,10 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         
         NSLayoutConstraint.activate([
             
-            handSegmentedControl.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 0),
-            handSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            handSegmentedControl.widthAnchor.constraint(equalToConstant: 120),
-            handSegmentedControl.heightAnchor.constraint(equalToConstant: 30),
+            leftRightSegmentedControl.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 0),
+            leftRightSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            leftRightSegmentedControl.widthAnchor.constraint(equalToConstant: 120),
+            leftRightSegmentedControl.heightAnchor.constraint(equalToConstant: 30),
             
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -351,10 +355,12 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     //MARK: - @Objc
     
-    @objc func handSegmentedControlValueChanged() {
+    @objc func leftRightSegmentedControlValueChanged() {
         DispatchQueue.main.async {
-            let isLeftHand = self.handSegmentedControl.selectedSegmentIndex == 0
+            self.isLeftHand = self.leftRightSegmentedControl.selectedSegmentIndex == 0
+            print(self.isLeftHand)
         }
+        updateAcupointPositions()
     }
     
     @objc func handSideSegmentedControlValueChanged() {
@@ -471,36 +477,46 @@ extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HandVCCollectionViewCell", for: indexPath) as? HandVCCollectionViewCell else { return HandVCCollectionViewCell()}
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InfoCollectionViewCell", for: indexPath) as? InfoCollectionViewCell else { return InfoCollectionViewCell()}
         let acupoint: HandAcupointModel
         switch currentDisplayMode {
         case .allPoint:
             let isBackHand = handSideSegmentedControl.selectedSegmentIndex == 0
             let filteredAcupoints = handPoints.filter( { $0.isBackHand == isBackHand})
             acupoint = filteredAcupoints[indexPath.item]
-            
+            cell.configureHandDataFromWikiVC(with: acupoint)
             //                acupoint = handPoints[indexPath.item]
         case .specific(let name):
             if let index = handPoints.firstIndex(where: { $0.name == name }) {
                 acupoint = handPoints[index]
+                cell.configureHandDataFromSearchVC(with: acupoint)
             } else {
                 return cell
             }
         }
-        cell.configure(with: acupoint)
         return cell
     }
     
+//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        if indexPath.item == 0 {
+//            let acupoint = handPoints[0]
+//            selectedNameByCell = acupoint.name
+//        } else {
+//            let acupoint = handPoints[indexPath.item - 1]
+//            selectedNameByCell = acupoint.name
+//        }
+//        updateAcupointPositions()
+//    }
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.item == 0 {
-            let acupoint = handPoints[0]
-            selectedNameByCell = acupoint.name
-        } else {
-            let acupoint = handPoints[indexPath.item - 1]
-            selectedNameByCell = acupoint.name
-        }
-        updateAcupointPositions()
-    }
+           let visibleCells = collectionView.visibleCells
+           if let currentCell = visibleCells.first as? InfoCollectionViewCell {
+               if let labelText = currentCell.acupointNameLabel.text {
+                   selectedNameByCell = labelText
+                   updateAcupointPositions()
+                   print("Current label text: \(labelText)")
+               }
+           }
+       }
 }
 
 extension HandVC {

@@ -98,14 +98,20 @@ extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //        self.tabBarController?.tabBar.isHidden = true
         if let index = facePoints.firstIndex(where: { $0.name == archivePointName?[indexPath.row].name }) {
- 
+            faceVC.selectedIndex = indexPath.row
             faceVC.selectedFacePoint = [facePoints[index]]
+            faceVC.currentDisplayMode = .specific(name: facePoints[indexPath.row].name)
+            faceVC.collectionView.reloadData()
             self.navigationController?.pushViewController(faceVC, animated: true)
             self.tabBarController?.tabBar.isHidden = true
             
         } else if let index = handPoints.firstIndex(where: { $0.name == archivePointName?[indexPath.row].name }) {
-     
+            //負責給collectionView內容
             handVC.currentDisplayMode = .specific(name: handPoints[index].name)
+            //負責指定一個點給handPoints if handPoints.count == 1
+            handVC.handPoints = [handPoints[index]]
+            //負責給畫點的位置 selectedAcupointPosition = handAcupoints[self.acupointIndex].position
+            handVC.acupointIndex = index
             handVC.handSideSegmentedControl.isHidden = true
             handVC.collectionView.reloadData()
             self.navigationController?.pushViewController(handVC, animated: true)

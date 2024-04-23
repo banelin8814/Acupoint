@@ -5,73 +5,48 @@ import CHGlassmorphismView
 
 class FaceVC: UIViewController, ARSCNViewDelegate {
     
-    //    var isSaved = false
-    
     private let sceneVw = ARSCNView(frame: UIScreen.main.bounds)
-    
-    lazy var faceOutLineVw = UIImageView()
-    
-    var selectedFacePoint: [FaceAcupointModel]? {
-        didSet {
-            if let thePoint = selectedFacePoint {
-                introTitle.text = thePoint[0].name
-                methodLbl.text = "手法： \(thePoint[0].method)"
-                frequencyLbl.text = "位置： \(thePoint[0].positionDescibition)"
-                noticeLbl.text = "注意： \(thePoint[0].notice)"
-            }
-        }
-    }
-    
+        
     var dotNode = SCNNode()
     
-    lazy var introTitle: UILabel = {
-        let label = UILabel()
-        label.text = selectedFacePoint?[0].name
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 30, weight: .heavy)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    //data
+    var acupoitData = AcupointData.shared
+    
+    lazy var facePoints: [FaceAcupointModel] = {
+        return acupoitData.faceAcupoints
     }()
     
-    lazy var methodLbl: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 2
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    lazy var selectedFacePoint: [FaceAcupointModel] = {
+        return selectedFacePoint.self
     }()
     
-    lazy var frequencyLbl: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    lazy var selectedIndex: Int = {
+        return selectedIndex.self
     }()
     
-    lazy var noticeLbl: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    var selectedNameByCell: String?
+    
+    lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .clear
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(InfoCollectionViewCell.self, forCellWithReuseIdentifier: "InfoCollectionViewCell")
+        func collectionViewLayout() -> UICollectionViewLayout {
+            let galleryItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                                                        heightDimension: .fractionalHeight(1.0)))
+            galleryItem.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 8)
+            let galleryGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.85),
+                                                                                                     heightDimension: .fractionalHeight(1)),
+                                                                  subitem: galleryItem, count: 1)
+            let gallerySection = NSCollectionLayoutSection(group: galleryGroup)
+            gallerySection.orthogonalScrollingBehavior = .groupPagingCentered
+            let layout = UICollectionViewCompositionalLayout(section: gallerySection)
+            return layout
+        }
+        return collectionView
     }()
-    
-    lazy var frossGlass = CHGlassmorphismView()
-    
-    lazy var bookmarkBtn: UIButton = {
-        let button = UIButton()
-        //        let bookmarkTapped = false
-        button.setImage(UIImage(systemName: "bookmark"), for: .normal)
-        button.setImage(UIImage(systemName: "bookmark.fill"), for: .selected)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        //        button.addTarget(self, action: #selector(bookmarkButtonTapped), for: .touchUpInside)
-        button.tintColor = .white
-        return button
-    }()
-    
     
     private var container: ModelContainer?
     
@@ -81,6 +56,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         guard ARWorldTrackingConfiguration.isSupported else { return }
         
         view.addSubview(sceneVw)
+        view.addSubview(collectionView)
         
         sceneVw.delegate = self
         
@@ -95,22 +71,12 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     
     override func viewDidLayoutSubviews() {
         
-        view.addSubview(faceOutLineVw)
-        view.addSubview(frossGlass)
-        view.addSubview(introTitle)
-        view.addSubview(methodLbl)
-        view.addSubview(frequencyLbl)
-        view.addSubview(noticeLbl)
-        view.addSubview(bookmarkBtn)
-        addImageView()
-        setIntroView()
-        setUpText()
+        setUpUI()
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        view.addSubview(sceneVw)
         
     }
     
@@ -118,56 +84,8 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         super.viewWillDisappear(animated)
         
         sceneVw.session.pause()
-        sceneVw.removeFromSuperview()
         self.tabBarController?.tabBar.isHidden = false
     }
-    
-    func addImageView() {
-        faceOutLineVw.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            faceOutLineVw.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            faceOutLineVw.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 75),
-            faceOutLineVw.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1.3),
-            faceOutLineVw.heightAnchor.constraint(equalTo: faceOutLineVw.widthAnchor)
-        ])
-        faceOutLineVw.image = UIImage(named: "faceOutline")
-    }
-    
-    func setIntroView() {
-        frossGlass.setTheme(theme: .dark)
-        frossGlass.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            //            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
-            //            backButton.topAnchor.constraint(equalTo: view.topAnchor,constant: 40),
-            frossGlass.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            frossGlass.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 3),
-            frossGlass.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.28),
-            frossGlass.widthAnchor.constraint(equalTo: view.widthAnchor)
-        ])
-        frossGlass.setCornerRadius(25)
-        frossGlass.setDistance(5)
-        frossGlass.setBlurDensity(with: 0.65)
-    }
-    
-    func setUpText() {
-        NSLayoutConstraint.activate([
-            introTitle.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-            introTitle.topAnchor.constraint(equalTo: frossGlass.topAnchor, constant: 20),
-            methodLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-            methodLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
-            methodLbl.topAnchor.constraint(equalTo: introTitle.topAnchor, constant: 40),
-            frequencyLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-            frequencyLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
-            frequencyLbl.topAnchor.constraint(equalTo: methodLbl.topAnchor, constant: 20),
-            noticeLbl.leadingAnchor.constraint(equalTo: frossGlass.leadingAnchor, constant: 20),
-            noticeLbl.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20),
-            noticeLbl.topAnchor.constraint(equalTo: frequencyLbl.topAnchor, constant: 20),
-            bookmarkBtn.topAnchor.constraint(equalTo: frossGlass.topAnchor, constant: 20),
-            bookmarkBtn.trailingAnchor.constraint(equalTo: frossGlass.trailingAnchor, constant: -20)
-        ])
-    }
-    
-    
     
     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
         
@@ -179,16 +97,21 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         
         faceNode.geometry?.firstMaterial?.transparency = 0.0
         
-        if let points = selectedFacePoint {
+        if !selectedFacePoint.isEmpty  {
             
-            for point in points {
+            for point in selectedFacePoint {
                 
                 let positions = point.position
                 
                 for position in positions {
                     
-                    let dotGeometry = SCNSphere(radius: 0.006)
-                    dotGeometry.firstMaterial?.diffuse.contents = UIColor.systemYellow
+                    let dotGeometry = SCNSphere(radius: 0.004)
+                    
+                    if point.name == selectedNameByCell {
+                        dotGeometry.firstMaterial?.diffuse.contents = UIColor.systemRed
+                    } else {
+                        dotGeometry.firstMaterial?.diffuse.contents = UIColor.systemYellow
+                    }
                     dotNode = SCNNode(geometry: dotGeometry)
                     
                     let vertices = faceAnchor.geometry.vertices
@@ -205,25 +128,9 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         }
         return faceNode
     }
-    //
-    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    //        guard let touch = touches.first else { return }
-    //
-    //        let viewTouchLocation = touch.location(in: sceneVw)
-    //
-    //        let hitTestResults = sceneVw.hitTest(viewTouchLocation, options: nil)
-    //
-    //        for result in hitTestResults {
-    //            if let planeNode = result.node as? SCNNode, planeNode == dotNode {
-    //                print("match")
-    //                break
-    //            }
-    //        }
-    //    }
     
     var acupointNodes: [UUID: FaceAcupointModel] = [:]
     var previousTouchedNode: SCNNode?
-    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
@@ -252,5 +159,67 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
             }
         }
     }
+    
+    func setUpUI() {
+    
+        NSLayoutConstraint.activate([
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
+            collectionView.heightAnchor.constraint(equalToConstant: 130)
+        ])
+    }
+    
+    enum DisplayMode {
+        case allPoint
+        case specific(name: String)
+    }
+    
+    var currentDisplayMode: DisplayMode = .allPoint
+    
 }
 
+extension FaceVC: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch currentDisplayMode {
+        case .allPoint:
+            return facePoints.count
+        case .specific:
+            return 1
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InfoCollectionViewCell", for: indexPath) as? InfoCollectionViewCell else { return InfoCollectionViewCell()}
+        
+        switch currentDisplayMode {
+        case .allPoint:
+            cell.configureFaceDataFromWikiVC(with: facePoints[indexPath.row])
+            
+        case .specific:
+            cell.configureFaceDataFromSearchVC(with: selectedFacePoint[0])
+        }
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let configuration = ARFaceTrackingConfiguration()
+        sceneVw.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+        if indexPath.item == 0 {
+            let acupoint = facePoints[0]
+            selectedNameByCell = acupoint.name
+        } else {
+            let acupoint = facePoints[indexPath.item - 1]
+            selectedNameByCell = acupoint.name
+        }
+    }
+//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//           let visibleCells = collectionView.visibleCells
+//           if let currentCell = visibleCells.first as? InfoCollectionViewCell {
+//               if let labelText = currentCell.acupointNameLabel.text {
+//                   selectedNameByCell = labelText
+//                   updateAcupointPositions()
+//                   print("Current label text: \(labelText)")
+//               }
+//           }
+//       }
+}

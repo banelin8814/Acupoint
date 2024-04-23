@@ -22,6 +22,11 @@ class SearchTableViewCell: UITableViewCell {
         return button
     }()
     
+    
+    
+    
+    
+    
     //純code，UITableViewCell初始化方法
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
