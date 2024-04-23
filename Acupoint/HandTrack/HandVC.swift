@@ -1,7 +1,6 @@
 import UIKit
 import ARKit
 import CHGlassmorphismView
-import SnapKit
 
 class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {
     //MARK: - property
@@ -114,6 +113,9 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         super.viewDidAppear(animated)
         //intro Page
         let introVC = IntroVC()
+        introVC.introNameLbl.text = handPoints[0].name
+        introVC.introPostionLbl.text = handPoints[0].positionDescibition
+
         present(introVC, animated: true, completion: nil)
         
         do {

@@ -70,6 +70,8 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         
         //intro Page
         let introVC = IntroVC()
+        introVC.introNameLbl.text = facePoints[0].name
+        introVC.introPostionLbl.text = facePoints[0].positionDescibition
         present(introVC, animated: true, completion: nil)
     }
     
