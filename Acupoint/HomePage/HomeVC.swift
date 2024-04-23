@@ -52,7 +52,7 @@ class HomeVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .clear
+        view.backgroundColor = .white
         setupUserAvatarImageView()
         setupUserNameLabel()
         setupCollectionView()
@@ -60,21 +60,21 @@ class HomeVC: UIViewController {
         collectionView.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: "HomeCollectionViewCell")
         collectionView.delegate = self
         collectionView.dataSource = self
-        assignbackground()
+//        assignbackground()
 
     }
     
-    func assignbackground(){
-            let background = UIImage(named: "background.png")
-            var imageView : UIImageView!
-            imageView = UIImageView(frame: view.bounds)
-            imageView.contentMode =  .scaleAspectFill
-            imageView.clipsToBounds = true
-            imageView.image = background
-            imageView.center = view.center
-            view.addSubview(imageView)
-            self.view.sendSubviewToBack(imageView)
-        }
+//    func assignbackground(){
+//            let background = UIImage(named: "background.png")
+//            var imageView : UIImageView!
+//            imageView = UIImageView(frame: view.bounds)
+//            imageView.contentMode =  .scaleAspectFill
+//            imageView.clipsToBounds = true
+//            imageView.image = background
+//            imageView.center = view.center
+//            view.addSubview(imageView)
+//            self.view.sendSubviewToBack(imageView)
+//        }
 
     func setupUserAvatarImageView() {
         view.addSubview(userAvatarImageView)

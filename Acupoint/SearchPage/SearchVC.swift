@@ -100,10 +100,10 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         //            return cell
         //        } else {
         if indexPath.section == 0 {
-            cell.textLabel?.text = facePoints[indexPath.row].name
-            
+            cell.acupointNameLabel.text = facePoints[indexPath.row].name
+            cell.painNameLabel.text = facePoints[indexPath.row].effect
         } else {
-            cell.textLabel?.text = handPoints[indexPath.row].name
+            cell.acupointNameLabel.text = handPoints[indexPath.row].name
         }
         return cell
         //        }
@@ -114,7 +114,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //        self.tabBarController?.tabBar.isHidden = true
+        
         if indexPath.section == 0 {
             self.navigationController?.pushViewController(faceVC, animated: true)
             faceVC.selectedFacePoint = [facePoints[indexPath.row]]
@@ -132,7 +132,6 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
             self.navigationController?.pushViewController(handVC, animated: true)
             self.tabBarController?.tabBar.isHidden = true
         }
-        
     }
     
     @objc func saveAction(_ sender: UIButton) {

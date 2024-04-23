@@ -22,15 +22,26 @@ class SearchTableViewCell: UITableViewCell {
         return button
     }()
     
-    
-    
-    
-    
+    lazy var acupointNameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "穴位名稱"
+        label.font = UIFont.systemFont(ofSize: 20)
+        return label
+    }()
+    lazy var painNameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.text = "疼痛名稱"
+        label.font = UIFont.systemFont(ofSize: 12)
+        return label
+    }()
     
     //純code，UITableViewCell初始化方法
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupArchiveBtn()
+        setupUI()
         
     }
     
@@ -49,11 +60,22 @@ class SearchTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setupArchiveBtn() {
+    func setupUI() {
         contentView.addSubview(bookmarkBtn)
+        contentView.addSubview(acupointNameLabel)
+        contentView.addSubview(painNameLabel)
+
         NSLayoutConstraint.activate([
             bookmarkBtn.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            bookmarkBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            bookmarkBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            acupointNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            acupointNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            painNameLabel.centerYAnchor.constraint(equalTo: acupointNameLabel.centerYAnchor),
+            painNameLabel.heightAnchor.constraint(equalToConstant: 60),
+            painNameLabel.widthAnchor.constraint(equalToConstant: 200),
+            painNameLabel.leadingAnchor.constraint(equalTo: acupointNameLabel.trailingAnchor, constant: 10),
+//            painNameLabel.trailingAnchor.constraint(equalTo: bookmarkBtn.leadingAnchor, constant: -12)
+
         ])
     }
     
