@@ -24,6 +24,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     var isLeftHand: Bool = false
     
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
+
     //selected
     //負責給畫點的位置 selectedAcupointPosition = handAcupoints[self.acupointIndex].position
     var acupointIndex: Int = 2
@@ -50,6 +51,17 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     let drawPath = UIBezierPath()
     
     var jointPoints: [VNRecognizedPoint] = []
+    
+    //UI
+    lazy var tranparentVw: UIView = {
+           let view = UIView()
+           let gradientLayer = CAGradientLayer()
+           gradientLayer.frame = view.bounds
+           gradientLayer.colors = [UIColor.gray.cgColor, UIColor.clear.cgColor]
+           view.layer.insertSublayer(gradientLayer, at: 0)
+           view.translatesAutoresizingMaskIntoConstraints = false
+           return view
+       }()
     
     lazy var leftRightSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["左手", "右手"])
@@ -97,7 +109,8 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+        view.addSubview(tranparentVw)
+
         view.addSubview(leftRightSegmentedControl)
         view.addSubview(handSideSegmentedControl)
         view.addSubview(collectionView)
@@ -106,7 +119,22 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         drawOverlay.lineWidth = 40
         drawOverlay.fillColor = .none
         view.layer.addSublayer(drawOverlay)
+
+        
+        tranparentVw.frame = view.bounds
+          
+          // 創建漸變層並設置其 frame
+          let gradientLayer = CAGradientLayer()
+          gradientLayer.frame = tranparentVw.bounds
+          gradientLayer.colors = [UIColor.gray.cgColor, UIColor.clear.cgColor]
+          gradientLayer.startPoint = CGPoint(x: 0.5, y: 1.0)
+          gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.0)
+          gradientLayer.locations = [0, 0.6]
+          tranparentVw.layer.insertSublayer(gradientLayer, at: 0)
+
+
         setUpUI()
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -267,7 +295,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                 for path in acupointPaths {
                     let shapeLayer = CAShapeLayer()
                     shapeLayer.path = path.cgPath
-                    shapeLayer.fillColor = UIColor.systemYellow.cgColor
+                    shapeLayer.fillColor = UIColor.white.cgColor
                     shapeLayer.lineWidth = 10
                     self.drawOverlay.addSublayer(shapeLayer)
                 }
@@ -297,7 +325,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                     if acupoint.isBackHand == isBackHand {
                         let shapeLayer = CAShapeLayer()
                         shapeLayer.path = path.cgPath
-                        shapeLayer.fillColor = (acupoint.name == selectedNameByCell) ? UIColor.systemRed.cgColor : UIColor.systemYellow.cgColor
+                        shapeLayer.fillColor = (acupoint.name == selectedNameByCell) ? UIColor.systemRed.cgColor : UIColor.white.cgColor
                         shapeLayer.lineWidth = 10
                         self.drawOverlay.addSublayer(shapeLayer)
                     }
@@ -354,7 +382,14 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             handSideSegmentedControl.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 0),
             handSideSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
             handSideSegmentedControl.widthAnchor.constraint(equalToConstant: 120),
-            handSideSegmentedControl.heightAnchor.constraint(equalToConstant: 30)
+            handSideSegmentedControl.heightAnchor.constraint(equalToConstant: 30),
+            
+            tranparentVw.topAnchor.constraint(equalTo: view.topAnchor),
+            tranparentVw.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tranparentVw.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tranparentVw.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            
+            
         ])
     }
     

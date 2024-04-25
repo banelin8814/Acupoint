@@ -1,10 +1,3 @@
-//
-//  TabVC.swift
-//  Acupoint
-//
-//  Created by 林佑淳 on 2024/4/16.
-//
-
 import UIKit
 
 class TabController: UITabBarController {
@@ -12,37 +5,80 @@ class TabController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupTabs()
+
+        // 設置tabBar的appearance
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .clear
+
+        // 將陰影設置為nil
+        appearance.shadowColor = nil
+        appearance.shadowImage = nil
+
+        // 設置standardAppearance和scrollEdgeAppearance
+        self.tabBar.standardAppearance = appearance
+        self.tabBar.scrollEdgeAppearance = self.tabBar.standardAppearance
+
+        // 設置選中和未選中的圖片顏色
         self.tabBar.tintColor = .black
-        self.tabBar.unselectedItemTintColor = .systemGray3
+        self.tabBar.unselectedItemTintColor = .lightGray
+
+        // 設置tabBar的背景色為透明
+//        self.tabBar.barTintColor = .clear
+        self.tabBar.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
+
         
-        // 將標籤列設置為毛玻璃效果
-             let tabBarAppearance = UITabBarAppearance()
-             tabBarAppearance.configureWithTransparentBackground()
-             tabBarAppearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
-             self.tabBar.standardAppearance = tabBarAppearance
-             if #available(iOS 15.0, *) {
-                 self.tabBar.scrollEdgeAppearance = tabBarAppearance
-             }
+      
     }
-    
-    
+
     private func setupTabs() {
-        let homePage = self.createNav(with: "首頁", and: UIImage(systemName: "house"), viewController: HomeVC())
-        let searchPage = self.createNav(with: "搜尋穴位", and: UIImage(systemName: "magnifyingglass"), viewController: SearchVC())
-        let wikiPage = self.createNav(with: "穴位小百科", and: UIImage(systemName: "book"), viewController: WikiVC())
-        
+        let homePage = self.createNav(with: "",
+                                      selectedImage: UIImage(named: "UI_家黑色"),
+                                      unselectedImage: UIImage(named: "UI_家灰色"),
+                                      viewController: HomeVC())
+
+        let searchPage = self.createNav(with: "",
+                                        selectedImage: UIImage(named: "UI_手黑色"),
+                                        unselectedImage: UIImage(named: "UI_手灰色"),
+                                        viewController: SearchVC())
+
+        let wikiPage = self.createNav(with: "",
+                                      selectedImage: UIImage(named: "UI_書黑色"),
+                                      unselectedImage: UIImage(named: "UI_書灰色"),
+                                      viewController: WikiVC())
+
         self.setViewControllers([homePage, searchPage, wikiPage], animated: true)
     }
 
-    private func createNav(with title: String, 
-                           and image: UIImage?,
+    private func createNav(with title: String,
+                           selectedImage: UIImage?,
+                           unselectedImage: UIImage?,
                            viewController: UIViewController) -> UINavigationController {
+        
         let navigation = UINavigationController(rootViewController: viewController)
-
         navigation.tabBarItem.title = title
-        navigation.tabBarItem.image = image
+        
+        // 調整未選中圖片的大小
+        if let unselectedImage = unselectedImage {
+            let size = CGSize(width: 36, height: 36) // 設置所需的大小
+            UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+            unselectedImage.draw(in: CGRect(origin: .zero, size: size))
+            let resizedUnselectedImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            navigation.tabBarItem.image = resizedUnselectedImage
+        }
+        
+        // 調整選中圖片的大小
+        if let selectedImage = selectedImage {
+            let size = CGSize(width: 36, height: 36) // 設置所需的大小
+            UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+            selectedImage.draw(in: CGRect(origin: .zero, size: size))
+            let resizedSelectedImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            navigation.tabBarItem.selectedImage = resizedSelectedImage
+        }
+            
         navigation.viewControllers.first?.navigationItem.title = title
-                
         return navigation
     }
 }

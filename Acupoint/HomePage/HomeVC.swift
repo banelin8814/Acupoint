@@ -10,14 +10,14 @@ class HomeVC: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 35
         imageView.layer.masksToBounds = true
-        imageView.image = UIImage(named: "貂蟬")
+        imageView.image = UIImage(named: "")
         return imageView
     }()
     
     lazy var userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "貂蟬"
+        label.text = "Bane"
         label.font = UIFont.systemFont(ofSize: 18)
         return label
     }()
@@ -27,7 +27,7 @@ class HomeVC: UIViewController {
 //        let bookmarkTapped = false
         button.setImage(UIImage(systemName: "bookmark"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-      
+       
         button.addTarget(self, action: #selector(archiveButtonTapped), for: .touchUpInside)
         button.tintColor = .black
         return button
@@ -35,9 +35,12 @@ class HomeVC: UIViewController {
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
+            
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
+            
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
+            
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(200))
            
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
@@ -52,7 +55,8 @@ class HomeVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
+//        #F0EAD4
         setupUserAvatarImageView()
         setupUserNameLabel()
         setupCollectionView()
@@ -65,7 +69,7 @@ class HomeVC: UIViewController {
     }
     
 //    func assignbackground(){
-//            let background = UIImage(named: "background.png")
+//            let background = UIImage(named: "background")
 //            var imageView : UIImageView!
 //            imageView = UIImageView(frame: view.bounds)
 //            imageView.contentMode =  .scaleAspectFill
@@ -135,17 +139,17 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 }
 
-//import SwiftUI
-//
-//struct CollectionViewController_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Container().edgesIgnoringSafeArea(.all)
-//    }
-//    struct Container: UIViewControllerRepresentable {
-//        func makeUIViewController(context: Context) -> UIViewController {
-//            UINavigationController(rootViewController: HomeVC())
-//        }
-//        func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
-//        typealias UViewControllerType = UIViewController
-//    }
-//}
+import SwiftUI
+
+struct CollectionViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        Container().edgesIgnoringSafeArea(.all)
+    }
+    struct Container: UIViewControllerRepresentable {
+        func makeUIViewController(context: Context) -> UIViewController {
+            UINavigationController(rootViewController: HomeVC())
+        }
+        func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+        typealias UViewControllerType = UIViewController
+    }
+}

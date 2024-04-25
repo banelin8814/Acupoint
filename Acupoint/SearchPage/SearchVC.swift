@@ -22,9 +22,12 @@ class SearchVC: UIViewController {
 //    var allAcupoints: [FaceAcupointModel]?
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
         searchTableView.dataSource = self
         searchTableView.delegate = self
+        searchTableView.separatorStyle = .none
         searchTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: "SearchTableViewCell")
+        searchTableView.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
         setupTableView()
         //        setupSearchController()
 //        let service = SwiftDataService.shared
@@ -99,6 +102,8 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         //            cell.textLabel?.text = filterResult[indexPath.row].name
         //            return cell
         //        } else {
+        cell.contentView.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
+        cell.selectionStyle = .none
         if indexPath.section == 0 {
             cell.acupointNameLabel.text = facePoints[indexPath.row].name
             cell.painNameLabel.text = facePoints[indexPath.row].effect
@@ -132,6 +137,10 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
             self.navigationController?.pushViewController(handVC, animated: true)
             self.tabBarController?.tabBar.isHidden = true
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
     }
     
     @objc func saveAction(_ sender: UIButton) {

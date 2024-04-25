@@ -6,7 +6,7 @@ import CHGlassmorphismView
 class FaceVC: UIViewController, ARSCNViewDelegate {
     
     private let sceneVw = ARSCNView(frame: UIScreen.main.bounds)
-        
+    
     var dotNode = SCNNode()
     
     //data
@@ -70,15 +70,20 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         
         //intro Page
         let introVC = IntroVC()
-        introVC.introNameLbl.text = facePoints[0].name
-        introVC.introPostionLbl.text = facePoints[0].positionDescibition
+        if selectedFacePoint.count == 1 {
+            introVC.introNameLbl.text = facePoints[selectedIndex].name
+            introVC.introPostionLbl.text = facePoints[selectedIndex].positionDescibition
+        } else {
+            introVC.introNameLbl.text = ""
+            introVC.introPostionLbl.text = "滑動畫面選擇穴位"
+        }
+        introVC.introImageView.loadGif(name: "face-animation")
         present(introVC, animated: true, completion: nil)
     }
     
     override func viewDidLayoutSubviews() {
         
         setUpUI()
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -102,7 +107,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         let faceNode = SCNNode(geometry: faceGeometry)
         
         faceNode.geometry?.firstMaterial?.transparency = 0.0
-        
+        //確定有點再畫
         if !selectedFacePoint.isEmpty  {
             
             for point in selectedFacePoint {
@@ -116,7 +121,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
                     if point.name == selectedNameByCell {
                         dotGeometry.firstMaterial?.diffuse.contents = UIColor.systemRed
                     } else {
-                        dotGeometry.firstMaterial?.diffuse.contents = UIColor.systemYellow
+                        dotGeometry.firstMaterial?.diffuse.contents = UIColor.white
                     }
                     dotNode = SCNNode(geometry: dotGeometry)
                     
@@ -152,7 +157,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
                 
                 // 將原本被點擊的節點顏色恢復為原始顏色（黃色）
                 if let previousNode = previousTouchedNode {
-                    previousNode.geometry?.firstMaterial?.diffuse.contents = UIColor.systemYellow
+                    previousNode.geometry?.firstMaterial?.diffuse.contents = UIColor.white
                 }
                 
                 // 修改當前被點擊節點的材質顏色為紅色
@@ -167,7 +172,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     }
     
     func setUpUI() {
-    
+        
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -218,14 +223,14 @@ extension FaceVC: UICollectionViewDelegate, UICollectionViewDataSource {
             selectedNameByCell = acupoint.name
         }
     }
-//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//           let visibleCells = collectionView.visibleCells
-//           if let currentCell = visibleCells.first as? InfoCollectionViewCell {
-//               if let labelText = currentCell.acupointNameLabel.text {
-//                   selectedNameByCell = labelText
-//                   updateAcupointPositions()
-//                   print("Current label text: \(labelText)")
-//               }
-//           }
-//       }
+    //    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    //           let visibleCells = collectionView.visibleCells
+    //           if let currentCell = visibleCells.first as? InfoCollectionViewCell {
+    //               if let labelText = currentCell.acupointNameLabel.text {
+    //                   selectedNameByCell = labelText
+    //                   updateAcupointPositions()
+    //                   print("Current label text: \(labelText)")
+    //               }
+    //           }
+    //       }
 }

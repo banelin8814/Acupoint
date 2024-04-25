@@ -21,7 +21,10 @@ class IntroVC: UIViewController {
     lazy var introPostionLbl: UILabel = {
         let label = UILabel()
         label.text = "穴位位置"
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = .gray
+        label.numberOfLines = 0
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -47,6 +50,8 @@ class IntroVC: UIViewController {
             introNameLbl.topAnchor.constraint(equalTo: introImageView.bottomAnchor, constant: 20),
             introPostionLbl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             introPostionLbl.topAnchor.constraint(equalTo: introNameLbl.bottomAnchor, constant: 20),
+            introPostionLbl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            introPostionLbl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
 }

@@ -25,6 +25,7 @@ class ArchiveVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
         archiveTableView.dataSource = self
         archiveTableView.delegate = self
         archiveTableView.register(ArchiveTableViewCell.self, forCellReuseIdentifier: "ArchiveTableViewCell")

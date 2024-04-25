@@ -20,7 +20,7 @@ class WikiVCTableViewCell: UITableViewCell {
 //        contentView.layer.cornerRadius = 30
 //        contentView.layer.masksToBounds = true
         backgroundColor = .clear
-        contentView.backgroundColor = .systemYellow
+        contentView.backgroundColor = .white
     }
 
 }

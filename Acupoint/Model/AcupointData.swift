@@ -95,8 +95,7 @@ struct AcupointData {
             location: "",
             notice: "",
             position: [939, 1008]
-        ),
-       
+        )
     ]
     
     //MARK: - Hand Data

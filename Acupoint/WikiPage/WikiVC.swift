@@ -31,7 +31,8 @@ class WikiVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
+
         tableView = UITableView(frame: view.bounds, style: .grouped)
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight] //父視圖大小發生變化時如何自動調整自身的大小。
         view.addSubview(tableView)
