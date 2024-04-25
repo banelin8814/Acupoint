@@ -5,12 +5,26 @@ class HomeVC: UIViewController {
     
     let archiveVC = ArchiveVC()
     
+    let screenHeight = UIScreen.main.bounds.size.height
+
+    let mainImageData: [String] = ["頭痛", "失眠", "美顏","眼睛疲勞"]
+    let mainTitleData: [String] = ["頭 痛", "失 眠", "美 顏","眼 睛 疲 勞"]
+
+    
+    lazy var commonPointLbl: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "常見穴位"
+        label.font = UIFont(name: "ZenMaruGothic-Medium", size: 30)
+        return label
+    }()
+    
     lazy var userAvatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 35
         imageView.layer.masksToBounds = true
-        imageView.image = UIImage(named: "")
+        imageView.image = UIImage(named: "曹操")
         return imageView
     }()
     
@@ -18,103 +32,91 @@ class HomeVC: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Bane"
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.font = UIFont(name: "GenJyuuGothicX-Medium", size: 22)
         return label
     }()
     
     lazy var bookmarkBtn: UIButton = {
         let button = UIButton()
-//        let bookmarkTapped = false
+        //        let bookmarkTapped = false
         button.setImage(UIImage(systemName: "bookmark"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-       
+        
         button.addTarget(self, action: #selector(archiveButtonTapped), for: .touchUpInside)
         button.tintColor = .black
         return button
     }()
     
     lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
-            
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
-            
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .clear
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.isScrollEnabled = false
+        collectionView.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: "HomeCollectionViewCell")
+        func collectionViewLayout() -> UICollectionViewLayout {
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                  heightDimension: .fractionalHeight(1))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
-            
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(200))
-           
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+            var groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+            if screenHeight > 800 {
+                 groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                       heightDimension: .fractionalHeight(0.18))
+            } else {
+                 groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                       heightDimension: .fractionalHeight(0.18))
+            }
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 1)
 
             let section = NSCollectionLayoutSection(group: group)
-            return section
+            if screenHeight > 800 {
+                section.interGroupSpacing = 20
+            } else {
+                section.interGroupSpacing = 12
+            }
+            let layout = UICollectionViewCompositionalLayout(section: section)
+            return layout
         }
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
-//        #F0EAD4
-        setupUserAvatarImageView()
-        setupUserNameLabel()
-        setupCollectionView()
-        setupArchiveBtn()
-        collectionView.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: "HomeCollectionViewCell")
-        collectionView.delegate = self
-        collectionView.dataSource = self
-//        assignbackground()
-
+        view.addSubview(userAvatarImageView)
+        view.addSubview(userNameLabel)
+        view.addSubview(bookmarkBtn)
+        view.addSubview(collectionView)
+        view.addSubview(commonPointLbl)
+        
     }
     
-//    func assignbackground(){
-//            let background = UIImage(named: "background")
-//            var imageView : UIImageView!
-//            imageView = UIImageView(frame: view.bounds)
-//            imageView.contentMode =  .scaleAspectFill
-//            imageView.clipsToBounds = true
-//            imageView.image = background
-//            imageView.center = view.center
-//            view.addSubview(imageView)
-//            self.view.sendSubviewToBack(imageView)
-//        }
-
-    func setupUserAvatarImageView() {
-        view.addSubview(userAvatarImageView)
-        
+    override func viewDidLayoutSubviews() {
+        setUpUI()
+    }
+    
+    func setUpUI() {
         NSLayoutConstraint.activate([
-            userAvatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            userAvatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             userAvatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             userAvatarImageView.widthAnchor.constraint(equalToConstant: 70),
-            userAvatarImageView.heightAnchor.constraint(equalToConstant: 70)
-        ])
-    }
-    
-    func setupUserNameLabel() {
-        view.addSubview(userNameLabel)
-        NSLayoutConstraint.activate([
+            userAvatarImageView.heightAnchor.constraint(equalToConstant: 70),
+            
+            commonPointLbl.topAnchor.constraint(equalTo: userAvatarImageView.bottomAnchor, constant: 12),
+            commonPointLbl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 18),
+            commonPointLbl.widthAnchor.constraint(equalToConstant: 120),
+            
             userNameLabel.centerYAnchor.constraint(equalTo: userAvatarImageView.centerYAnchor),
-            userNameLabel.leadingAnchor.constraint(equalTo: userAvatarImageView.trailingAnchor, constant: 10)
-        ])
-    }
-    
-    func setupCollectionView() {
-        view.addSubview(collectionView)
-        collectionView.backgroundColor = .clear
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: userAvatarImageView.bottomAnchor, constant: 20),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 20)
-        ])
-    }
-    
-    func setupArchiveBtn() {
-        view.addSubview(bookmarkBtn)
-        NSLayoutConstraint.activate([
+            userNameLabel.leadingAnchor.constraint(equalTo: userAvatarImageView.trailingAnchor, constant: 22),
+            
             bookmarkBtn.centerYAnchor.constraint(equalTo: userAvatarImageView.centerYAnchor),
-            bookmarkBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            bookmarkBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            collectionView.topAnchor.constraint(equalTo: commonPointLbl.bottomAnchor, constant: 12),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
         ])
     }
     
@@ -131,25 +133,13 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //用if let寫cell
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell {
+            cell.mainVw.image = UIImage(named: mainImageData[indexPath.row])
+            cell.titleLabel.text =  mainTitleData[indexPath.row]
+            collectionView.reloadData()
             // 使用 cell 進行設定
             return cell
         } else {
             return HomeCollectionViewCell()
         }
-    }
-}
-
-import SwiftUI
-
-struct CollectionViewController_Previews: PreviewProvider {
-    static var previews: some View {
-        Container().edgesIgnoringSafeArea(.all)
-    }
-    struct Container: UIViewControllerRepresentable {
-        func makeUIViewController(context: Context) -> UIViewController {
-            UINavigationController(rootViewController: HomeVC())
-        }
-        func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
-        typealias UViewControllerType = UIViewController
     }
 }

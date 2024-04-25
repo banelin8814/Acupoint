@@ -2,25 +2,73 @@ import UIKit
 
 class WikiVCTableViewCell: UITableViewCell {
     
+    var indexPath: IndexPath?
+
+    
+    let mainVw: UIImageView = {
+        let view = UIImageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .green
+        // 確保 contentView 的背景色是透明的
+        view.layer.cornerRadius = 20
+        view.layer.masksToBounds = true // 設置為 true 以裁切超出圓角範圍的部分
+        view.image = UIImage(named: "")
+        view.contentMode = .scaleAspectFill
+        // 添加黑色陰影效果
+        
+        return view
+    }()
+    
+    lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = ""
+        label.font = UIFont(name: "ZenMaruGothic-Medium", size: 30)
+        label.textColor = .white
+        return label
+    }()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         setupCell()
-        self.selectionStyle = .none
     }
     
     func setupCell() {
-//        contentView.preservesSuperviewLayoutMargins = false
-//        以確保 cell 的內容視圖的 layoutMargins 不受 tableView 的 layoutMargins 的影響。
-//        layoutMargins = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
-//        contentView.layer.cornerRadius = 30
-//        contentView.layer.masksToBounds = true
-        backgroundColor = .clear
-        contentView.backgroundColor = .white
-    }
+        // 創建一個新的 UIView 作為陰影容器
+        contentView.addSubview(mainVw)
+        contentView.addSubview(titleLabel)
+        contentView.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
+        
+        // 將 blurView 添加到陰影容器中
+        NSLayoutConstraint.activate([
+            mainVw.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            mainVw.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            mainVw.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            mainVw.heightAnchor.constraint(equalToConstant: 150),
+            mainVw.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+        ])
+        titleLabel.removeConstraints(titleLabel.constraints)
 
+               if indexPath?.section == 0 {
+                   // 第一個 section，titleLabel 靠左
+                   NSLayoutConstraint.activate([
+                       titleLabel.topAnchor.constraint(equalTo: mainVw.topAnchor, constant: 20),
+                       titleLabel.leadingAnchor.constraint(equalTo: mainVw.leadingAnchor, constant: 20)
+                   ])
+               } else {
+                   // 第二個 section，titleLabel 靠右
+                   NSLayoutConstraint.activate([
+                       titleLabel.topAnchor.constraint(equalTo: mainVw.topAnchor, constant: 20),
+                       titleLabel.trailingAnchor.constraint(equalTo: mainVw.trailingAnchor, constant: -20)
+                   ])
+               }
+        
+    }
+    
 }
+
