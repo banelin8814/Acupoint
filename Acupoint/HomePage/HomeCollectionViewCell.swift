@@ -14,6 +14,11 @@ class HomeCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        
+    }
     
     let mainVw: UIImageView = {
         let view = UIImageView()
@@ -54,9 +59,5 @@ class HomeCollectionViewCell: UICollectionViewCell {
         
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        
-    }
+  
 }

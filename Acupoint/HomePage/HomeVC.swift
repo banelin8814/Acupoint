@@ -6,10 +6,10 @@ class HomeVC: UIViewController {
     let archiveVC = ArchiveVC()
     
     let screenHeight = UIScreen.main.bounds.size.height
-
+    
     let mainImageData: [String] = ["頭痛", "失眠", "美顏","眼睛疲勞"]
-    let mainTitleData: [String] = ["頭 痛", "失 眠", "美 顏","眼 睛 疲 勞"]
-
+    let mainTitleData: [String] = ["頭 痛", "助 眠", "美 顏","眼 睛 疲 勞"]
+    
     
     lazy var commonPointLbl: UILabel = {
         let label = UILabel()
@@ -61,14 +61,14 @@ class HomeVC: UIViewController {
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             var groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
             if screenHeight > 800 {
-                 groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                       heightDimension: .fractionalHeight(0.18))
+                groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                   heightDimension: .fractionalHeight(0.18))
             } else {
-                 groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                       heightDimension: .fractionalHeight(0.18))
+                groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                   heightDimension: .fractionalHeight(0.18))
             }
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 1)
-
+            
             let section = NSCollectionLayoutSection(group: group)
             if screenHeight > 800 {
                 section.interGroupSpacing = 20
@@ -126,6 +126,7 @@ class HomeVC: UIViewController {
 }
 
 extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
     }
@@ -135,11 +136,20 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell {
             cell.mainVw.image = UIImage(named: mainImageData[indexPath.row])
             cell.titleLabel.text =  mainTitleData[indexPath.row]
-            collectionView.reloadData()
+//            collectionView.reloadData()
             // 使用 cell 進行設定
             return cell
         } else {
             return HomeCollectionViewCell()
         }
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let commonVC = CommonVC()
+        if let navigationController = self.navigationController {
+            navigationController.pushViewController(commonVC, animated: true)
+        } else {
+            print("Navigation controller is nil. Unable to push CommonVC.")
+        }
+    }
 }
+

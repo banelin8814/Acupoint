@@ -20,10 +20,12 @@
 		1B3ADAA32BD9DCE700CF613C /* GenJyuuGothicX-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B3ADAA22BD9DCE700CF613C /* GenJyuuGothicX-Regular.ttf */; };
 		1B3ADAA52BD9DCF600CF613C /* GenJyuuGothicX-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B3ADAA42BD9DCF600CF613C /* GenJyuuGothicX-Light.ttf */; };
 		1B3ADAA72BD9DD0B00CF613C /* GenJyuuGothicX-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B3ADAA62BD9DD0A00CF613C /* GenJyuuGothicX-Bold.ttf */; };
+		1B53803F2BDB557300927D8F /* CommonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B53803E2BDB557300927D8F /* CommonVC.swift */; };
 		1B83A8BF2BCE7ADC00E0C440 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B83A8BE2BCE7ADC00E0C440 /* HomeCollectionViewCell.swift */; };
 		1B83A8C12BCE829000E0C440 /* TabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B83A8C02BCE829000E0C440 /* TabController.swift */; };
 		1B83A8C42BCEADA200E0C440 /* ArchiveVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B83A8C32BCEADA200E0C440 /* ArchiveVC.swift */; };
 		1B83A8C82BCEBC8F00E0C440 /* SwiftDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B83A8C72BCEBC8F00E0C440 /* SwiftDataService.swift */; };
+		1B90B2DC2BDB5BF40069C868 /* CommonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90B2DB2BDB5BF40069C868 /* CommonCollectionViewCell.swift */; };
 		1B90F1052BD4E50D00452B6D /* InfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90F1042BD4E50D00452B6D /* InfoCollectionViewCell.swift */; };
 		1B90F12F2BD7BDF200452B6D /* IntroVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90F12E2BD7BDF100452B6D /* IntroVC.swift */; };
 		1B90F1322BD87F6800452B6D /* UIImageView + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90F1312BD87F6800452B6D /* UIImageView + Ext.swift */; };
@@ -85,10 +87,12 @@
 		1B3ADAA22BD9DCE700CF613C /* GenJyuuGothicX-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenJyuuGothicX-Regular.ttf"; sourceTree = "<group>"; };
 		1B3ADAA42BD9DCF600CF613C /* GenJyuuGothicX-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenJyuuGothicX-Light.ttf"; sourceTree = "<group>"; };
 		1B3ADAA62BD9DD0A00CF613C /* GenJyuuGothicX-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenJyuuGothicX-Bold.ttf"; sourceTree = "<group>"; };
+		1B53803E2BDB557300927D8F /* CommonVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonVC.swift; sourceTree = "<group>"; };
 		1B83A8BE2BCE7ADC00E0C440 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		1B83A8C02BCE829000E0C440 /* TabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabController.swift; sourceTree = "<group>"; };
 		1B83A8C32BCEADA200E0C440 /* ArchiveVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveVC.swift; sourceTree = "<group>"; };
 		1B83A8C72BCEBC8F00E0C440 /* SwiftDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataService.swift; sourceTree = "<group>"; };
+		1B90B2DB2BDB5BF40069C868 /* CommonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonCollectionViewCell.swift; sourceTree = "<group>"; };
 		1B90F1042BD4E50D00452B6D /* InfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCollectionViewCell.swift; sourceTree = "<group>"; };
 		1B90F12E2BD7BDF100452B6D /* IntroVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroVC.swift; sourceTree = "<group>"; };
 		1B90F1312BD87F6800452B6D /* UIImageView + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView + Ext.swift"; sourceTree = "<group>"; };
@@ -174,6 +178,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		1B53803D2BDB553D00927D8F /* CommonVC */ = {
+			isa = PBXGroup;
+			children = (
+				1B53803E2BDB557300927D8F /* CommonVC.swift */,
+				1B90B2DB2BDB5BF40069C868 /* CommonCollectionViewCell.swift */,
+			);
+			path = CommonVC;
+			sourceTree = "<group>";
+		};
 		1B83A8BB2BCE752100E0C440 /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
@@ -201,12 +214,12 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
-		1B90F12D2BD7BDA800452B6D /* New Group */ = {
+		1B90F12D2BD7BDA800452B6D /* IntroPage */ = {
 			isa = PBXGroup;
 			children = (
 				1B90F12E2BD7BDF100452B6D /* IntroVC.swift */,
 			);
-			path = "New Group";
+			path = IntroPage;
 			sourceTree = "<group>";
 		};
 		1B90F1302BD87F4700452B6D /* Extension */ = {
@@ -247,12 +260,13 @@
 				1B90F1302BD87F4700452B6D /* Extension */,
 				1B90F1062BD794CC00452B6D /* Service */,
 				1B04ACF92BCD0F3500F6FB8D /* Model */,
+				1B53803D2BDB553D00927D8F /* CommonVC */,
 				1B83A8BB2BCE752100E0C440 /* HomePage */,
 				1B83A8C22BCEAD5A00E0C440 /* ArchivePage */,
 				1B04ACFE2BCD32EE00F6FB8D /* SearchPage */,
 				1B964F762BCAE9410005F1CF /* FaceTrack */,
 				1B964F752BCAE9330005F1CF /* HandTrack */,
-				1B90F12D2BD7BDA800452B6D /* New Group */,
+				1B90F12D2BD7BDA800452B6D /* IntroPage */,
 				1B97B0E52BD0C135006761CD /* WikiPage */,
 				1B90F1042BD4E50D00452B6D /* InfoCollectionViewCell.swift */,
 				1B964F2A2BC9126A0005F1CF /* LaunchScreen.storyboard */,
@@ -414,7 +428,9 @@
 				1B04ACFD2BCD129900F6FB8D /* AcupointData.swift in Sources */,
 				1B964F742BCAE8D80005F1CF /* AppError.swift in Sources */,
 				1B97B0E72BD0C17A006761CD /* WikiVC.swift in Sources */,
+				1B90B2DC2BDB5BF40069C868 /* CommonCollectionViewCell.swift in Sources */,
 				1B90F1382BD8F03000452B6D /* UIColor + Ext.swift in Sources */,
+				1B53803F2BDB557300927D8F /* CommonVC.swift in Sources */,
 				1B964F202BC912690005F1CF /* AppDelegate.swift in Sources */,
 				1BAC823B2BD1F6BB0034299B /* ArchiveTableViewCell.swift in Sources */,
 				1B90F13A2BD8F93D00452B6D /* UIView + Ext.swift in Sources */,
