@@ -9,6 +9,10 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     
     var dotNode = SCNNode()
     
+    //animation
+    let transitionManger = CustomTransitionAnimator()
+//    let transition = TransitionCoordinator()
+    
     //data
     var acupoitData = AcupointData.shared
     
@@ -33,14 +37,14 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.isScrollEnabled = false
-
+        
         collectionView.register(InfoCollectionViewCell.self, forCellWithReuseIdentifier: "InfoCollectionViewCell")
         func collectionViewLayout() -> UICollectionViewLayout {
             let galleryItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                                                         heightDimension: .fractionalHeight(1.0)))
             galleryItem.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 8)
             let galleryGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.85),
-                                                                                            heightDimension: .fractionalHeight(1)),
+                                                                                                     heightDimension: .fractionalHeight(1)),
                                                                   subitem: galleryItem, count: 1)
             let gallerySection = NSCollectionLayoutSection(group: galleryGroup)
             gallerySection.orthogonalScrollingBehavior = .groupPagingCentered
@@ -235,4 +239,16 @@ extension FaceVC: UICollectionViewDelegate, UICollectionViewDataSource {
     //               }
     //           }
     //       }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //animation
+        let detailVC = DetailVC()
+        detailVC.acupoint = facePoints[indexPath.item]
+//        detailVC.transitioningDelegate = transitionManger
+        //        as! any UIViewControllerTransitioningDelegate
+        
+        detailVC.modalPresentationStyle = .custom
+        present(detailVC, animated: true, completion: nil)
+    }
 }
+
