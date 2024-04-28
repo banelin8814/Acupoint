@@ -1,8 +1,7 @@
 import UIKit
-import StoreKit
 
 class HomeVC: UIViewController {
-    
+  
     let archiveVC = ArchiveVC()
     
     let screenHeight = UIScreen.main.bounds.size.height
@@ -95,7 +94,7 @@ class HomeVC: UIViewController {
     override func viewDidLayoutSubviews() {
         setUpUI()
     }
-    
+  
     func setUpUI() {
         NSLayoutConstraint.activate([
             userAvatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -136,7 +135,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell {
             cell.mainVw.image = UIImage(named: mainImageData[indexPath.row])
             cell.titleLabel.text =  mainTitleData[indexPath.row]
-//            collectionView.reloadData()
+            //            collectionView.reloadData()
             // 使用 cell 進行設定
             return cell
         } else {
@@ -152,4 +151,4 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
         }
     }
 }
-
+//

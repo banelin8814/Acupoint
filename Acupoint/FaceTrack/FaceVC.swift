@@ -227,7 +227,7 @@ extension FaceVC: UICollectionViewDelegate, UICollectionViewDataSource {
         } else {
             let acupoint = facePoints[indexPath.item - 1]
             selectedNameByCell = acupoint.name
-        }
+    }
     }
     //    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
     //           let visibleCells = collectionView.visibleCells

@@ -15,7 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        window?.rootViewController = TabVC()
 //        window?.makeKeyAndVisible()
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = TabController()
+        window.rootViewController = InitialSignInVC()
         self.window = window
         self.window?.makeKeyAndVisible()
     }
