@@ -57,12 +57,12 @@
 		1B9D2AC72BCBD7CC004FDF17 /* HandJointService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9D2AC62BCBD7CC004FDF17 /* HandJointService.swift */; };
 		1B9D2ACA2BCBF988004FDF17 /* CHGlassmorphismView in Frameworks */ = {isa = PBXBuildFile; productRef = 1B9D2AC92BCBF988004FDF17 /* CHGlassmorphismView */; };
 		1BA2DF562BD118E1005A841E /* HandAcupointModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA2DF552BD118E1005A841E /* HandAcupointModel.swift */; };
-		1BA2DF582BD12623005A841E /* FavoriteAcupointsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA2DF572BD12623005A841E /* FavoriteAcupointsModel.swift */; };
 		1BAC823B2BD1F6BB0034299B /* ArchiveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC823A2BD1F6BB0034299B /* ArchiveTableViewCell.swift */; };
 		1BC6EEA72BDE278A00B6B127 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 1BC6EEA62BDE278A00B6B127 /* GoogleSignIn */; };
 		1BC6EEA92BDE278A00B6B127 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1BC6EEA82BDE278A00B6B127 /* GoogleSignInSwift */; };
 		1BC6EEAB2BDE431C00B6B127 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1BC6EEAA2BDE431C00B6B127 /* GoogleService-Info.plist */; };
 		1BC6EEAE2BDE570300B6B127 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEAD2BDE570300B6B127 /* AuthService.swift */; };
+		1BC6EEB42BDE65DE00B6B127 /* StyleGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEB32BDE65DE00B6B127 /* StyleGuide.swift */; };
 		1BF232182BD13ACA00E2BD5E /* SavedAcupName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF232172BD13ACA00E2BD5E /* SavedAcupName.swift */; };
 		1BF9C9052BD0057F00EBEA0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -126,10 +126,10 @@
 		1B97B0E82BD0C6EC006761CD /* WikiVCTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiVCTableViewCell.swift; sourceTree = "<group>"; };
 		1B9D2AC62BCBD7CC004FDF17 /* HandJointService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandJointService.swift; sourceTree = "<group>"; };
 		1BA2DF552BD118E1005A841E /* HandAcupointModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandAcupointModel.swift; sourceTree = "<group>"; };
-		1BA2DF572BD12623005A841E /* FavoriteAcupointsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteAcupointsModel.swift; sourceTree = "<group>"; };
 		1BAC823A2BD1F6BB0034299B /* ArchiveTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveTableViewCell.swift; sourceTree = "<group>"; };
 		1BC6EEAA2BDE431C00B6B127 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1BC6EEAD2BDE570300B6B127 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		1BC6EEB32BDE65DE00B6B127 /* StyleGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StyleGuide.swift; path = ../../../StyleGuide.swift; sourceTree = "<group>"; };
 		1BF232172BD13ACA00E2BD5E /* SavedAcupName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedAcupName.swift; sourceTree = "<group>"; };
 		1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -161,8 +161,6 @@
 				1BF232172BD13ACA00E2BD5E /* SavedAcupName.swift */,
 				1B04ACFA2BCD0F5D00F6FB8D /* FaceAcupointModel.swift */,
 				1BA2DF552BD118E1005A841E /* HandAcupointModel.swift */,
-				1BA2DF572BD12623005A841E /* FavoriteAcupointsModel.swift */,
-				1B04ACFC2BCD129900F6FB8D /* AcupointData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -179,27 +177,20 @@
 		1B3ADA962BD9D8F900CF613C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				1B90F1332BD8870E00452B6D /* face-animation.gif */,
-				1B3ADA982BD9DAC800CF613C /* ZenMaruGothic-Black.ttf */,
-				1B3ADA9A2BD9DACF00CF613C /* ZenMaruGothic-Bold.ttf */,
-				1B3ADA9C2BD9DAD500CF613C /* ZenMaruGothic-Medium.ttf */,
-				1B3ADAA02BD9DB4000CF613C /* ZenMaruGothic-Regular.ttf */,
-				1B3ADA9E2BD9DB3A00CF613C /* ZenMaruGothic-Light.ttf */,
-				1B3ADAA62BD9DD0A00CF613C /* GenJyuuGothicX-Bold.ttf */,
-				1B3ADA952BD9D80300CF613C /* GenJyuuGothicX-Medium.ttf */,
-				1B3ADAA22BD9DCE700CF613C /* GenJyuuGothicX-Regular.ttf */,
-				1B3ADAA42BD9DCF600CF613C /* GenJyuuGothicX-Light.ttf */,
+				1BC6EEB12BDE655100B6B127 /* Data */,
+				1BC6EEB02BDE648A00B6B127 /* Font */,
+				1BC6EEAF2BDE647D00B6B127 /* Animation */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		1B53803D2BDB553D00927D8F /* CommonVC */ = {
+		1B53803D2BDB553D00927D8F /* CommonPage */ = {
 			isa = PBXGroup;
 			children = (
 				1B53803E2BDB557300927D8F /* CommonVC.swift */,
 				1B90B2DB2BDB5BF40069C868 /* CommonCollectionViewCell.swift */,
 			);
-			path = CommonVC;
+			path = CommonPage;
 			sourceTree = "<group>";
 		};
 		1B83A8BB2BCE752100E0C440 /* HomePage */ = {
@@ -236,13 +227,13 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
-		1B90B2ED2BDD0C160069C868 /* SignIn */ = {
+		1B90B2ED2BDD0C160069C868 /* SignInPage */ = {
 			isa = PBXGroup;
 			children = (
 				1B90B2EE2BDD0C380069C868 /* InitialSignInVC.swift */,
 				1B90B2F02BDD0CAC0069C868 /* LoginVC.swift */,
 			);
-			path = SignIn;
+			path = SignInPage;
 			sourceTree = "<group>";
 		};
 		1B90F1062BD794CC00452B6D /* Service */ = {
@@ -299,20 +290,11 @@
 				1B964F1F2BC912690005F1CF /* AppDelegate.swift */,
 				1B964F212BC912690005F1CF /* SceneDelegate.swift */,
 				1B83A8C02BCE829000E0C440 /* TabController.swift */,
-				1B90F1302BD87F4700452B6D /* Extension */,
+				1BC6EEB22BDE65C800B6B127 /* UI */,
 				1B90B2E12BDBA0AC0069C868 /* Manager */,
 				1B90F1062BD794CC00452B6D /* Service */,
-				1B90B2ED2BDD0C160069C868 /* SignIn */,
 				1B04ACF92BCD0F3500F6FB8D /* Model */,
-				1B53803D2BDB553D00927D8F /* CommonVC */,
-				1B83A8BB2BCE752100E0C440 /* HomePage */,
-				1B83A8C22BCEAD5A00E0C440 /* ArchivePage */,
-				1B04ACFE2BCD32EE00F6FB8D /* SearchPage */,
-				1B964F762BCAE9410005F1CF /* FaceTrack */,
-				1B964F752BCAE9330005F1CF /* HandTrack */,
-				1B90F12D2BD7BDA800452B6D /* IntroPage */,
-				1B97B0E52BD0C135006761CD /* WikiPage */,
-				1B90B2DD2BDB922E0069C868 /* DetailPage */,
+				1BC6EEB52BDE664E00B6B127 /* ViewControllers */,
 				1B90F1042BD4E50D00452B6D /* InfoCollectionViewCell.swift */,
 				1B964F2A2BC9126A0005F1CF /* LaunchScreen.storyboard */,
 				1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */,
@@ -354,6 +336,64 @@
 				1B97B0E82BD0C6EC006761CD /* WikiVCTableViewCell.swift */,
 			);
 			path = WikiPage;
+			sourceTree = "<group>";
+		};
+		1BC6EEAF2BDE647D00B6B127 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				1B90F1332BD8870E00452B6D /* face-animation.gif */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
+		1BC6EEB02BDE648A00B6B127 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				1B3ADA982BD9DAC800CF613C /* ZenMaruGothic-Black.ttf */,
+				1B3ADA9A2BD9DACF00CF613C /* ZenMaruGothic-Bold.ttf */,
+				1B3ADA9C2BD9DAD500CF613C /* ZenMaruGothic-Medium.ttf */,
+				1B3ADAA02BD9DB4000CF613C /* ZenMaruGothic-Regular.ttf */,
+				1B3ADA9E2BD9DB3A00CF613C /* ZenMaruGothic-Light.ttf */,
+				1B3ADAA62BD9DD0A00CF613C /* GenJyuuGothicX-Bold.ttf */,
+				1B3ADA952BD9D80300CF613C /* GenJyuuGothicX-Medium.ttf */,
+				1B3ADAA22BD9DCE700CF613C /* GenJyuuGothicX-Regular.ttf */,
+				1B3ADAA42BD9DCF600CF613C /* GenJyuuGothicX-Light.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		1BC6EEB12BDE655100B6B127 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				1B04ACFC2BCD129900F6FB8D /* AcupointData.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		1BC6EEB22BDE65C800B6B127 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				1B90F1302BD87F4700452B6D /* Extension */,
+				1BC6EEB32BDE65DE00B6B127 /* StyleGuide.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		1BC6EEB52BDE664E00B6B127 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				1B90B2ED2BDD0C160069C868 /* SignInPage */,
+				1B83A8BB2BCE752100E0C440 /* HomePage */,
+				1B83A8C22BCEAD5A00E0C440 /* ArchivePage */,
+				1B04ACFE2BCD32EE00F6FB8D /* SearchPage */,
+				1B964F762BCAE9410005F1CF /* FaceTrack */,
+				1B964F752BCAE9330005F1CF /* HandTrack */,
+				1B90F12D2BD7BDA800452B6D /* IntroPage */,
+				1B97B0E52BD0C135006761CD /* WikiPage */,
+				1B90B2DD2BDB922E0069C868 /* DetailPage */,
+				1B53803D2BDB553D00927D8F /* CommonPage */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -460,7 +500,6 @@
 				1B90B2EF2BDD0C380069C868 /* InitialSignInVC.swift in Sources */,
 				1B97B0E92BD0C6EC006761CD /* WikiVCTableViewCell.swift in Sources */,
 				1BA2DF562BD118E1005A841E /* HandAcupointModel.swift in Sources */,
-				1BA2DF582BD12623005A841E /* FavoriteAcupointsModel.swift in Sources */,
 				1B90B2F12BDD0CAC0069C868 /* LoginVC.swift in Sources */,
 				1B83A8C82BCEBC8F00E0C440 /* SwiftDataService.swift in Sources */,
 				1B964F702BCAE7F60005F1CF /* HandVC.swift in Sources */,
@@ -483,6 +522,7 @@
 				1B90F1382BD8F03000452B6D /* UIColor + Ext.swift in Sources */,
 				1B90B2E32BDBA0DE0069C868 /* CardTransitionManager.swift in Sources */,
 				1B53803F2BDB557300927D8F /* CommonVC.swift in Sources */,
+				1BC6EEB42BDE65DE00B6B127 /* StyleGuide.swift in Sources */,
 				1B964F202BC912690005F1CF /* AppDelegate.swift in Sources */,
 				1BC6EEAE2BDE570300B6B127 /* AuthService.swift in Sources */,
 				1BAC823B2BD1F6BB0034299B /* ArchiveTableViewCell.swift in Sources */,

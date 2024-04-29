@@ -8,7 +8,7 @@ import FirebaseCore
 import GoogleSignIn // 導入 Google Sign-In SDK
 
 class LoginVC: UIViewController {
-    
+        
     lazy var skipButton: UIButton = {
         let button = UIButton()
         button.setTitle("跳過", for: .normal)
