@@ -7,6 +7,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     private var cameraVw: CameraView {
         return view as? CameraView ?? CameraView() //為什麼要這樣寫？
     }
+    
     override func loadView() {
         view = CameraView()
     }
@@ -19,12 +20,12 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         return request
     }()
     
-    var observation: VNHumanHandPoseObservation?
+    private var observation: VNHumanHandPoseObservation?
     
-    var isLeftHand: Bool = false
+    private var isLeftHand: Bool = false
     
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
-
+    
     //selected
     //負責給畫點的位置 selectedAcupointPosition = handAcupoints[self.acupointIndex].position
     var acupointIndex: Int = 2
@@ -36,7 +37,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     var currentDisplayMode: DisplayMode = .allPoint
     
-    var selectedAcupointPosition: CGPoint = .zero
+    var selectedAcupointOffset: CGPoint = .zero
     
     var selectedNameByCell: String?
     //data
@@ -45,23 +46,23 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     lazy var handPoints: [HandAcupointModel] = {
         return acupoitData.handAcupoints
     }()
-    //    graphic
+    var numberOfAcupoints = 1
+    //graphic
     let drawOverlay = CAShapeLayer()
     
     let drawPath = UIBezierPath()
     
     var jointPoints: [VNRecognizedPoint] = []
-    
     //UI
     lazy var tranparentVw: UIView = {
-           let view = UIView()
-           let gradientLayer = CAGradientLayer()
-           gradientLayer.frame = view.bounds
-           gradientLayer.colors = [UIColor.gray.cgColor, UIColor.clear.cgColor]
-           view.layer.insertSublayer(gradientLayer, at: 0)
-           view.translatesAutoresizingMaskIntoConstraints = false
-           return view
-       }()
+        let view = UIView()
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = view.bounds
+        gradientLayer.colors = [UIColor.gray.cgColor, UIColor.clear.cgColor]
+        view.layer.insertSublayer(gradientLayer, at: 0)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     lazy var leftRightSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["左手", "右手"])
@@ -98,7 +99,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.isScrollEnabled = false
-
+        
         collectionView.register(InfoCollectionViewCell.self, forCellWithReuseIdentifier: "InfoCollectionViewCell")
         return collectionView
     }()
@@ -106,13 +107,12 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     //MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         view.addSubview(tranparentVw)
-
+        
         view.addSubview(leftRightSegmentedControl)
         view.addSubview(handSideSegmentedControl)
         view.addSubview(collectionView)
@@ -121,22 +121,22 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         drawOverlay.lineWidth = 40
         drawOverlay.fillColor = .none
         view.layer.addSublayer(drawOverlay)
-
+        
         
         tranparentVw.frame = view.bounds
-          
-          // 創建漸變層並設置其 frame
-          let gradientLayer = CAGradientLayer()
-          gradientLayer.frame = tranparentVw.bounds
-          gradientLayer.colors = [UIColor.gray.cgColor, UIColor.clear.cgColor]
-          gradientLayer.startPoint = CGPoint(x: 0.5, y: 1.0)
-          gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.0)
-          gradientLayer.locations = [0, 0.6]
-          tranparentVw.layer.insertSublayer(gradientLayer, at: 0)
-
-
+        
+        // 創建漸變層並設置其 frame
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = tranparentVw.bounds
+        gradientLayer.colors = [UIColor.gray.cgColor, UIColor.clear.cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 1.0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.0)
+        gradientLayer.locations = [0, 0.6]
+        tranparentVw.layer.insertSublayer(gradientLayer, at: 0)
+        
+        
         setUpUI()
-
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -145,12 +145,12 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         let introVC = IntroVC()
         introVC.introNameLbl.text = handPoints[0].name
         introVC.introPostionLbl.text = handPoints[0].positionDescibition
-
+        
         present(introVC, animated: true, completion: nil)
         
         do {
             if cameraFeedSession == nil {
-                if let cameraPreviewLayer = cameraVw.previewLayer as? AVCaptureVideoPreviewLayer {
+                if let cameraPreviewLayer = cameraVw.previewLayer {
                     cameraPreviewLayer.videoGravity = .resizeAspectFill
                 }
                 try setupAVSession()
@@ -221,7 +221,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             DispatchQueue.main.async {
                 guard let cameraPreviewLayer = self.cameraVw.previewLayer else { return }
                 // 這邊畫穴位
-                HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: self.drawPath, in: cameraPreviewLayer, observation: self.observation!, with: self.selectedAcupointPosition)
+                HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: self.drawPath, in: cameraPreviewLayer, observation: self.observation!, with: self.selectedAcupointOffset)
                 self.drawPath.removeAllPoints()
             }
         } catch {
@@ -234,107 +234,126 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     }
     
     func updateAcupointPositions() {
+                
+        var acupointPaths: [(path: UIBezierPath, acupoint: HandAcupointModel)] = []
         
-        let handAcupoints: [HandAcupointModel] = [
-            HandAcupointModel(
-                name: "合谷穴",
-                effect: "疏通經絡、緩解頭痛、牙痛、鼻塞等症狀",
-                method: "用拇指指腹按壓合谷穴",
-                location: "手部虎口，大拇指與食指相接處",
-                notice: "按壓時若感到疼痛，可適當減輕力道",
-                position: joiningValley,
-                isBackHand: true),
-            
-            HandAcupointModel(
-                name: "少沖穴",
-                effect: "鎮靜安神、緩解心悸、失眠、健忘等症狀",
-                method: "用拇指指腹按壓少沖穴",
-                location: "小指指甲內側下缘",
-                notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
-                position: lesserSurge,
-                isBackHand: true),
-            
-            HandAcupointModel(
-                name: "內關穴",
-                effect: "鎮靜安神、改善失眠、緩解心悸、胸悶等症狀",
-                method: "用拇指或中指指腹按壓內關穴",
-                location: "手腕橫紋中點往下三橫指寬處",
-                notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
-                position: innerPass,
-                isBackHand: false),
-            
-            HandAcupointModel(
-                name: "勞宮穴",
-                effect: "養心安神、改善心悸、失眠、健忘等症狀",
-                method: "用拇指指腹按壓勞宮穴",
-                location: "握拳，中指紙尖對應的掌心中央處",
-                notice: "按壓時若感到不適，可減輕力道或縮短按壓時間",
-                position: palaceOfToil,
-                isBackHand: false)
-        ]
+        handPoints = acupoitData.handAcupoints
         
-        selectedAcupointPosition = handAcupoints[self.acupointIndex].position
-        
-        // 如果是一個
-        if handPoints.count == 1 {
-            var acupointPaths: [UIBezierPath] = []
-                            
-//                let position = handPoints[acupointIndex].position
+        if numberOfAcupoints == 1 {
+            let selectedAcupoint = handPoints[acupointIndex]
+            let basePoints = selectedAcupoint.basePoint.map { try? observation?.recognizedPoint($0) }
+            let offsetPosition = selectedAcupoint.offSet
+            
+            let path = UIBezierPath()
+            let actualPosition = calculateActualPosition(basePoints: basePoints, offsetPosition: offsetPosition)
+            
+            DispatchQueue.main.async { [self] in
+                guard let cameraPreviewLayer = self.cameraVw.previewLayer, let observation = observation else { return }
+                HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: path, in: cameraPreviewLayer, observation: observation, with: actualPosition)
+                acupointPaths.append((path, selectedAcupoint))
+            }
+        } else {
+            let isBackHand = handSideSegmentedControl.selectedSegmentIndex == 0
+            let filteredAcupoints = handPoints.filter { $0.isBackHand == isBackHand }
+            
+            for acupoint in filteredAcupoints {
+                let basePoints = acupoint.basePoint.map { try? observation?.recognizedPoint($0) }
+                let offsetPosition = acupoint.offSet
+                
                 let path = UIBezierPath()
+                let actualPosition = calculateActualPosition(basePoints: basePoints, offsetPosition: offsetPosition)
                 
                 DispatchQueue.main.async { [self] in
                     guard let cameraPreviewLayer = self.cameraVw.previewLayer, let observation = observation else { return }
-                    HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: path, in: cameraPreviewLayer, observation: observation, with: selectedAcupointPosition)
-                    acupointPaths.append(path)
-                }
-           
-
-            DispatchQueue.main.async { [self] in
-                // 移除先前的子層
-                self.drawOverlay.sublayers?.forEach { $0.removeFromSuperlayer() }
-                
-                // 為每個穴位路徑創建一個新的子層
-                for path in acupointPaths {
-                    let shapeLayer = CAShapeLayer()
-                    shapeLayer.path = path.cgPath
-                    shapeLayer.fillColor = UIColor.white.cgColor
-                    shapeLayer.lineWidth = 10
-                    self.drawOverlay.addSublayer(shapeLayer)
-                }
-            }
-        // 如果是很多個
-        } else {
-            
-            var acupointPaths: [(path: UIBezierPath, acupoint: HandAcupointModel)] = []
-
-            DispatchQueue.main.async { [self] in
-                let isBackHand = handSideSegmentedControl.selectedSegmentIndex == 0
-                
-                for acupoint in handAcupoints {
-                    let position = acupoint.position
-                    let path = UIBezierPath()
-                    
-                    guard let cameraPreviewLayer = self.cameraVw.previewLayer, let observation = observation else { continue }
-                    HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: path, in: cameraPreviewLayer, observation: observation, with: position)
+                    HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: path, in: cameraPreviewLayer, observation: observation, with: actualPosition)
                     acupointPaths.append((path, acupoint))
-                }
-                
-                // 移除先前的子層
-                self.drawOverlay.sublayers?.forEach { $0.removeFromSuperlayer() }
-                
-                // 為每個穴位路徑創建一個新的子層
-                for (path, acupoint) in acupointPaths {
-                    if acupoint.isBackHand == isBackHand {
-                        let shapeLayer = CAShapeLayer()
-                        shapeLayer.path = path.cgPath
-                        shapeLayer.fillColor = (acupoint.name == selectedNameByCell) ? UIColor.systemRed.cgColor : UIColor.white.cgColor
-                        shapeLayer.lineWidth = 10
-                        self.drawOverlay.addSublayer(shapeLayer)
-                    }
                 }
             }
         }
+        DispatchQueue.main.async { [self] in
+            // 移除先前的子层
+            self.drawOverlay.sublayers?.forEach { $0.removeFromSuperlayer() }
+            
+            // 为每个穴位路径创建一个新的子层
+            for (path, _ ) in acupointPaths {
+                let shapeLayer = CAShapeLayer()
+                shapeLayer.path = path.cgPath
+                shapeLayer.fillColor = UIColor.white.cgColor
+                shapeLayer.lineWidth = 10
+                self.drawOverlay.addSublayer(shapeLayer)
+            }
+        }
     }
+    
+    func calculateOffsetPoint(point: CGPoint?, offsetX: CGFloat, offsetY: CGFloat) -> CGPoint {
+        guard let point = point else { return .zero }
+        if isLeftHand {
+            return CGPoint(x: point.x - offsetX, y: point.y - offsetY)
+        } else {
+            return CGPoint(x: point.x + offsetX, y: point.y + offsetY)
+        }
+    }
+    
+    func calculateMidPoint(point1: CGPoint?, point2: CGPoint?) -> CGPoint {
+        guard let point1 = point1, let point2 = point2 else { return .zero }
+        return CGPoint(x: (point1.x + point2.x) / 2, y: (point1.y + point2.y) / 2)
+    }
+    
+    func calculateActualPosition(basePoints: [VNRecognizedPoint?], offsetPosition: CGPoint) -> CGPoint {
+        guard let firstPoint = basePoints.first??.location else { return .zero }
+        
+        if basePoints.count == 1 {
+            print(offsetPosition)
+            return calculateOffsetPoint(point: firstPoint, offsetX: offsetPosition.x, offsetY: offsetPosition.y)
+            
+        } else if basePoints.count == 2, let secondPoint = basePoints[1]?.location {
+            let midPoint = calculateMidPoint(point1: firstPoint, point2: secondPoint)
+            return midPoint
+        }
+        return .zero
+    }
+    //MARK: - @Objc
+    @objc func leftRightSegmentedControlValueChanged() {
+        DispatchQueue.main.async {
+            self.isLeftHand = self.leftRightSegmentedControl.selectedSegmentIndex == 0
+            self.acupoitData.isLeftHand = self.isLeftHand
+            self.updateAcupointPositions()
+        }
+    }
+   
+    @objc func handSideSegmentedControlValueChanged() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+        updateAcupointPositions()
+    }
+    //MARK: - setup VNRecognizedPoint
+    
+    var thumbTIP: VNRecognizedPoint?
+    var thumbIP: VNRecognizedPoint?
+    var thumbMP: VNRecognizedPoint?
+    var thumbCMC: VNRecognizedPoint?
+    
+    var indexTIP: VNRecognizedPoint?
+    var indexDIP: VNRecognizedPoint?
+    var indexPIP: VNRecognizedPoint?
+    var indexMCP: VNRecognizedPoint?
+    
+    var middleTIP: VNRecognizedPoint?
+    var middleDIP: VNRecognizedPoint?
+    var middlePIP: VNRecognizedPoint?
+    var middleMCP: VNRecognizedPoint?
+    
+    var ringTIP: VNRecognizedPoint?
+    var ringDIP: VNRecognizedPoint?
+    var ringPIP: VNRecognizedPoint?
+    var ringMCP: VNRecognizedPoint?
+    
+    var littleTIP: VNRecognizedPoint?
+    var littleDIP: VNRecognizedPoint?
+    var littlePIP: VNRecognizedPoint?
+    var littleMCP: VNRecognizedPoint?
+    var wrist: VNRecognizedPoint?
     
     private func setupAVSession() throws {
         guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
@@ -366,11 +385,9 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         cameraFeedSession = session
     }
     
-    
     func setUpUI() {
         
         NSLayoutConstraint.activate([
-            
             leftRightSegmentedControl.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 0),
             leftRightSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
             leftRightSegmentedControl.widthAnchor.constraint(equalToConstant: 120),
@@ -390,117 +407,10 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             tranparentVw.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tranparentVw.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tranparentVw.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-            
-            
         ])
     }
-    
-    //MARK: - @Objc
-    
-    @objc func leftRightSegmentedControlValueChanged() {
-        DispatchQueue.main.async {
-            self.isLeftHand = self.leftRightSegmentedControl.selectedSegmentIndex == 0
-            print(self.isLeftHand)
-        }
-        updateAcupointPositions()
-    }
-    
-    @objc func handSideSegmentedControlValueChanged() {
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
-        updateAcupointPositions()
-    }
-    
-    //MARK: - setup VNRecognizedPoint
-    
-    var thumbTIP: VNRecognizedPoint?
-    var thumbIP: VNRecognizedPoint?
-    var thumbMP: VNRecognizedPoint?
-    var thumbCMC: VNRecognizedPoint?
-    
-    var indexTIP: VNRecognizedPoint?
-    var indexDIP: VNRecognizedPoint?
-    var indexPIP: VNRecognizedPoint?
-    var indexMCP: VNRecognizedPoint?
-    
-    var middleTIP: VNRecognizedPoint?
-    var middleDIP: VNRecognizedPoint?
-    var middlePIP: VNRecognizedPoint?
-    var middleMCP: VNRecognizedPoint?
-    
-    var ringTIP: VNRecognizedPoint?
-    var ringDIP: VNRecognizedPoint?
-    var ringPIP: VNRecognizedPoint?
-    var ringMCP: VNRecognizedPoint?
-    
-    var littleTIP: VNRecognizedPoint?
-    var littleDIP: VNRecognizedPoint?
-    var littlePIP: VNRecognizedPoint?
-    var littleMCP: VNRecognizedPoint?
-    var wrist: VNRecognizedPoint?
-    // 設定預定義關節點
-    
-    var joiningValley: CGPoint {
-        if isLeftHand {
-            calculateOffsetPoint(point: thumbMP?.location, offsetX: 0, offsetY: 0.1)
-        } else {
-            calculateOffsetPoint(point: thumbMP?.location, offsetX: 0, offsetY: 0.08)
-        }
-    }
-    
-    var innerPass: CGPoint {
-        if isLeftHand {
-            calculateOffsetPoint(point: wrist?.location, offsetX: -0.18, offsetY: 0.08)
-        } else {
-            calculateOffsetPoint(point: wrist?.location, offsetX: 0.19, offsetY: 0)
-        }
-    }
-    
-    var palaceOfToil: CGPoint {
-        calculateMidPoint(point1: wrist?.location, point2: middleMCP?.location)
-    }
-    
-    var lesserSurge: CGPoint {
-        if isLeftHand {
-            calculateOffsetPoint(point: littleTIP?.location, offsetX: -0.01, offsetY: -0.03)
-        } else {
-            calculateOffsetPoint(point: littleTIP?.location, offsetX: 0.02, offsetY: -0.009)
-        }
-    }
-    
-    //    func calculateOffsetPoint(point: CGPoint?, offsetX: CGFloat, offsetY: CGFloat) -> CGPoint {
-    //        guard let point = point else { return .zero }
-    //        return CGPoint(x: point.x + offsetX, y: point.y + offsetY)
-    //    }
-    
-    func calculateOffsetPoint(point: CGPoint?, offsetX: CGFloat, offsetY: CGFloat) -> CGPoint {
-        guard let point = point else { return .zero }
-        if isLeftHand {
-            return CGPoint(x: point.x - offsetX, y: point.y - offsetY)
-        } else {
-            return CGPoint(x: point.x + offsetX, y: point.y + offsetY)
-        }
-    }
-    
-    func calculateMidPoint(point1: CGPoint?, point2: CGPoint?) -> CGPoint {
-        guard let point1 = point1, let point2 = point2 else { return .zero }
-        return CGPoint(x: (point1.x + point2.x) / 2, y: (point1.y + point2.y) / 2)
-    }
 }
 
-//MARK: - struct of Acupoint
-
-struct HandAcupoint {
-    let name: String
-    let location: String
-    let effect: String
-    let method: String
-    let frequency: String
-    let notice: String
-    let position: CGPoint
-    let isBackHand: Bool
-}
 
 //MARK: - collectionView delegate
 
@@ -539,26 +449,16 @@ extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
         return cell
     }
     
-//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        if indexPath.item == 0 {
-//            let acupoint = handPoints[0]
-//            selectedNameByCell = acupoint.name
-//        } else {
-//            let acupoint = handPoints[indexPath.item - 1]
-//            selectedNameByCell = acupoint.name
-//        }
-//        updateAcupointPositions()
-//    }
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-           let visibleCells = collectionView.visibleCells
-           if let currentCell = visibleCells.first as? InfoCollectionViewCell {
-               if let labelText = currentCell.acupointNameLabel.text {
-                   selectedNameByCell = labelText
-                   updateAcupointPositions()
-                   print("Current label text: \(labelText)")
-               }
-           }
-       }
+        if indexPath.item == 0 {
+            let acupoint = handPoints[0]
+            selectedNameByCell = acupoint.name
+        } else {
+            let acupoint = handPoints[indexPath.item - 1]
+            selectedNameByCell = acupoint.name
+        }
+        updateAcupointPositions()
+    }
 }
 
 extension HandVC {
@@ -571,7 +471,6 @@ extension HandVC {
         let galleryGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.85),
                                                                                                  heightDimension: .fractionalHeight(1)),
                                                               subitem: galleryItem, count: 1)
-        
         let gallerySection = NSCollectionLayoutSection(group: galleryGroup)
         gallerySection.orthogonalScrollingBehavior = .groupPagingCentered
         

@@ -40,15 +40,6 @@ class HandJointService {
         drawOverlay.path = drawPath.cgPath
     }
     
-    
-    
-    //    //
-//        func createJointPath(for joint: VNRecognizedPoint, in previewLayer: AVCaptureVideoPreviewLayer) -> CGPath {
-//            let jointPoint = previewLayer.layerPointConverted(fromCaptureDevicePoint: CGPoint(x: joint.location.x, y: 1 - joint.location.y))
-//            let jointPath = UIBezierPath(arcCenter: jointPoint, radius: jointTouchRadius, startAngle: 0, endAngle: CGFloat(2 * Double.pi), clockwise: true)
-//            return jointPath.cgPath
-//        }
-    
     func clearDrawing() {
         drawPath.removeAllPoints()
         drawOverlay.path = drawPath.cgPath

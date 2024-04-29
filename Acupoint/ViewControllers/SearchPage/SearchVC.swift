@@ -131,8 +131,9 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         } else {
             handVC.acupointIndex = indexPath.row
             handVC.currentDisplayMode = .specific(name: handPoints[indexPath.row].name)
+//            handVC.handPoints = [handPoints[indexPath.row]]
+            handVC.numberOfAcupoints = 1
             handVC.collectionView.reloadData()
-            handVC.handPoints = [handPoints[indexPath.row]]
             handVC.handSideSegmentedControl.isHidden = true
             self.navigationController?.pushViewController(handVC, animated: true)
             self.tabBarController?.tabBar.isHidden = true

@@ -69,6 +69,7 @@ class InfoCollectionViewCell: UICollectionViewCell {
             introLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
     }
+    
     func configureFaceDataFromWikiVC(with acupoint: FaceAcupointModel) {
         acupointNameLabel.text = acupoint.name
         introLabel.text = "位置：\(acupoint.positionDescibition)"

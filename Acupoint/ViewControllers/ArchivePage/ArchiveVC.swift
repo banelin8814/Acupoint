@@ -50,7 +50,6 @@ class ArchiveVC: UIViewController {
         ])
     }
     
-    
     @objc func deleteAction(_ sender: UIButton) {
 
         let buttonPosition = sender.convert(CGPoint.zero, to: archiveTableView)
@@ -113,6 +112,7 @@ extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
             handVC.handPoints = [handPoints[index]]
             //負責給畫點的位置 selectedAcupointPosition = handAcupoints[self.acupointIndex].position
             handVC.acupointIndex = index
+//            handVC.e幾個穴位 = 1
             handVC.handSideSegmentedControl.isHidden = true
             handVC.collectionView.reloadData()
             self.navigationController?.pushViewController(handVC, animated: true)

@@ -39,27 +39,7 @@ class SwiftDataService {
         }
         return []
     }
-    
-//    func checkAcupointNames(_ name: String) {
-//        if let context = acupointNameContext {
-//
-//            var allAcuupoint = fetchAcupointNames()
-//            
-//            var isAlreadySaved = false
-//
-//            var deleteAcupoint = AcupointName(name: name)
-//            for nameInAll  in allAcuupoint {
-//                if nameInAll.name == name {
-//                    context.delete(nameInAll)
-//
-//                    isAlreadySaved = false
-//                }
-//            }
-//            if !isAlreadySaved {
-//                context.insert(deleteAcupoint)
-//            }
-//        }
-//    }
+
     func checkAcupointNames(_ name: String) {
         if let context = acupointNameContext {
             var allAcupoint = fetchAcupointNames()

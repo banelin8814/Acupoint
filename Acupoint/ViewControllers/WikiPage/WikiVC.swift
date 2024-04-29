@@ -141,7 +141,8 @@ extension WikiVC: UITableViewDelegate {
         } else {
             handVC.currentDisplayMode = .allPoint
             handVC.handSideSegmentedControl.isHidden = false
-            
+//            handVC.handPoints = self.handPoints
+            handVC.numberOfAcupoints = self.handPoints.count
             self.navigationController?.pushViewController(handVC, animated: true)
             self.tabBarController?.tabBar.isHidden = true
             
