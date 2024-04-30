@@ -14,12 +14,12 @@ class SearchVC: BaseVC {
     }()
     
     lazy var handPoints: [HandAcupointModel] = {
-           return acupoitData.handAcupoints
+        return acupoitData.handAcupoints
     }()
-  
-//    private let searchController = UISearchController(searchResultsController: nil)
     
-//    var allAcupoints: [FaceAcupointModel]?
+    //    private let searchController = UISearchController(searchResultsController: nil)
+    
+    //    var allAcupoints: [FaceAcupointModel]?
     override func viewDidLoad() {
         super.viewDidLoad()
         searchTableView.dataSource = self
@@ -29,10 +29,10 @@ class SearchVC: BaseVC {
         searchTableView.backgroundColor = .backgroundColor
         setupTableView()
         //        setupSearchController()
-//        let service = SwiftDataService.shared
-//        service.saveDefaultAcupoints(faceAcupoints)
+        //        let service = SwiftDataService.shared
+        //        service.saveDefaultAcupoints(faceAcupoints)
         // 從 SwiftData 取得所有穴位資料
-//        allAcupoints = service.fetchAcupoints()
+        //        allAcupoints = service.fetchAcupoints()
     }
     
     func setupTableView() {
@@ -130,7 +130,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         } else {
             handVC.acupointIndex = indexPath.row
             handVC.currentDisplayMode = .specific(name: handPoints[indexPath.row].name)
-//            handVC.handPoints = [handPoints[indexPath.row]]
+            //            handVC.handPoints = [handPoints[indexPath.row]]
             handVC.numberOfAcupoints = 1
             handVC.collectionView.reloadData()
             handVC.handSideSegmentedControl.isHidden = true
@@ -151,23 +151,23 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         }
         let name: String
         
-           if indexPath.section == 0 {
-               guard indexPath.row < facePoints.count else {
-                   return
-               }
-               let acupoint = facePoints[indexPath.row]
-               name = acupoint.name
-           } else {
-               guard indexPath.row < handPoints.count else {
-                   return
-               }
-               let acupoint = handPoints[indexPath.row]
-               name = acupoint.name
-           }
+        if indexPath.section == 0 {
+            guard indexPath.row < facePoints.count else {
+                return
+            }
+            let acupoint = facePoints[indexPath.row]
+            name = acupoint.name
+        } else {
+            guard indexPath.row < handPoints.count else {
+                return
+            }
+            let acupoint = handPoints[indexPath.row]
+            name = acupoint.name
+        }
         print("button被點了")
         SwiftDataService.shared.checkAcupointNames(name)
-
-//        SwiftDataService.shared.saveAcupointName(name)
+        
+        //        SwiftDataService.shared.saveAcupointName(name)
     }
 }
 

@@ -15,7 +15,7 @@ class WikiVC: BaseVC {
     lazy var commonPointLbl: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.configureHeaderLabel(withText: "穴位小百科")
+        label.configureHeadingOneLabel(withText: "穴位小百科")
         return label
     }()
     

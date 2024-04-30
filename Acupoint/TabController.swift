@@ -26,9 +26,6 @@ class TabController: UITabBarController {
         // 設置tabBar的背景色為透明
 //        self.tabBar.barTintColor = .clear
         self.tabBar.backgroundColor = .backgroundColor
-
-        
-      
     }
 
     private func setupTabs() {

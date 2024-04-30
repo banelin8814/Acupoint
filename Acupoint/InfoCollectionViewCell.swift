@@ -4,26 +4,25 @@ class InfoCollectionViewCell: UICollectionViewCell {
            
     let acupointNameLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 30)
         label.textColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.configureHeadingOneLabel(withText: "")
 
         return label
     }()
     
     let introLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0 // 設為0表示自動換行
-        label.lineBreakMode = .byWordWrapping // 以單詞為單位換行
-        label.contentMode = .topLeft
-        label.font = UIFont.systemFont(ofSize: 20)
         label.textColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.lineBreakMode = .byWordWrapping
+        label.contentMode = .topLeft
+        label.configureTextTwoLabel(withText: "")
         return label
     }()
     
-    private let blurView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .regular)
+    let blurView: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .systemChromeMaterialDark)
         let blurView = UIVisualEffectView(effect: blurEffect)
         blurView.translatesAutoresizingMaskIntoConstraints = false
         return blurView
@@ -66,13 +65,13 @@ class InfoCollectionViewCell: UICollectionViewCell {
             introLabel.topAnchor.constraint(equalTo: acupointNameLabel.bottomAnchor, constant: 8),
             introLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             introLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            introLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+            introLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
         ])
     }
     
     func configureFaceDataFromWikiVC(with acupoint: FaceAcupointModel) {
         acupointNameLabel.text = acupoint.name
-        introLabel.text = "位置：\(acupoint.positionDescibition)"
+        introLabel.text = "位置：\(acupoint.location)"
     }
     func configureFaceDataFromSearchVC(with acupoint: FaceAcupointModel) {
         acupointNameLabel.text = acupoint.name
@@ -80,7 +79,7 @@ class InfoCollectionViewCell: UICollectionViewCell {
     }
     func configureHandDataFromWikiVC(with acupoint: HandAcupointModel) {
         acupointNameLabel.text = acupoint.name
-        introLabel.text = "位置：\(acupoint.positionDescibition)"
+        introLabel.text = "位置：\(acupoint.location)"
     }
     func configureHandDataFromSearchVC(with acupoint: HandAcupointModel) {
         acupointNameLabel.text = acupoint.name

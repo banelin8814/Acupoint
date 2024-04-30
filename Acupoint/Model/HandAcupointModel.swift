@@ -15,7 +15,7 @@ class HandAcupointModel: Identifiable, Hashable {
     var name: String
     var effect: String
     var method: String
-    var positionDescibition: String
+    var location: String
     var notice: String
     var basePoint: [VNHumanHandPoseObservation.JointName]
     var offSet: CGPoint
@@ -25,7 +25,7 @@ class HandAcupointModel: Identifiable, Hashable {
         self.name = name
         self.effect = effect
         self.method = method
-        self.positionDescibition = location
+        self.location = location
         self.notice = notice
         self.basePoint = basePoint
         self.offSet = offSet

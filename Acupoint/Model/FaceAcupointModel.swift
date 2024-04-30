@@ -7,7 +7,7 @@ class FaceAcupointModel {
     var name: String
     var effect: String
     var method: String
-    var positionDescibition: String
+    var location: String
     var notice: String
     var position: [Int]
     
@@ -15,7 +15,7 @@ class FaceAcupointModel {
         self.name = name
         self.effect = effect
         self.method = method
-        self.positionDescibition = location
+        self.location = location
         self.notice = notice
         self.position = position
     }

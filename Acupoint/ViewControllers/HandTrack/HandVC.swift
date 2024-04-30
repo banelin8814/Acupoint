@@ -143,7 +143,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         //intro Page
         let introVC = IntroVC()
         introVC.introNameLbl.text = handPoints[0].name
-        introVC.introPostionLbl.text = handPoints[0].positionDescibition
+        introVC.introPostionLbl.text = handPoints[0].location
         
         present(introVC, animated: true, completion: nil)
         
@@ -444,11 +444,13 @@ extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
             let filteredAcupoints = handPoints.filter( { $0.isBackHand == isBackHand})
             acupoint = filteredAcupoints[indexPath.item]
             cell.configureHandDataFromWikiVC(with: acupoint)
-            //                acupoint = handPoints[indexPath.item]
+            
+            
         case .specific(let name):
             if let index = handPoints.firstIndex(where: { $0.name == name }) {
                 acupoint = handPoints[index]
                 cell.configureHandDataFromSearchVC(with: acupoint)
+                
             } else {
                 return cell
             }
@@ -462,6 +464,16 @@ extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
         selectedNameByCell = acupoint.name
         updateAcupointPositions()
         
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //animation
+        let detailVC = DetailVC()
+        detailVC.isHandPoint = true
+        if let cell = collectionView.cellForItem(at: indexPath) as? InfoCollectionViewCell {
+                detailVC.theName = cell.acupointNameLabel.text
+            }
+        detailVC.modalPresentationStyle = .custom
+        present(detailVC, animated: true, completion: nil)
     }
 }
 

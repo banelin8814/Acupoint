@@ -94,6 +94,7 @@ extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
         return cell
         
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //        self.tabBarController?.tabBar.isHidden = true
         if let index = facePoints.firstIndex(where: { $0.name == archivePointName?[indexPath.row].name }) {

@@ -32,18 +32,41 @@ extension UIColor {
 }
 
 extension UILabel {
-    func configureHeaderLabel(withText text: String) {
-        configure(withText: text, alignment: .left, lines: 1)
+    func configureHeadingOneLabel(withText text: String) {
+        configureZenMaruGothic(withText: text, alignment: .left, lines: 1, size: 30)
+    }
+    
+    func configureHeadingTwoLabel(withText text: String) {
+        configureZenMaruGothic(withText: text, alignment: .left, lines: 1, size: 24)
+    }
+    
+    func configureHeadingThreeLabel(withText text: String) {
+        configureZenMaruGothic(withText: text, alignment: .left, lines: 1, size: 21)
+    }
+    
+    func configureTextOneLabel(withText text: String) {
+        configureGenJyuuGothicX(withText: text, alignment: .left, lines: 0, size: 18)
+    }
+    
+    func configureTextTwoLabel(withText text: String) {
+        configureGenJyuuGothicX(withText: text, alignment: .left, lines: 0, size: 15)
     }
 
-
-    private func configure(withText newText: String, alignment: NSTextAlignment, lines: Int) {
+    private func configureZenMaruGothic(withText newText: String, alignment: NSTextAlignment, lines: Int, size: CGFloat) {
         text = newText
-        font = UIFont(name: "ZenMaruGothic-Medium", size: 30.0)
+        font = UIFont(name: "ZenMaruGothic-Medium", size: size)
         textAlignment = alignment
         numberOfLines = lines
         lineBreakMode = .byTruncatingTail
     }
+    private func configureGenJyuuGothicX(withText newText: String, alignment: NSTextAlignment, lines: Int, size: CGFloat) {
+        text = newText
+        font = UIFont(name: "GenJyuuGothicX-Medium", size: size)
+        textAlignment = alignment
+        numberOfLines = lines
+        lineBreakMode = .byTruncatingTail
+    }
+    
 }
 
 extension UIImageView {

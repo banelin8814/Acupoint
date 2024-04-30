@@ -11,7 +11,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     
     //animation
     let transitionManger = CustomTransitionAnimator()
-//    let transition = TransitionCoordinator()
+    //    let transition = TransitionCoordinator()
     
     //data
     var acupoitData = AcupointData.shared
@@ -78,7 +78,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         let introVC = IntroVC()
         if selectedFacePoint.count == 1 {
             introVC.introNameLbl.text = facePoints[selectedIndex].name
-            introVC.introPostionLbl.text = facePoints[selectedIndex].positionDescibition
+            introVC.introPostionLbl.text = facePoints[selectedIndex].location
         } else {
             introVC.introNameLbl.text = ""
             introVC.introPostionLbl.text = "滑動畫面選擇穴位"
@@ -227,26 +227,15 @@ extension FaceVC: UICollectionViewDelegate, UICollectionViewDataSource {
         } else {
             let acupoint = facePoints[indexPath.item - 1]
             selectedNameByCell = acupoint.name
+        }
     }
-    }
-    //    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-    //           let visibleCells = collectionView.visibleCells
-    //           if let currentCell = visibleCells.first as? InfoCollectionViewCell {
-    //               if let labelText = currentCell.acupointNameLabel.text {
-    //                   selectedNameByCell = labelText
-    //                   updateAcupointPositions()
-    //                   print("Current label text: \(labelText)")
-    //               }
-    //           }
-    //       }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //animation
         let detailVC = DetailVC()
-        detailVC.acupoint = facePoints[indexPath.item]
-//        detailVC.transitioningDelegate = transitionManger
-        //        as! any UIViewControllerTransitioningDelegate
-        
+        detailVC.isHandPoint = false
+        if let cell = collectionView.cellForItem(at: indexPath) as? InfoCollectionViewCell {
+                detailVC.theName = cell.acupointNameLabel.text
+            }
         detailVC.modalPresentationStyle = .custom
         present(detailVC, animated: true, completion: nil)
     }

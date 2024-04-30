@@ -13,7 +13,7 @@ class HomeVC: BaseVC {
     lazy var commonPointLbl: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.configureHeaderLabel(withText: "常見穴位")
+        label.configureHeadingOneLabel(withText: "常見穴位")
         return label
     }()
     
