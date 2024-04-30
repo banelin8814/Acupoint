@@ -10,19 +10,18 @@ enum Section: CaseIterable {
     case hand
 }
 
-class WikiVC: UIViewController {
+class WikiVC: BaseVC {
     
     lazy var commonPointLbl: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "穴位小百科"
-        label.font = UIFont(name: "ZenMaruGothic-Medium", size: 30)
+        label.configureHeaderLabel(withText: "穴位小百科")
         return label
     }()
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
+        tableView.backgroundColor = .backgroundColor
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight] //父視圖大小發生變化時如何自動調整自身的大小。
         tableView.separatorStyle = .none
@@ -49,7 +48,6 @@ class WikiVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
         view.addSubview(tableView)
         view.addSubview(commonPointLbl)
         

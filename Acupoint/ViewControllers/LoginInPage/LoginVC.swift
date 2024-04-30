@@ -7,8 +7,8 @@ import GoogleSignInSwift
 import FirebaseCore
 import GoogleSignIn // 導入 Google Sign-In SDK
 
-class LoginVC: UIViewController {
-        
+class LoginVC: BaseVC {
+    
     lazy var skipButton: UIButton = {
         let button = UIButton()
         button.setTitle("跳過", for: .normal)
@@ -34,7 +34,6 @@ class LoginVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
         
         view.addSubview(skipButton)
         setSkipBtn()
@@ -78,6 +77,21 @@ class LoginVC: UIViewController {
                 // you can add error handling
                 print("Error", error)
                 return
+            }
+            guard let idToken = result?.user.idToken?.tokenString,
+                let accessToken = result?.user.accessToken.tokenString
+            else {
+                print("Invalid ID token or access token")
+                return
+            }
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+            
+            Auth.auth().signIn(with: credential) { authResult, error in
+                if let error {
+                    print("Error", error)
+                    return
+                }
             }
             
             // you can add anything with user data if you like

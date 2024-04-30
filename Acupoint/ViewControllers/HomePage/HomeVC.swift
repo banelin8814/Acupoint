@@ -1,6 +1,6 @@
 import UIKit
 
-class HomeVC: UIViewController {
+class HomeVC: BaseVC {
   
     let archiveVC = ArchiveVC()
     
@@ -13,17 +13,14 @@ class HomeVC: UIViewController {
     lazy var commonPointLbl: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "常見穴位"
-        label.font = UIFont(name: "ZenMaruGothic-Medium", size: 30)
+        label.configureHeaderLabel(withText: "常見穴位")
         return label
     }()
     
     lazy var userAvatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.layer.cornerRadius = 35
-        imageView.layer.masksToBounds = true
-        imageView.image = UIImage(named: "曹操")
+        imageView.configureCircleView(forImage: "曹操", size: 70)
         return imageView
     }()
     
@@ -82,7 +79,6 @@ class HomeVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
         view.addSubview(userAvatarImageView)
         view.addSubview(userNameLabel)
         view.addSubview(bookmarkBtn)

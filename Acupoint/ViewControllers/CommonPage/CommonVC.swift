@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CommonVC: UIViewController {
+class CommonVC: BaseVC {
     
     let cellColors: [String] = ["dc9646", "406f7e", "d47764", "93b9b2"]
     
@@ -77,7 +77,6 @@ class CommonVC: UIViewController {
         view.addSubview(contentLbl)
         view.addSubview(titleLbl)
         setupUI()
-        view.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
     }
     
     func setupUI() {

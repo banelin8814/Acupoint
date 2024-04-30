@@ -6,7 +6,6 @@ struct AcupointData {
     static let shared = AcupointData()
     
     //MARK: - Face Data
-    
     let faceAcupoints: [FaceAcupointModel] = [
         FaceAcupointModel(
             name: "迎香穴",
@@ -157,10 +156,8 @@ struct AcupointData {
        ]
     }
     
-    
     var middleMCP: VNRecognizedPoint?
     var wrist: VNRecognizedPoint?
-    
     
     var isLeftHand: Bool = false
     
@@ -180,19 +177,9 @@ struct AcupointData {
         return isLeftHand ? CGPoint(x: -0.01, y: -0.03) : CGPoint(x: 0.02, y: -0.009)
     }
     
-    //    func calculateOffsetPoint(point: CGPoint?, offsetX: CGFloat, offsetY: CGFloat) -> CGPoint {
-    //        guard let point = point else { return .zero }
-    //        if isLeftHand {
-    //            return CGPoint(x: point.x - offsetX, y: point.y - offsetY)
-    //        } else {
-    //            return CGPoint(x: point.x + offsetX, y: point.y + offsetY)
-    //        }
-    //    }
-    //
     func calculateMidPoint(point1: CGPoint?, point2: CGPoint?) -> CGPoint {
         guard let point1 = point1, let point2 = point2 else { return .zero }
         return CGPoint(x: (point1.x + point2.x) / 2, y: (point1.y + point2.y) / 2)
     }
-    
 }
 

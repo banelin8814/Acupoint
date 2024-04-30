@@ -1,6 +1,6 @@
 import UIKit
 
-class InitialSignInVC: UIViewController {
+class InitialSignInVC: BaseVC {
     
     lazy var appImage: UIImageView = {
         let image = UIImageView()

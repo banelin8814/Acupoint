@@ -1,6 +1,5 @@
 import UIKit
 import ARKit
-import CHGlassmorphismView
 
 class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {
     //MARK: - property
@@ -234,7 +233,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     }
     
     func updateAcupointPositions() {
-                
+        
         var acupointPaths: [(path: UIBezierPath, acupoint: HandAcupointModel)] = []
         
         handPoints = acupoitData.handAcupoints
@@ -253,32 +252,40 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                 acupointPaths.append((path, selectedAcupoint))
             }
         } else {
-            let isBackHand = handSideSegmentedControl.selectedSegmentIndex == 0
-            let filteredAcupoints = handPoints.filter { $0.isBackHand == isBackHand }
-            
-            for acupoint in filteredAcupoints {
-                let basePoints = acupoint.basePoint.map { try? observation?.recognizedPoint($0) }
-                let offsetPosition = acupoint.offSet
+            DispatchQueue.main.async { [self] in
+                let isBackHand = handSideSegmentedControl.selectedSegmentIndex == 0
                 
-                let path = UIBezierPath()
-                let actualPosition = calculateActualPosition(basePoints: basePoints, offsetPosition: offsetPosition)
+                print(isBackHand)
                 
-                DispatchQueue.main.async { [self] in
-                    guard let cameraPreviewLayer = self.cameraVw.previewLayer, let observation = observation else { return }
-                    HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: path, in: cameraPreviewLayer, observation: observation, with: actualPosition)
-                    acupointPaths.append((path, acupoint))
+                let filteredAcupoints = handPoints.filter { $0.isBackHand == isBackHand }
+                
+                for acupoint in filteredAcupoints {
+                    let basePoints = acupoint.basePoint.map { try? observation?.recognizedPoint($0) }
+                    let offsetPosition = acupoint.offSet
+                    
+                    let path = UIBezierPath()
+                    let actualPosition = calculateActualPosition(basePoints: basePoints, offsetPosition: offsetPosition)
+                    
+//                    DispatchQueue.main.async { [self] in
+                        guard let cameraPreviewLayer = self.cameraVw.previewLayer, let observation = observation else { return }
+                        HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: path, in: cameraPreviewLayer, observation: observation, with: actualPosition)
+                        acupointPaths.append((path, acupoint))
+//                    }
                 }
             }
         }
+        
         DispatchQueue.main.async { [self] in
             // 移除先前的子层
             self.drawOverlay.sublayers?.forEach { $0.removeFromSuperlayer() }
             
             // 为每个穴位路径创建一个新的子层
-            for (path, _ ) in acupointPaths {
+            for (path, acupoint ) in acupointPaths {
                 let shapeLayer = CAShapeLayer()
                 shapeLayer.path = path.cgPath
                 shapeLayer.fillColor = UIColor.white.cgColor
+                shapeLayer.fillColor = (acupoint.name == selectedNameByCell) ? UIColor.systemRed.cgColor : UIColor.white.cgColor
+                
                 shapeLayer.lineWidth = 10
                 self.drawOverlay.addSublayer(shapeLayer)
             }
@@ -320,7 +327,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             self.updateAcupointPositions()
         }
     }
-   
+    
     @objc func handSideSegmentedControlValueChanged() {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
@@ -450,14 +457,11 @@ extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.item == 0 {
-            let acupoint = handPoints[0]
-            selectedNameByCell = acupoint.name
-        } else {
-            let acupoint = handPoints[indexPath.item - 1]
-            selectedNameByCell = acupoint.name
-        }
+        print(indexPath.item)
+        let acupoint = handPoints[indexPath.item]
+        selectedNameByCell = acupoint.name
         updateAcupointPositions()
+        
     }
 }
 

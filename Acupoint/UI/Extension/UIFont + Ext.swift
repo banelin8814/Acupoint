@@ -1,13 +1,13 @@
 import UIKit
 
-private enum STFontName: String {
+private enum FontName: String {
     case regular = "NotoSansChakma-Regular"
 }
 
 extension UIFont {
 
     static func medium(size: CGFloat) -> UIFont? {
-        var descriptor = UIFontDescriptor(name: STFontName.regular.rawValue, size: size)
+        var descriptor = UIFontDescriptor(name: FontName.regular.rawValue, size: size)
         descriptor = descriptor.addingAttributes(
             [.traits: [UIFontDescriptor.TraitKey.weight: UIFont.Weight.medium]]
         )
@@ -18,7 +18,7 @@ extension UIFont {
         return STFont(.regular, size: size)
     }
 
-    private static func STFont(_ font: STFontName, size: CGFloat) -> UIFont? {
+    private static func STFont(_ font: FontName, size: CGFloat) -> UIFont? {
         return UIFont(name: font.rawValue, size: size)
     }
 }

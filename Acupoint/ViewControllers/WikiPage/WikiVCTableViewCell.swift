@@ -42,7 +42,7 @@ class WikiVCTableViewCell: UITableViewCell {
         // 創建一個新的 UIView 作為陰影容器
         contentView.addSubview(mainVw)
         contentView.addSubview(titleLabel)
-        contentView.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
+        contentView.backgroundColor = .backgroundColor
         
         // 將 blurView 添加到陰影容器中
         NSLayoutConstraint.activate([

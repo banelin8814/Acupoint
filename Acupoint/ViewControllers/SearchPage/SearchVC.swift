@@ -1,6 +1,6 @@
 import UIKit
 
-class SearchVC: UIViewController {
+class SearchVC: BaseVC {
     
     private let searchTableView = UITableView()
     
@@ -22,12 +22,11 @@ class SearchVC: UIViewController {
 //    var allAcupoints: [FaceAcupointModel]?
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
         searchTableView.dataSource = self
         searchTableView.delegate = self
         searchTableView.separatorStyle = .none
         searchTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: "SearchTableViewCell")
-        searchTableView.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
+        searchTableView.backgroundColor = .backgroundColor
         setupTableView()
         //        setupSearchController()
 //        let service = SwiftDataService.shared
@@ -102,7 +101,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         //            cell.textLabel?.text = filterResult[indexPath.row].name
         //            return cell
         //        } else {
-        cell.contentView.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
+        cell.contentView.backgroundColor = .backgroundColor
         cell.selectionStyle = .none
         if indexPath.section == 0 {
             cell.acupointNameLabel.text = facePoints[indexPath.row].name

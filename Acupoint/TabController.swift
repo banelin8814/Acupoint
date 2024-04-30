@@ -25,7 +25,7 @@ class TabController: UITabBarController {
 
         // 設置tabBar的背景色為透明
 //        self.tabBar.barTintColor = .clear
-        self.tabBar.backgroundColor = UIColor.hexStringToUIColor(theHex: "#F4F1E8")
+        self.tabBar.backgroundColor = .backgroundColor
 
         
       
