@@ -50,8 +50,8 @@ class PromptVC: UIViewController {
             promptNameLbl.topAnchor.constraint(equalTo: promptImageView.bottomAnchor, constant: 20),
             promptPostionLbl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             promptPostionLbl.topAnchor.constraint(equalTo: promptNameLbl.bottomAnchor, constant: 20),
-            promptPostionLbl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            promptPostionLbl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            promptPostionLbl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            promptPostionLbl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40)
         ])
     }
 }

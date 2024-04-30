@@ -253,12 +253,12 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
-		1B90F12D2BD7BDA800452B6D /* IntroPage */ = {
+		1B90F12D2BD7BDA800452B6D /* PromptPage */ = {
 			isa = PBXGroup;
 			children = (
 				1B90F12E2BD7BDF100452B6D /* PromptVC.swift */,
 			);
-			path = IntroPage;
+			path = PromptPage;
 			sourceTree = "<group>";
 		};
 		1B90F1302BD87F4700452B6D /* Extension */ = {
@@ -396,7 +396,7 @@
 				1B04ACFE2BCD32EE00F6FB8D /* SearchPage */,
 				1B964F762BCAE9410005F1CF /* FaceTrack */,
 				1B964F752BCAE9330005F1CF /* HandTrack */,
-				1B90F12D2BD7BDA800452B6D /* IntroPage */,
+				1B90F12D2BD7BDA800452B6D /* PromptPage */,
 				1B97B0E52BD0C135006761CD /* WikiPage */,
 				1B90B2DD2BDB922E0069C868 /* DetailPage */,
 				1B53803D2BDB553D00927D8F /* CommonPage */,

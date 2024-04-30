@@ -108,6 +108,8 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
             cell.painNameLabel.text = facePoints[indexPath.row].effect
         } else {
             cell.acupointNameLabel.text = handPoints[indexPath.row].name
+            cell.painNameLabel.text = handPoints[indexPath.row].effect
+
         }
         return cell
         //        }
