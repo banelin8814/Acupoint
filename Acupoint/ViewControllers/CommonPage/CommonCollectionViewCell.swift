@@ -1,10 +1,3 @@
-//
-//  CommonCollectionViewCell.swift
-//  Acupoint
-//
-//  Created by 林佑淳 on 2024/4/26.
-//
-
 import UIKit
 
 class CommonCollectionViewCell: UICollectionViewCell {
@@ -13,7 +6,7 @@ class CommonCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "助眠穴位"
-        label.font = UIFont(name: "ZenMaruGothic-Medium", size: 20)
+        label.configureHeadingTwoLabel(withText: "")
         label.textColor = .white
         return label
     }()
@@ -40,7 +33,7 @@ class CommonCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
     }
     
-    func setupCell(_ backgroundColor: UIColor, _ title: String? = nil, _ image: UIImage? = nil) {
+    func setupCell(_ backgroundColor: UIColor, title: String, image: UIImage) {
         setupUI()
         imageView.image = image
         titleLbl.text = title
@@ -53,7 +46,7 @@ class CommonCollectionViewCell: UICollectionViewCell {
     func setupUI() {
         NSLayoutConstraint.activate([
             titleLbl.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            titleLbl.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            titleLbl.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),

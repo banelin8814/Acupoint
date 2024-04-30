@@ -94,7 +94,7 @@ class DetailVC: UIViewController {
             blurView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             blurView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            acupointNameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            acupointNameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
             acupointNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             acupointNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             acupointNameLabel.heightAnchor.constraint(equalToConstant: 30),

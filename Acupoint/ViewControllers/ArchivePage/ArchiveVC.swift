@@ -13,14 +13,14 @@ class ArchiveVC: BaseVC {
     // swiftdata
     let service = SwiftDataService.shared
     //Data
-    var acupoitData = AcupointData.shared
+    var acupointData = AcupointData.shared
     
     lazy var facePoints: [FaceAcupointModel] = {
-        return acupoitData.faceAcupoints
+        return acupointData.faceAcupoints
     }()
     
     lazy var handPoints: [HandAcupointModel] = {
-           return acupoitData.handAcupoints
+           return acupointData.handAcupoints
     }()
 
     override func viewDidLoad() {

@@ -75,16 +75,17 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         sceneVw.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
         
         //intro Page
-        let introVC = IntroVC()
+        let introVC = PromptVC()
         if selectedFacePoint.count == 1 {
-            introVC.introNameLbl.text = facePoints[selectedIndex].name
-            introVC.introPostionLbl.text = facePoints[selectedIndex].location
+            introVC.promptNameLbl.text = facePoints[selectedIndex].name
+            introVC.promptPostionLbl.text = facePoints[selectedIndex].location
+            introVC.promptImageView.loadGif(name: "face-animation")
+            present(introVC, animated: true, completion: nil)
         } else {
-            introVC.introNameLbl.text = ""
-            introVC.introPostionLbl.text = "滑動畫面選擇穴位"
+//            introVC.promptNameLbl.text = ""
+//            introVC.promptPostionLbl.text = "滑動畫面選擇穴位"
         }
-        introVC.introImageView.loadGif(name: "face-animation")
-        present(introVC, animated: true, completion: nil)
+       
     }
     
     override func viewDidLayoutSubviews() {
@@ -205,6 +206,7 @@ extension FaceVC: UICollectionViewDelegate, UICollectionViewDataSource {
             return 1
         }
     }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InfoCollectionViewCell", for: indexPath) as? InfoCollectionViewCell else { return InfoCollectionViewCell()}
         
@@ -229,6 +231,7 @@ extension FaceVC: UICollectionViewDelegate, UICollectionViewDataSource {
             selectedNameByCell = acupoint.name
         }
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //animation
         let detailVC = DetailVC()

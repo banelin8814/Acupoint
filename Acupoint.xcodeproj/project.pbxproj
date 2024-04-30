@@ -31,7 +31,7 @@
 		1B90B2EF2BDD0C380069C868 /* InitialSignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90B2EE2BDD0C380069C868 /* InitialSignInVC.swift */; };
 		1B90B2F12BDD0CAC0069C868 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90B2F02BDD0CAC0069C868 /* LoginVC.swift */; };
 		1B90F1052BD4E50D00452B6D /* InfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90F1042BD4E50D00452B6D /* InfoCollectionViewCell.swift */; };
-		1B90F12F2BD7BDF200452B6D /* IntroVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90F12E2BD7BDF100452B6D /* IntroVC.swift */; };
+		1B90F12F2BD7BDF200452B6D /* PromptVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90F12E2BD7BDF100452B6D /* PromptVC.swift */; };
 		1B90F1322BD87F6800452B6D /* UIImageView + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90F1312BD87F6800452B6D /* UIImageView + Ext.swift */; };
 		1B90F1342BD8870E00452B6D /* face-animation.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1B90F1332BD8870E00452B6D /* face-animation.gif */; };
 		1B90F1362BD8EFF900452B6D /* UIFont + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90F1352BD8EFF900452B6D /* UIFont + Ext.swift */; };
@@ -64,6 +64,8 @@
 		1BC6EEAE2BDE570300B6B127 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEAD2BDE570300B6B127 /* AuthService.swift */; };
 		1BC6EEB92BE0657D00B6B127 /* StyleGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEB82BE0657D00B6B127 /* StyleGuide.swift */; };
 		1BC6EEBC2BE067A400B6B127 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEBB2BE067A400B6B127 /* BaseVC.swift */; };
+		1BC6EEBF2BE0CE6500B6B127 /* CommonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEBE2BE0CE6500B6B127 /* CommonModel.swift */; };
+		1BC6EEC22BE0E48900B6B127 /* AnimatedCollectionViewLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 1BC6EEC12BE0E48900B6B127 /* AnimatedCollectionViewLayout */; };
 		1BF232182BD13ACA00E2BD5E /* SavedAcupName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF232172BD13ACA00E2BD5E /* SavedAcupName.swift */; };
 		1BF9C9052BD0057F00EBEA0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -107,7 +109,7 @@
 		1B90B2EE2BDD0C380069C868 /* InitialSignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSignInVC.swift; sourceTree = "<group>"; };
 		1B90B2F02BDD0CAC0069C868 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		1B90F1042BD4E50D00452B6D /* InfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCollectionViewCell.swift; sourceTree = "<group>"; };
-		1B90F12E2BD7BDF100452B6D /* IntroVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroVC.swift; sourceTree = "<group>"; };
+		1B90F12E2BD7BDF100452B6D /* PromptVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptVC.swift; sourceTree = "<group>"; };
 		1B90F1312BD87F6800452B6D /* UIImageView + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView + Ext.swift"; sourceTree = "<group>"; };
 		1B90F1332BD8870E00452B6D /* face-animation.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "face-animation.gif"; sourceTree = "<group>"; };
 		1B90F1352BD8EFF900452B6D /* UIFont + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont + Ext.swift"; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 		1BC6EEAD2BDE570300B6B127 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		1BC6EEB82BE0657D00B6B127 /* StyleGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleGuide.swift; sourceTree = "<group>"; };
 		1BC6EEBB2BE067A400B6B127 /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
+		1BC6EEBE2BE0CE6500B6B127 /* CommonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonModel.swift; sourceTree = "<group>"; };
 		1BF232172BD13ACA00E2BD5E /* SavedAcupName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedAcupName.swift; sourceTree = "<group>"; };
 		1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -146,6 +149,7 @@
 				1B9D2ACA2BCBF988004FDF17 /* CHGlassmorphismView in Frameworks */,
 				1B964F572BC93B340005F1CF /* FirebaseDatabaseSwift in Frameworks */,
 				1B964F592BC93B340005F1CF /* FirebaseFirestore in Frameworks */,
+				1BC6EEC22BE0E48900B6B127 /* AnimatedCollectionViewLayout in Frameworks */,
 				1BC6EEA92BDE278A00B6B127 /* GoogleSignInSwift in Frameworks */,
 				1B964F552BC93B340005F1CF /* FirebaseDatabase in Frameworks */,
 				1B964F532BC93B340005F1CF /* FirebaseAuth in Frameworks */,
@@ -163,6 +167,7 @@
 				1BF232172BD13ACA00E2BD5E /* SavedAcupName.swift */,
 				1B04ACFA2BCD0F5D00F6FB8D /* FaceAcupointModel.swift */,
 				1BA2DF552BD118E1005A841E /* HandAcupointModel.swift */,
+				1BC6EEBE2BE0CE6500B6B127 /* CommonModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -251,7 +256,7 @@
 		1B90F12D2BD7BDA800452B6D /* IntroPage */ = {
 			isa = PBXGroup;
 			children = (
-				1B90F12E2BD7BDF100452B6D /* IntroVC.swift */,
+				1B90F12E2BD7BDF100452B6D /* PromptVC.swift */,
 			);
 			path = IntroPage;
 			sourceTree = "<group>";
@@ -436,6 +441,7 @@
 				1B9D2AC92BCBF988004FDF17 /* CHGlassmorphismView */,
 				1BC6EEA62BDE278A00B6B127 /* GoogleSignIn */,
 				1BC6EEA82BDE278A00B6B127 /* GoogleSignInSwift */,
+				1BC6EEC12BE0E48900B6B127 /* AnimatedCollectionViewLayout */,
 			);
 			productName = Acupoint;
 			productReference = 1B964F1C2BC912690005F1CF /* Acupoint.app */;
@@ -470,6 +476,7 @@
 				1B964F512BC93B340005F1CF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				1B9D2AC82BCBF988004FDF17 /* XCRemoteSwiftPackageReference "CHGlassmorphismView" */,
 				1BC6EEA52BDE278900B6B127 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				1BC6EEC02BE0E48900B6B127 /* XCRemoteSwiftPackageReference "AnimatedCollectionViewLayout" */,
 			);
 			productRefGroup = 1B964F1D2BC912690005F1CF /* Products */;
 			projectDirPath = "";
@@ -514,7 +521,7 @@
 				1B90B2F12BDD0CAC0069C868 /* LoginVC.swift in Sources */,
 				1B83A8C82BCEBC8F00E0C440 /* SwiftDataService.swift in Sources */,
 				1B964F702BCAE7F60005F1CF /* HandVC.swift in Sources */,
-				1B90F12F2BD7BDF200452B6D /* IntroVC.swift in Sources */,
+				1B90F12F2BD7BDF200452B6D /* PromptVC.swift in Sources */,
 				1B04AD002BCD331400F6FB8D /* SearchVC.swift in Sources */,
 				1BC6EEBC2BE067A400B6B127 /* BaseVC.swift in Sources */,
 				1B90F1052BD4E50D00452B6D /* InfoCollectionViewCell.swift in Sources */,
@@ -536,6 +543,7 @@
 				1B90B2E32BDBA0DE0069C868 /* CardTransitionManager.swift in Sources */,
 				1B53803F2BDB557300927D8F /* CommonVC.swift in Sources */,
 				1B964F202BC912690005F1CF /* AppDelegate.swift in Sources */,
+				1BC6EEBF2BE0CE6500B6B127 /* CommonModel.swift in Sources */,
 				1BC6EEAE2BDE570300B6B127 /* AuthService.swift in Sources */,
 				1BAC823B2BD1F6BB0034299B /* ArchiveTableViewCell.swift in Sources */,
 				1B90F13A2BD8F93D00452B6D /* UIView + Ext.swift in Sources */,
@@ -803,6 +811,14 @@
 				minimumVersion = 7.1.0;
 			};
 		};
+		1BC6EEC02BE0E48900B6B127 /* XCRemoteSwiftPackageReference "AnimatedCollectionViewLayout" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/KelvinJin/AnimatedCollectionViewLayout.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -860,6 +876,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1BC6EEA52BDE278900B6B127 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		1BC6EEC12BE0E48900B6B127 /* AnimatedCollectionViewLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1BC6EEC02BE0E48900B6B127 /* XCRemoteSwiftPackageReference "AnimatedCollectionViewLayout" */;
+			productName = AnimatedCollectionViewLayout;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

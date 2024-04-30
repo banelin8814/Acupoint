@@ -171,6 +171,3 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-
-
-//有名字就刪除，沒名字就儲存

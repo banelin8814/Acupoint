@@ -5,6 +5,8 @@ class TabController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupTabs()
+        
+        overrideUserInterfaceStyle = .light
 
         // 設置tabBar的appearance
         let appearance = UITabBarAppearance()
@@ -26,6 +28,7 @@ class TabController: UITabBarController {
         // 設置tabBar的背景色為透明
 //        self.tabBar.barTintColor = .clear
         self.tabBar.backgroundColor = .backgroundColor
+                
     }
 
     private func setupTabs() {
@@ -53,7 +56,12 @@ class TabController: UITabBarController {
                            viewController: UIViewController) -> UINavigationController {
         
         let navigation = UINavigationController(rootViewController: viewController)
+        navigation.navigationBar.tintColor = .white
+
         navigation.tabBarItem.title = title
+        
+//        navigation.viewControllers.first?.navigationItem.title = title
+        
         
         // 調整未選中圖片的大小
         if let unselectedImage = unselectedImage {

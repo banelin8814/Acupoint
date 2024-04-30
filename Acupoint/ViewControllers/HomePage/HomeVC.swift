@@ -6,6 +6,8 @@ class HomeVC: BaseVC {
     
     let screenHeight = UIScreen.main.bounds.size.height
     
+    let acupointData = AcupointData.shared
+    
     let mainImageData: [String] = ["頭痛", "失眠", "美顏","眼睛疲勞"]
     let mainTitleData: [String] = ["頭 痛", "助 眠", "美 顏","眼 睛 疲 勞"]
     
@@ -131,7 +133,6 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell {
             cell.mainVw.image = UIImage(named: mainImageData[indexPath.row])
             cell.titleLabel.text =  mainTitleData[indexPath.row]
-            //            collectionView.reloadData()
             // 使用 cell 進行設定
             return cell
         } else {
@@ -140,6 +141,11 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let commonVC = CommonVC()
+        commonVC.index = indexPath.row
+    
+        commonVC.titleLbl.text =  acupointData.commonAcupoint[indexPath.row].categoryName
+        commonVC.contentLbl.text = acupointData.commonAcupoint[indexPath.row].description
+        
         if let navigationController = self.navigationController {
             navigationController.pushViewController(commonVC, animated: true)
         } else {

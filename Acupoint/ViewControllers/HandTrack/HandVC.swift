@@ -52,16 +52,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     let drawPath = UIBezierPath()
     
     var jointPoints: [VNRecognizedPoint] = []
-    //UI
-    lazy var tranparentVw: UIView = {
-        let view = UIView()
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = view.bounds
-        gradientLayer.colors = [UIColor.gray.cgColor, UIColor.clear.cgColor]
-        view.layer.insertSublayer(gradientLayer, at: 0)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+
     
     lazy var leftRightSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["左手", "右手"])
@@ -110,7 +101,6 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        view.addSubview(tranparentVw)
         
         view.addSubview(leftRightSegmentedControl)
         view.addSubview(handSideSegmentedControl)
@@ -121,32 +111,25 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         drawOverlay.fillColor = .none
         view.layer.addSublayer(drawOverlay)
         
-        
-        tranparentVw.frame = view.bounds
-        
-        // 創建漸變層並設置其 frame
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = tranparentVw.bounds
-        gradientLayer.colors = [UIColor.gray.cgColor, UIColor.clear.cgColor]
-        gradientLayer.startPoint = CGPoint(x: 0.5, y: 1.0)
-        gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.0)
-        gradientLayer.locations = [0, 0.6]
-        tranparentVw.layer.insertSublayer(gradientLayer, at: 0)
-        
-        
         setUpUI()
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if numberOfAcupoints == 1 {
+            
+            let promptVC = PromptVC()
+            print("選到了\(handPoints[acupointIndex].name)")
+            promptVC.promptNameLbl.text = handPoints[acupointIndex].name
+            promptVC.promptPostionLbl.text = handPoints[acupointIndex].location
+            
+            present(promptVC, animated: true, completion: nil)
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //intro Page
-        let introVC = IntroVC()
-        introVC.introNameLbl.text = handPoints[0].name
-        introVC.introPostionLbl.text = handPoints[0].location
-        
-        present(introVC, animated: true, completion: nil)
-        
+
         do {
             if cameraFeedSession == nil {
                 if let cameraPreviewLayer = cameraVw.previewLayer {
@@ -266,11 +249,9 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                     let path = UIBezierPath()
                     let actualPosition = calculateActualPosition(basePoints: basePoints, offsetPosition: offsetPosition)
                     
-//                    DispatchQueue.main.async { [self] in
                         guard let cameraPreviewLayer = self.cameraVw.previewLayer, let observation = observation else { return }
                         HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: path, in: cameraPreviewLayer, observation: observation, with: actualPosition)
                         acupointPaths.append((path, acupoint))
-//                    }
                 }
             }
         }
@@ -310,7 +291,6 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         guard let firstPoint = basePoints.first??.location else { return .zero }
         
         if basePoints.count == 1 {
-            print(offsetPosition)
             return calculateOffsetPoint(point: firstPoint, offsetX: offsetPosition.x, offsetY: offsetPosition.y)
             
         } else if basePoints.count == 2, let secondPoint = basePoints[1]?.location {
@@ -410,10 +390,6 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             handSideSegmentedControl.widthAnchor.constraint(equalToConstant: 120),
             handSideSegmentedControl.heightAnchor.constraint(equalToConstant: 30),
             
-            tranparentVw.topAnchor.constraint(equalTo: view.topAnchor),
-            tranparentVw.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tranparentVw.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tranparentVw.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
 }

@@ -1,13 +1,20 @@
-//
-//  CommonVC.swift
-//  Acupoint
-//
-//  Created by 林佑淳 on 2024/4/26.
-//
-
 import UIKit
 
 class CommonVC: BaseVC {
+    
+    private let faceVC = FaceVC()
+    private let handVC = HandVC()
+    let acupointData = AcupointData.shared
+    
+    lazy var facePoints: [FaceAcupointModel] = {
+        return acupointData.faceAcupoints
+    }()
+    
+    lazy var handPoints: [HandAcupointModel] = {
+           return acupointData.handAcupoints
+    }()
+    
+    var index: Int = 1
     
     let cellColors: [String] = ["dc9646", "406f7e", "d47764", "93b9b2"]
     
@@ -45,6 +52,7 @@ class CommonVC: BaseVC {
 
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
@@ -72,11 +80,26 @@ class CommonVC: BaseVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(collectionView)
-        view.addSubview(imageView)
-        view.addSubview(contentLbl)
-        view.addSubview(titleLbl)
-        setupUI()
+        if imageView.superview == nil {
+               view.addSubview(imageView)
+               view.addSubview(collectionView)
+               view.addSubview(contentLbl)
+               view.addSubview(titleLbl)
+               setupUI()
+           }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if imageView.superview == nil {
+            view.addSubview(imageView)
+            setupUI()
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        imageView.removeFromSuperview()
     }
     
     func setupUI() {
@@ -113,12 +136,34 @@ extension CommonVC: UICollectionViewDelegate, UICollectionViewDataSource {
         //用if let寫cell
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CommonCollectionViewCell", for: indexPath) as? CommonCollectionViewCell else {
             return CommonCollectionViewCell() }
-//        cell.backgroundColor = UIColor.hexStringToUIColor(theHex: colors[indexPath.row])
-        var theColor = UIColor.hexStringToUIColor(theHex: cellColors[indexPath.row])
-//
-        cell.setupCell(theColor, cellTitle[indexPath.row])
-        // 使用 cell 進行設定
+        //        cell.backgroundColor = UIColor.hexStringToUIColor(theHex: colors[indexPath.row])
+        let theColor = UIColor.hexStringToUIColor(theHex: cellColors[indexPath.row])
+        cell.setupCell(theColor, title: acupointData.commonAcupoint[index].acupoints[indexPath.row].name, image: UIImage(named: acupointData.commonAcupoint[index].acupoints[indexPath.row].image)!)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        
+        if let index = facePoints.firstIndex(where: { $0.name == acupointData.commonAcupoint[index].acupoints[indexPath.row].name }) {
+            self.navigationController?.pushViewController(faceVC, animated: true)
+            faceVC.selectedFacePoint = [facePoints[index]]
+            faceVC.selectedIndex = index
+            faceVC.currentDisplayMode = .specific(name: facePoints[index].name)
+            
+            faceVC.collectionView.reloadData()
+            self.tabBarController?.tabBar.isHidden = true
+        }
+            
+        if let index = handPoints.firstIndex(where: { $0.name == acupointData.commonAcupoint[index].acupoints[indexPath.row].name }) {
+            handVC.acupointIndex = index
+            handVC.currentDisplayMode = .specific(name: handPoints[index].name)
+            handVC.numberOfAcupoints = 1
+            
+            handVC.collectionView.reloadData()
+            handVC.handSideSegmentedControl.isHidden = true
+            self.navigationController?.pushViewController(handVC, animated: true)
+            self.tabBarController?.tabBar.isHidden = true
+        }
     }
 }
