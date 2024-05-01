@@ -256,8 +256,8 @@
             filePath = "Acupoint/ViewControllers/FaceTrack/FaceVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
             landmarkName = "renderer(_:nodeFor:)"
             landmarkType = "7">
          </BreakpointContent>

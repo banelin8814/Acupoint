@@ -47,7 +47,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         func collectionViewLayout() -> UICollectionViewLayout {
             let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                                                  heightDimension: .fractionalHeight(1.0)))
-            item.contentInsets = .init(top: 0, leading: 2, bottom: 0, trailing: 2)
+            item.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 8)
             let galleryGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.7),
                                                                                                      heightDimension: .fractionalHeight(1)),
                                                                   subitems: [item])
@@ -97,31 +97,15 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
             present(promptVC, animated: true, completion: nil)
         }
         //animation
-        let indexPath = IndexPath(item: 1, section: 0)
-            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
-            
-            UIView.animate(withDuration: 0.5, delay: 0.5, options: .curveEaseInOut, animations: {
-                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: false)
-            }, completion: nil)
-        
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-//            self.animateCellScaling()
-//        }
-    }
-//    //Animation
-//    func animateCellScaling() {
-//        // 獲取當前選中的 cell
-//        if let cell = collectionView.cellForItem(at: IndexPath(item: currentPage, section: 0)) as? InfoCollectionViewCell {
-//            // 先將 cell 縮小
-//            cell.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+//        let indexPath = IndexPath(item: 1, section: 0)
+//            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
 //            
-//            // 在0.7秒內將 cell 放大到原始大小，並添加加速度效果
-//            UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.8, options: [], animations: {
-//                cell.transform = CGAffineTransform.identity
+//            UIView.animate(withDuration: 0.5, delay: 0.5, options: .curveEaseInOut, animations: {
+//                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: false)
 //            }, completion: nil)
-//        }
-//    }
+        
+    }
+
     
     override func viewDidLayoutSubviews() {
         
@@ -149,7 +133,6 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         sceneVw.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
         //        print(acupoint.name)
     }
-    
     //偵測
     private func updateCurrentPage() {
         let centerPoint = CGPoint(x: collectionView.frame.size.width / 2 + collectionView.contentOffset.x,
@@ -159,20 +142,21 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
             currentPage = indexPath.item
         }
         //動畫
-        collectionView.visibleCells.forEach { cell in
-            if let cell = cell as? InfoCollectionViewCell {
-                let indexPath = collectionView.indexPath(for: cell)
-                if indexPath?.item == currentPage {
-                    UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: [], animations: {
-                        cell.transform = CGAffineTransform.identity
-                    }, completion: nil)
-                } else {
-                    UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: [], animations: {
-                        cell.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-                    }, completion: nil)
-                }
-            }
-        }
+//        if 
+//        collectionView.visibleCells.forEach { cell in
+//            if let cell = cell as? InfoCollectionViewCell {
+//                let indexPath = collectionView.indexPath(for: cell)
+//                if indexPath?.item == currentPage {
+//                    UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: [], animations: {
+//                        cell.transform = CGAffineTransform.identity
+//                    }, completion: nil)
+//                } else {
+//                    UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: [], animations: {
+//                        cell.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+//                    }, completion: nil)
+//                }
+//            }
+//        }
     }
     
     

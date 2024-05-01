@@ -10,37 +10,30 @@ class CustomTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let containerView = transitionContext.containerView
         
-        guard let fromViewController = transitionContext.viewController(forKey: .from),
-              let toViewController = transitionContext.viewController(forKey: .to),
-              let selectedCell = fromViewController.view.subviews.compactMap({ $0 as? InfoCollectionViewCell }).first
+        guard let fromViewController = transitionContext.viewController(forKey: .from) as? HomeVC,
+              let toViewController = transitionContext.viewController(forKey: .to) as? CommonVC,
+              let selectedCell = fromViewController.collectionView.cellForItem(at: fromViewController.collectionView.indexPathsForSelectedItems!.first!) as? HomeCollectionViewCell
         else {
             transitionContext.completeTransition(false)
             return
         }
         
-        guard let expandedViewController = toViewController as? DetailVC else { return }
-        expandedViewController.view.frame = CGRect(x: 0, y: 0, width: containerView.bounds.width, height: containerView.bounds.height)
-        expandedViewController.view.alpha = 0
+        toViewController.view.frame = CGRect(x: 0, y: 0, width: containerView.bounds.width, height: containerView.bounds.height)
+        toViewController.view.alpha = 0
+        containerView.addSubview(toViewController.view)
         
-        containerView.addSubview(expandedViewController.view)
-        
-        let cellOriginFrame = selectedCell.convert(selectedCell.bounds, to: nil)
-        originFrame = cellOriginFrame
-        
-        let snapshot = selectedCell.snapshotView(afterScreenUpdates: false)
-        snapshot?.frame = cellOriginFrame
+        let snapshot = selectedCell.mainVw.snapshotView(afterScreenUpdates: false)
+        snapshot?.frame = originFrame ?? .zero
+        snapshot?.center = containerView.center
         containerView.addSubview(snapshot!)
         
-        selectedCell.isHidden = true
+        selectedCell.mainVw.isHidden = true
         
-//        DetailVC.acupointNameLabel.text = selectedCell.titleLabel.text
-//        DetailVC.introTextView.text = selectedCell.contentLabel.text
-//        
         UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
-            snapshot?.frame = expandedViewController.view.bounds
-            expandedViewController.view.alpha = 1
+            snapshot?.frame = toViewController.imageView.frame
+            toViewController.view.alpha = 1
         }, completion: { _ in
-            selectedCell.isHidden = false
+            selectedCell.mainVw.isHidden = false
             snapshot?.removeFromSuperview()
             transitionContext.completeTransition(true)
         })

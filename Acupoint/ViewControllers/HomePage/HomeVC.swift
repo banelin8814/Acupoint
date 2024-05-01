@@ -11,7 +11,6 @@ class HomeVC: BaseVC {
     let mainImageData: [String] = ["頭痛", "失眠", "美顏","眼睛疲勞"]
     let mainTitleData: [String] = ["頭 痛", "助 眠", "美 顏","眼 睛 疲 勞"]
     
-    
     lazy var commonPointLbl: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
