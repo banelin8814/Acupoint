@@ -1,7 +1,11 @@
 {
   "images" : [
     {
+<<<<<<< HEAD
       "filename" : "APPLOGO_工作區域 1.png",
+=======
+      "filename" : "Logo.png",
+>>>>>>> develop
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

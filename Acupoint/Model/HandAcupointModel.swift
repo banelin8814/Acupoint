@@ -1,5 +1,6 @@
 import SwiftData
 import UIKit
+import Vision
 
 class HandAcupointModel: Identifiable, Hashable {
     static func == (lefths: HandAcupointModel, righths: HandAcupointModel) -> Bool {
@@ -14,19 +15,20 @@ class HandAcupointModel: Identifiable, Hashable {
     var name: String
     var effect: String
     var method: String
-    var positionDescibition: String
+    var location: String
     var notice: String
-    var position: CGPoint
+    var basePoint: [VNHumanHandPoseObservation.JointName]
+    var offSet: CGPoint
     var isBackHand: Bool
     
-    init(name: String, effect: String, method: String, location: String, notice: String, position: CGPoint, isBackHand: Bool) {
+    init(name: String, effect: String, method: String, location: String, notice: String, basePoint: [VNHumanHandPoseObservation.JointName], offSet: CGPoint, isBackHand: Bool) {
         self.name = name
         self.effect = effect
         self.method = method
-        self.positionDescibition = location
+        self.location = location
         self.notice = notice
-        self.position = position
+        self.basePoint = basePoint
+        self.offSet = offSet
         self.isBackHand = isBackHand
-        
     }
 }

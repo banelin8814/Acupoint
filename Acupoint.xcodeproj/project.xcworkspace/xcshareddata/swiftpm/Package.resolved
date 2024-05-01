@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "originHash" : "ebb2b8804b3feda9c28c0f0832d8ac39ed670aa2bbf8d6b2fcbc2d7999d5c021",
+=======
+  "originHash" : "ae42b6e9f3a2260066b09dab6700559df3cf49ed54ee10bfe5d00be7d796ff9c",
+>>>>>>> develop
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -11,6 +15,18 @@
       }
     },
     {
+<<<<<<< HEAD
+=======
+      "identity" : "animatedcollectionviewlayout",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/KelvinJin/AnimatedCollectionViewLayout.git",
+      "state" : {
+        "revision" : "c15687d1c6db6d39ef1e54a6c5a5c2fe74a544a8",
+        "version" : "1.1.0"
+      }
+    },
+    {
+>>>>>>> develop
       "identity" : "app-check",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/app-check.git",
@@ -20,6 +36,18 @@
       }
     },
     {
+<<<<<<< HEAD
+=======
+      "identity" : "appauth-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/openid/AppAuth-iOS.git",
+      "state" : {
+        "revision" : "c89ed571ae140f8eb1142735e6e23d7bb8c34cb2",
+        "version" : "1.7.5"
+      }
+    },
+    {
+>>>>>>> develop
       "identity" : "chglassmorphismview",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Chaehui-Seo/CHGlassmorphismView.git",
@@ -74,6 +102,18 @@
       }
     },
     {
+<<<<<<< HEAD
+=======
+      "identity" : "googlesignin-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/GoogleSignIn-iOS",
+      "state" : {
+        "revision" : "a7965d134c5d3567026c523e0a8a583f73b62b0d",
+        "version" : "7.1.0"
+      }
+    },
+    {
+>>>>>>> develop
       "identity" : "googleutilities",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleUtilities.git",
@@ -101,6 +141,18 @@
       }
     },
     {
+<<<<<<< HEAD
+=======
+      "identity" : "gtmappauth",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/GTMAppAuth.git",
+      "state" : {
+        "revision" : "5d7d66f647400952b1758b230e019b07c0b4b22a",
+        "version" : "4.1.1"
+      }
+    },
+    {
+>>>>>>> develop
       "identity" : "interop-ios-for-google-sdks",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/interop-ios-for-google-sdks.git",
