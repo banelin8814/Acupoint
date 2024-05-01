@@ -8,7 +8,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     private let sceneVw = ARSCNView(frame: UIScreen.main.bounds)
     
     var dotNode = SCNNode()
-
+    
     //data
     var acupoitData = AcupointData.shared
     //全部
@@ -25,7 +25,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     }()
     //特定的index名字
     var selectedNameByCell: String?
-//    private var container: ModelContainer?
+    //    private var container: ModelContainer?
     //偵測
     private var currentPage: Int = 0 {
         didSet {
@@ -47,8 +47,8 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         func collectionViewLayout() -> UICollectionViewLayout {
             let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                                                  heightDimension: .fractionalHeight(1.0)))
-            item.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 8)
-            let galleryGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.85),
+            item.contentInsets = .init(top: 0, leading: 2, bottom: 0, trailing: 2)
+            let galleryGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.7),
                                                                                                      heightDimension: .fractionalHeight(1)),
                                                                   subitems: [item])
             let gallerySection = NSCollectionLayoutSection(group: galleryGroup)
@@ -64,7 +64,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         }
         return collectionView
     }()
-     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -82,24 +82,49 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //偵測
+        //偵測 //animation
         updateCurrentPage()
         
         let configuration = ARFaceTrackingConfiguration()
         sceneVw.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
         
         //intro Page
-        let introVC = PromptVC()
+        let promptVC = PromptVC()
         if selectedFacePoint.count == 1 {
-            introVC.promptNameLbl.text = facePoints[selectedIndex].name
-            introVC.promptPostionLbl.text = facePoints[selectedIndex].location
-            introVC.promptImageView.loadGif(name: "face-animation")
-            present(introVC, animated: true, completion: nil)
+            promptVC.promptNameLbl.text = facePoints[selectedIndex].name
+            promptVC.promptPostionLbl.text = facePoints[selectedIndex].location
+            promptVC.promptImageView.loadGif(name: "face-animation")
+            present(promptVC, animated: true, completion: nil)
         }
+        //animation
+        let indexPath = IndexPath(item: 1, section: 0)
+            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
+            
+            UIView.animate(withDuration: 0.5, delay: 0.5, options: .curveEaseInOut, animations: {
+                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: false)
+            }, completion: nil)
+        
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//            self.animateCellScaling()
+//        }
     }
+//    //Animation
+//    func animateCellScaling() {
+//        // 獲取當前選中的 cell
+//        if let cell = collectionView.cellForItem(at: IndexPath(item: currentPage, section: 0)) as? InfoCollectionViewCell {
+//            // 先將 cell 縮小
+//            cell.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+//            
+//            // 在0.7秒內將 cell 放大到原始大小，並添加加速度效果
+//            UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.8, options: [], animations: {
+//                cell.transform = CGAffineTransform.identity
+//            }, completion: nil)
+//        }
+//    }
     
     override func viewDidLayoutSubviews() {
-
+        
         setUpUI()
     }
     
@@ -122,7 +147,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         //更新
         let configuration = ARFaceTrackingConfiguration()
         sceneVw.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
-//        print(acupoint.name)
+        //        print(acupoint.name)
     }
     
     //偵測
@@ -132,6 +157,21 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         
         if let indexPath = collectionView.indexPathForItem(at: centerPoint) {
             currentPage = indexPath.item
+        }
+        //動畫
+        collectionView.visibleCells.forEach { cell in
+            if let cell = cell as? InfoCollectionViewCell {
+                let indexPath = collectionView.indexPath(for: cell)
+                if indexPath?.item == currentPage {
+                    UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: [], animations: {
+                        cell.transform = CGAffineTransform.identity
+                    }, completion: nil)
+                } else {
+                    UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: [], animations: {
+                        cell.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+                    }, completion: nil)
+                }
+            }
         }
     }
     
@@ -169,45 +209,45 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
                     dotNode.position = SCNVector3(vertex.x, vertex.y, vertex.z)
                     faceNode.addChildNode(dotNode)
                     
-//                    let nodeId = UUID()
-//                    dotNode.name = nodeId.uuidString
-//                    acupointNodes[nodeId] = point
+                    //                    let nodeId = UUID()
+                    //                    dotNode.name = nodeId.uuidString
+                    //                    acupointNodes[nodeId] = point
                 }
             }
         }
         return faceNode
     }
     
-//    var acupointNodes: [UUID: FaceAcupointModel] = [:]
-//    var previousTouchedNode: SCNNode?
-//    
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        guard let touch = touches.first else { return }
-//        
-//        let viewTouchLocation = touch.location(in: sceneVw)
-//        
-//        let hitTestResults = sceneVw.hitTest(viewTouchLocation, options: nil)
-//        
-//        for result in hitTestResults {
-//            if let nodeId = UUID(uuidString: result.node.name ?? ""),
-//               let acupoint = acupointNodes[nodeId] {
-//                selectedFacePoint = [acupoint]
-//                
-//                // 將原本被點擊的節點顏色恢復為原始顏色（黃色）
-//                if let previousNode = previousTouchedNode {
-//                    previousNode.geometry?.firstMaterial?.diffuse.contents = UIColor.white
-//                }
-//                
-//                // 修改當前被點擊節點的材質顏色為紅色
-//                result.node.geometry?.firstMaterial?.diffuse.contents = UIColor.green
-//                
-//                // 記錄當前被點擊的節點
-//                previousTouchedNode = result.node
-//                
-//                break
-//            }
-//        }
-//    }
+    //    var acupointNodes: [UUID: FaceAcupointModel] = [:]
+    //    var previousTouchedNode: SCNNode?
+    //
+    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    //        guard let touch = touches.first else { return }
+    //
+    //        let viewTouchLocation = touch.location(in: sceneVw)
+    //
+    //        let hitTestResults = sceneVw.hitTest(viewTouchLocation, options: nil)
+    //
+    //        for result in hitTestResults {
+    //            if let nodeId = UUID(uuidString: result.node.name ?? ""),
+    //               let acupoint = acupointNodes[nodeId] {
+    //                selectedFacePoint = [acupoint]
+    //
+    //                // 將原本被點擊的節點顏色恢復為原始顏色（黃色）
+    //                if let previousNode = previousTouchedNode {
+    //                    previousNode.geometry?.firstMaterial?.diffuse.contents = UIColor.white
+    //                }
+    //
+    //                // 修改當前被點擊節點的材質顏色為紅色
+    //                result.node.geometry?.firstMaterial?.diffuse.contents = UIColor.green
+    //
+    //                // 記錄當前被點擊的節點
+    //                previousTouchedNode = result.node
+    //
+    //                break
+    //            }
+    //        }
+    //    }
     
     func setUpUI() {
         
@@ -248,6 +288,7 @@ extension FaceVC: UICollectionViewDelegate, UICollectionViewDataSource {
         case .specific:
             cell.configureFaceDataFromSearchVC(with: selectedFacePoint[0])
         }
+        
         return cell
     }
     

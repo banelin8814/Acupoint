@@ -37,7 +37,7 @@ class PromptVC: UIViewController {
 
         setupUI()
     }
-    
+   
     func setupUI() {
         
         NSLayoutConstraint.activate([
