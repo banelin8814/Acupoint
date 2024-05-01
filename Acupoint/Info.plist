@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-<<<<<<< HEAD
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
-=======
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -35,7 +31,6 @@
 		<string>GenJyuuGothicX-Regular.ttf</string>
 		<string>ZenMaruGothic-Bold.ttf</string>
 	</array>
->>>>>>> develop
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
