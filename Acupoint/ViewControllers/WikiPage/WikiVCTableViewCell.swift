@@ -49,7 +49,6 @@ class WikiVCTableViewCell: UITableViewCell {
             mainVw.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             mainVw.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             mainVw.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            mainVw.heightAnchor.constraint(equalToConstant: 150),
             mainVw.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
         titleLabel.removeConstraints(titleLabel.constraints)
@@ -57,12 +56,14 @@ class WikiVCTableViewCell: UITableViewCell {
                if indexPath?.section == 0 {
                    // 第一個 section，titleLabel 靠左
                    NSLayoutConstraint.activate([
+                    titleLabel.heightAnchor.constraint(equalToConstant: 0),
                        titleLabel.topAnchor.constraint(equalTo: mainVw.topAnchor, constant: 20),
                        titleLabel.leadingAnchor.constraint(equalTo: mainVw.leadingAnchor, constant: 20)
                    ])
                } else {
                    // 第二個 section，titleLabel 靠右
                    NSLayoutConstraint.activate([
+                    titleLabel.heightAnchor.constraint(equalToConstant: 0),
                        titleLabel.topAnchor.constraint(equalTo: mainVw.topAnchor, constant: 20),
                        titleLabel.trailingAnchor.constraint(equalTo: mainVw.trailingAnchor, constant: -20)
                    ])

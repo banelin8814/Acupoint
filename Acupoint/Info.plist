@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>GIDClientID</key>
-	<string>646557953334-na6nepqnspf12c5il1s8eigublpfeufb.apps.googleusercontent.com</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -21,6 +19,8 @@
 			<string>Editor</string>
 		</dict>
 	</array>
+	<key>GIDClientID</key>
+	<string>646557953334-na6nepqnspf12c5il1s8eigublpfeufb.apps.googleusercontent.com</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>UIAppFonts</key>

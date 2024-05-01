@@ -125,6 +125,8 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
             self.navigationController?.pushViewController(faceVC, animated: true)
             faceVC.selectedFacePoint = [facePoints[indexPath.row]]
             faceVC.selectedIndex = indexPath.row
+            //getNameByIndex會從indexPath.row得到名字
+            faceVC.getNameByIndex(indexPath.row)
             faceVC.currentDisplayMode = .specific(name: facePoints[indexPath.row].name)
             faceVC.collectionView.reloadData()
             self.tabBarController?.tabBar.isHidden = true

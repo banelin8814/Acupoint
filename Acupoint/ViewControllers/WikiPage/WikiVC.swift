@@ -50,9 +50,12 @@ class WikiVC: BaseVC {
         super.viewDidLoad()
         view.addSubview(tableView)
         view.addSubview(commonPointLbl)
-        
-        configDataSource()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         setupUI()
+        configDataSource()
+        
     }
     
     func setupUI() {
@@ -66,41 +69,21 @@ class WikiVC: BaseVC {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
-    //    func configDataSource() {
-    //
-    //        dataSource = UITableViewDiffableDataSource<Section, AcupointGenre>(tableView: tableView) { (tableView, indexPath, model) -> UITableViewCell? in
-    //            let cell = tableView.dequeueReusableCell(withIdentifier: "WikiVCTableViewCell", for: indexPath)
-    //            cell.textLabel?.text = model.title
-    //            return cell
-    //        }
-    //        tableView.register(WikiVCTableViewCell.self, forCellReuseIdentifier: "WikiVCTableViewCell")
-    //
-    //        // 創建snapshot
-    //        var snapshot = NSDiffableDataSourceSnapshot<Section, AcupointGenre>()
-    //        snapshot.appendSections(Section.allCases) //加入所有section
-    //
-    //        let hand = [AcupointGenre(title: "臉部", genre: .hand)] //第一個section  genre就是拿來辨認是哪個section的
-    //        let face = [AcupointGenre(title: "手部", genre: .hand)] //第二個section
-    //
-    //        snapshot.appendItems(hand, toSection: .face) // 把item加到對應section
-    //        snapshot.appendItems(face, toSection: .hand)
-    //
-    //        dataSource.apply(snapshot, animatingDifferences: false)
-    //    }
+
     func configDataSource() {
         dataSource = UITableViewDiffableDataSource<Section, AcupointGenre>(tableView: tableView) { (tableView, indexPath, model) -> UITableViewCell? in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "WikiVCTableViewCell", for: indexPath) as? WikiVCTableViewCell else { return WikiVCTableViewCell() }
             cell.indexPath = indexPath
             // 根據 model 的屬性設置 cell 的內容
             cell.titleLabel.text = model.title
-            
+
             // 可以根據 model 的 genre 屬性設置不同的樣式或內容
             switch model.genre {
             case .face:
                 cell.mainVw.image = UIImage(named: "臉部")
             case .hand:
                 cell.mainVw.image = UIImage(named: "手部")
+
             }
             return cell
         }
@@ -111,8 +94,8 @@ class WikiVC: BaseVC {
         var snapshot = NSDiffableDataSourceSnapshot<Section, AcupointGenre>()
         snapshot.appendSections(Section.allCases)
         
-        let hand = [AcupointGenre(title: "臉 部", genre: .face)]
-        let face = [AcupointGenre(title: "手 部", genre: .hand)]
+        let hand = [AcupointGenre(title: "", genre: .face)]
+        let face = [AcupointGenre(title: "", genre: .hand)]
         
         snapshot.appendItems(hand, toSection: .face)
         snapshot.appendItems(face, toSection: .hand)
@@ -120,7 +103,6 @@ class WikiVC: BaseVC {
         dataSource?.apply(snapshot, animatingDifferences: false)
     }
 }
-
 
 extension WikiVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -134,6 +116,8 @@ extension WikiVC: UITableViewDelegate {
             
             faceVC.selectedFacePoint = facePoints
             faceVC.currentDisplayMode = .allPoint
+            //getNameByIndex會從indexPath.row得到名字，這邊先指定第一個
+            faceVC.getNameByIndex(0)
             faceVC.collectionView.reloadData()
             
         } else {

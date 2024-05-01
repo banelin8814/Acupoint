@@ -30,6 +30,12 @@ class InfoCollectionViewCell: UICollectionViewCell {
  
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+//        var thePan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+//        thePan.delegate = self
+//        self.addGestureRecognizer(thePan)
+        
+        
         setupViews()
         contentView.layer.cornerRadius = 30
         contentView.layer.masksToBounds = true
@@ -86,4 +92,15 @@ class InfoCollectionViewCell: UICollectionViewCell {
         introLabel.text = "手法：\(acupoint.method)"
     }
     
+    
+//    @objc private func handlePan(_ thePan: UIPanGestureRecognizer) {
+//        delegate?.invalidateTimer()
+//    }
 }
+
+
+//extension InfoCollectionViewCell: UIGestureRecognizerDelegate {
+//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+//        return true
+//    }
+//}
