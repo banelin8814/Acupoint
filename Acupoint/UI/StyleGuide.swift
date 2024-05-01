@@ -72,7 +72,7 @@ extension UILabel {
 extension UIImageView {
     func configureCircleView(forImage: String, size: CGFloat) {
         image = UIImage(named: forImage)
-        contentMode = .scaleAspectFit
+        contentMode = .scaleAspectFill
         layer.masksToBounds = true
         layer.cornerRadius = size / 2
         clipsToBounds = true

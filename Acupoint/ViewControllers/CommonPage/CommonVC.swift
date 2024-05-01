@@ -17,9 +17,7 @@ class CommonVC: BaseVC {
     var index: Int = 1
     
     let cellColors: [String] = ["dc9646", "406f7e", "d47764", "93b9b2"]
-    
-    let cellTitle: [String] = ["太陽穴", "太陽穴", "太陽穴", "太陽穴"]
-    
+        
     let screenHeight = UIScreen.main.bounds.size.height
 
     lazy var titleLbl: UILabel = {
@@ -150,7 +148,7 @@ extension CommonVC: UICollectionViewDelegate, UICollectionViewDataSource {
             faceVC.selectedFacePoint = [facePoints[index]]
             faceVC.selectedIndex = index
             faceVC.currentDisplayMode = .specific(name: facePoints[index].name)
-            
+            faceVC.selectedNameByCell = facePoints[index].name
             faceVC.collectionView.reloadData()
             self.tabBarController?.tabBar.isHidden = true
         }

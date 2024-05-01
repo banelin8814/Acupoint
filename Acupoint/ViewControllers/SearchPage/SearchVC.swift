@@ -22,6 +22,8 @@ class SearchVC: BaseVC {
     //    var allAcupoints: [FaceAcupointModel]?
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "尋找穴位"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "GenJyuuGothicX-Medium", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor.black]
         searchTableView.dataSource = self
         searchTableView.delegate = self
         searchTableView.separatorStyle = .none
@@ -126,7 +128,8 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
             faceVC.selectedFacePoint = [facePoints[indexPath.row]]
             faceVC.selectedIndex = indexPath.row
             //getNameByIndex會從indexPath.row得到名字
-            faceVC.getNameByIndex(indexPath.row)
+//            faceVC.getNameByIndex(indexPath.row)
+            faceVC.selectedNameByCell = facePoints[indexPath.row].name
             faceVC.currentDisplayMode = .specific(name: facePoints[indexPath.row].name)
             faceVC.collectionView.reloadData()
             self.tabBarController?.tabBar.isHidden = true

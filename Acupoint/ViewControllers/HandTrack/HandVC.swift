@@ -52,7 +52,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     let drawPath = UIBezierPath()
     
     var jointPoints: [VNRecognizedPoint] = []
-
+    
     
     lazy var leftRightSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["左手", "右手"])
@@ -93,10 +93,23 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         collectionView.register(InfoCollectionViewCell.self, forCellWithReuseIdentifier: "InfoCollectionViewCell")
         return collectionView
     }()
+    //updateCurrentPage偵測index給currentPage，被賦予新的值後，執行邏輯。
+    private var currentPage: Int = 0 {
+        didSet {
+            if oldValue != currentPage {
+                print("The page changed to \(currentPage)")
+                getNameByIndex(currentPage)
+                updateAcupointPositions()
+            }
+        }
+    }
     
     //MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        //偵測
+        updateCurrentPage()
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -119,7 +132,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         if numberOfAcupoints == 1 {
             
             let promptVC = PromptVC()
-            print("選到了\(handPoints[acupointIndex].name)")
+
             promptVC.promptNameLbl.text = handPoints[acupointIndex].name
             promptVC.promptPostionLbl.text = handPoints[acupointIndex].location
             
@@ -129,7 +142,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+        
         do {
             if cameraFeedSession == nil {
                 if let cameraPreviewLayer = cameraVw.previewLayer {
@@ -153,6 +166,23 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     }
     
     //MARK: - function
+    //偵測index給currentPage
+    private func updateCurrentPage() {
+        let centerPoint = CGPoint(x: collectionView.frame.size.width / 2 + collectionView.contentOffset.x,
+                                  y: collectionView.frame.size.height / 2 + collectionView.contentOffset.y)
+        
+        if let indexPath = collectionView.indexPathForItem(at: centerPoint) {
+            currentPage = indexPath.item
+            
+        }
+    }
+    func getNameByIndex(_ index: Int) {
+        let acupoint = handPoints[index]
+        selectedNameByCell = acupoint.name
+        updateAcupointPositions()
+
+        print("指定的名字\(selectedNameByCell)")
+    }
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         
@@ -236,10 +266,9 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             }
         } else {
             DispatchQueue.main.async { [self] in
+                
                 let isBackHand = handSideSegmentedControl.selectedSegmentIndex == 0
-                
-                print(isBackHand)
-                
+                                
                 let filteredAcupoints = handPoints.filter { $0.isBackHand == isBackHand }
                 
                 for acupoint in filteredAcupoints {
@@ -249,14 +278,18 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                     let path = UIBezierPath()
                     let actualPosition = calculateActualPosition(basePoints: basePoints, offsetPosition: offsetPosition)
                     
-                        guard let cameraPreviewLayer = self.cameraVw.previewLayer, let observation = observation else { return }
-                        HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: path, in: cameraPreviewLayer, observation: observation, with: actualPosition)
-                        acupointPaths.append((path, acupoint))
+                    guard let cameraPreviewLayer = self.cameraVw.previewLayer, let observation = observation else { return }
+                    HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: path, in: cameraPreviewLayer, observation: observation, with: actualPosition)
+                    acupointPaths.append((path, acupoint))
                 }
             }
         }
         
         DispatchQueue.main.async { [self] in
+            
+            //更新當前頁面的名字
+            updateCurrentPage()
+
             // 移除先前的子层
             self.drawOverlay.sublayers?.forEach { $0.removeFromSuperlayer() }
             
@@ -265,7 +298,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                 let shapeLayer = CAShapeLayer()
                 shapeLayer.path = path.cgPath
                 shapeLayer.fillColor = UIColor.white.cgColor
-                shapeLayer.fillColor = (acupoint.name == selectedNameByCell) ? UIColor.systemRed.cgColor : UIColor.white.cgColor
+                shapeLayer.fillColor = (acupoint.name == selectedNameByCell) ? UIColor.white.withAlphaComponent(0.45).cgColor : UIColor.white.cgColor
                 
                 shapeLayer.lineWidth = 10
                 self.drawOverlay.addSublayer(shapeLayer)
@@ -304,6 +337,9 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         DispatchQueue.main.async {
             self.isLeftHand = self.leftRightSegmentedControl.selectedSegmentIndex == 0
             self.acupoitData.isLeftHand = self.isLeftHand
+            self.updateAcupointPositions()
+            //更新當前cell的名字
+            self.getNameByIndex(self.currentPage)
             self.updateAcupointPositions()
         }
     }
@@ -417,7 +453,7 @@ extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
         switch currentDisplayMode {
         case .allPoint:
             let isBackHand = handSideSegmentedControl.selectedSegmentIndex == 0
-            let filteredAcupoints = handPoints.filter( { $0.isBackHand == isBackHand})
+            let filteredAcupoints = handPoints.filter( { $0.isBackHand == isBackHand } )
             acupoint = filteredAcupoints[indexPath.item]
             cell.configureHandDataFromWikiVC(with: acupoint)
             
@@ -434,20 +470,13 @@ extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        print(indexPath.item)
-        let acupoint = handPoints[indexPath.item]
-        selectedNameByCell = acupoint.name
-        updateAcupointPositions()
-        
-    }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //animation
         let detailVC = DetailVC()
         detailVC.isHandPoint = true
         if let cell = collectionView.cellForItem(at: indexPath) as? InfoCollectionViewCell {
-                detailVC.theName = cell.acupointNameLabel.text
-            }
+            detailVC.theName = cell.acupointNameLabel.text
+        }
         detailVC.modalPresentationStyle = .custom
         present(detailVC, animated: true, completion: nil)
     }
@@ -460,11 +489,16 @@ extension HandVC {
                                                                                     heightDimension: .fractionalHeight(1.0)))
         galleryItem.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 8)
         
-        let galleryGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.85),
-                                                                                                 heightDimension: .fractionalHeight(1)),
-                                                              subitem: galleryItem, count: 1)
+        let galleryGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.85),heightDimension: .fractionalHeight(1)),
+                                                              subitems: [galleryItem])
+                                                        
         let gallerySection = NSCollectionLayoutSection(group: galleryGroup)
         gallerySection.orthogonalScrollingBehavior = .groupPagingCentered
+        //偵測
+        gallerySection.visibleItemsInvalidationHandler = { [weak self] _, _, _ in
+            guard let self = self else { return }
+            self.updateCurrentPage()
+        }
         
         let layout = UICollectionViewCompositionalLayout(section: gallerySection)
         return layout

@@ -11,19 +11,19 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
 
     //data
     var acupoitData = AcupointData.shared
-    
+    //全部
     lazy var facePoints: [FaceAcupointModel] = {
         return acupoitData.faceAcupoints
     }()
-    
+    //特定點
     lazy var selectedFacePoint: [FaceAcupointModel] = {
         return selectedFacePoint.self
     }()
-    
+    //特定的index
     lazy var selectedIndex: Int = {
         return selectedIndex.self
     }()
-    
+    //特定的index名字
     var selectedNameByCell: String?
 //    private var container: ModelContainer?
     //偵測
@@ -156,11 +156,10 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
                     
                     let dotGeometry = SCNSphere(radius: 0.004)
                     
-                    print("現在的穴位\(point.name)，指定的穴位\(selectedNameByCell)")
                     if point.name == selectedNameByCell {
                         dotGeometry.firstMaterial?.diffuse.contents = UIColor.white
                     } else {
-                        dotGeometry.firstMaterial?.diffuse.contents = UIColor.white.withAlphaComponent(0.55)
+                        dotGeometry.firstMaterial?.diffuse.contents = UIColor.white.withAlphaComponent(0.6)
                     }
                     dotNode = SCNNode(geometry: dotGeometry)
                     

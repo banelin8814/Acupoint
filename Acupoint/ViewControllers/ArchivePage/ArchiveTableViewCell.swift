@@ -21,6 +21,7 @@ class ArchiveTableViewCell: UITableViewCell {
     //純code，UITableViewCell初始化方法
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.backgroundColor = .backgroundColor
         setupArchiveBtn()
         bookmarkBtn.addTarget(nil, action: #selector(ArchiveVC.deleteAction(_:)), for: .touchUpInside)
         bookmarkBtn.addTarget(nil, action: #selector(SearchTableViewCell.archiveButtonTapped), for: .touchUpInside)

@@ -28,7 +28,7 @@ class ArchiveVC: BaseVC {
         archiveTableView.dataSource = self
         archiveTableView.delegate = self
         archiveTableView.register(ArchiveTableViewCell.self, forCellReuseIdentifier: "ArchiveTableViewCell")
-
+        archiveTableView.backgroundColor = .backgroundColor
         setupTableView()
 
     }
@@ -98,9 +98,10 @@ extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //        self.tabBarController?.tabBar.isHidden = true
         if let index = facePoints.firstIndex(where: { $0.name == archivePointName?[indexPath.row].name }) {
-            faceVC.selectedIndex = indexPath.row
+            faceVC.selectedIndex = index
             faceVC.selectedFacePoint = [facePoints[index]]
             faceVC.currentDisplayMode = .specific(name: facePoints[indexPath.row].name)
+            faceVC.selectedNameByCell = facePoints[index].name
             faceVC.collectionView.reloadData()
             self.navigationController?.pushViewController(faceVC, animated: true)
             self.tabBarController?.tabBar.isHidden = true

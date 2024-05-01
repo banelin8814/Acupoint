@@ -22,7 +22,7 @@ class HomeVC: BaseVC {
     lazy var userAvatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.configureCircleView(forImage: "曹操", size: 70)
+        imageView.configureCircleView(forImage: "頭貼", size: 70)
         return imageView
     }()
     
