@@ -38,7 +38,6 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     var selectedAcupointOffset: CGPoint = .zero
     
-    var selectedNameByCell: String?
     //data
     var acupoitData = AcupointData.shared
     //有時候被賦予一個，或全部的點
@@ -83,7 +82,10 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     }()
     
     lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
+        let layout = UICollectionViewFlowLayout()
+            // 在这里设置 layout 的属性
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+      
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
@@ -94,7 +96,13 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         return collectionView
     }()
     //updateCurrentPage偵測index給currentPage，被賦予新的值後，執行邏輯。
-    private var currentPage: Int = 0 {
+   
+    var selectedNameByCell: String = "" {
+            didSet {
+
+            }
+        }
+     var currentPage: Int = 0 {
         didSet {
             if oldValue != currentPage {
                 print("The page changed to \(currentPage)")
@@ -108,8 +116,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     override func viewDidLoad() {
         super.viewDidLoad()
         //偵測
-        updateCurrentPage()
-        
+        collectionView.collectionViewLayout = collectionViewLayoutFromProtocol(collectionView: collectionView)
     }
     
     override func viewDidLayoutSubviews() {
@@ -129,6 +136,9 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        updateCurrentPage(collectionView: collectionView)
+
+
         if numberOfAcupoints == 1 {
             
             let promptVC = PromptVC()
@@ -166,23 +176,6 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     }
     
     //MARK: - function
-    //偵測index給currentPage
-    private func updateCurrentPage() {
-        let centerPoint = CGPoint(x: collectionView.frame.size.width / 2 + collectionView.contentOffset.x,
-                                  y: collectionView.frame.size.height / 2 + collectionView.contentOffset.y)
-        
-        if let indexPath = collectionView.indexPathForItem(at: centerPoint) {
-            currentPage = indexPath.item
-            
-        }
-    }
-    func getNameByIndex(_ index: Int) {
-        let acupoint = handPoints[index]
-        selectedNameByCell = acupoint.name
-        updateAcupointPositions()
-
-        print("指定的名字\(selectedNameByCell)")
-    }
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         
@@ -288,7 +281,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         DispatchQueue.main.async { [self] in
             
             //更新當前頁面的名字
-            updateCurrentPage()
+            updateCurrentPage(collectionView: collectionView)
 
             // 移除先前的子层
             self.drawOverlay.sublayers?.forEach { $0.removeFromSuperlayer() }
@@ -482,27 +475,14 @@ extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 }
 
-extension HandVC {
-    func collectionViewLayout() -> UICollectionViewLayout {
-        
-        let galleryItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                                                    heightDimension: .fractionalHeight(1.0)))
-        galleryItem.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 8)
-        
-        let galleryGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.85),heightDimension: .fractionalHeight(1)),
-                                                              subitems: [galleryItem])
-                                                        
-        let gallerySection = NSCollectionLayoutSection(group: galleryGroup)
-        gallerySection.orthogonalScrollingBehavior = .groupPagingCentered
-        //偵測
-        gallerySection.visibleItemsInvalidationHandler = { [weak self] _, _, _ in
-            guard let self = self else { return }
-            self.updateCurrentPage()
-        }
-        
-        let layout = UICollectionViewCompositionalLayout(section: gallerySection)
-        return layout
-        
+extension HandVC: NameSelectionDelegate, CurrentPageUpdatable {
+    
+    func getNameByIndex(_ index: Int) {
+        let acupoint = handPoints[index]
+        selectedNameByCell = acupoint.name
+        updateAcupointPositions()
     }
 }
+    
+
 

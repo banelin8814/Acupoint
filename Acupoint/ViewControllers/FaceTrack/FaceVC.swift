@@ -20,14 +20,9 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         return selectedFacePoint.self
     }()
     //特定的index
-    lazy var selectedIndex: Int = {
-        return selectedIndex.self
-    }()
-    //特定的index名字
-    var selectedNameByCell: String?
-    //    private var container: ModelContainer?
-    //偵測
-    private var currentPage: Int = 0 {
+    lazy var selectedIndex: Int = 0
+ 
+    var currentPage = 0 {
         didSet {
             if oldValue != currentPage {
                 getNameByIndex(currentPage)
@@ -35,8 +30,17 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         }
     }
     
+    var selectedNameByCell: String = "" {
+            didSet {
+
+            }
+        }
+    
     lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
+        let layout = UICollectionViewFlowLayout()
+            // 在这里设置 layout 的属性
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+      
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
@@ -44,30 +48,12 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         collectionView.isScrollEnabled = false
         
         collectionView.register(InfoCollectionViewCell.self, forCellWithReuseIdentifier: "InfoCollectionViewCell")
-        func collectionViewLayout() -> UICollectionViewLayout {
-            let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                                                 heightDimension: .fractionalHeight(1.0)))
-            item.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 8)
-            let galleryGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.7),
-                                                                                                     heightDimension: .fractionalHeight(1)),
-                                                                  subitems: [item])
-            let gallerySection = NSCollectionLayoutSection(group: galleryGroup)
-            gallerySection.orthogonalScrollingBehavior = .groupPagingCentered
-            
-            gallerySection.visibleItemsInvalidationHandler = { [weak self] items, contentOffset, environment in
-                guard let self = self else { return }
-                self.updateCurrentPage()
-            }
-            
-            let layout = UICollectionViewCompositionalLayout(section: gallerySection)
-            return layout
-        }
         return collectionView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        collectionView.collectionViewLayout = collectionViewLayoutFromProtocol(collectionView: collectionView)
         //不能畫動滑面回到上一頁
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
@@ -82,8 +68,9 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //偵測 //animation
-        updateCurrentPage()
+        
+        //偵測
+        updateCurrentPage(collectionView: collectionView)
         
         let configuration = ARFaceTrackingConfiguration()
         sceneVw.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
@@ -124,23 +111,9 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         self.tabBarController?.tabBar.isHidden = false
         
     }
-    //左右滑動的index，丟近array
-    func getNameByIndex(_ index: Int) {
-        let acupoint = facePoints[index]
-        selectedNameByCell = acupoint.name
-        //更新
-        let configuration = ARFaceTrackingConfiguration()
-        sceneVw.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
-        //        print(acupoint.name)
-    }
+  
     //偵測
-    private func updateCurrentPage() {
-        let centerPoint = CGPoint(x: collectionView.frame.size.width / 2 + collectionView.contentOffset.x,
-                                  y: collectionView.frame.size.height / 2 + collectionView.contentOffset.y)
-        
-        if let indexPath = collectionView.indexPathForItem(at: centerPoint) {
-            currentPage = indexPath.item
-        }
+  
         //動畫
 //        if 
 //        collectionView.visibleCells.forEach { cell in
@@ -157,7 +130,6 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
 //                }
 //            }
 //        }
-    }
     
     
     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
@@ -192,46 +164,12 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
                     
                     dotNode.position = SCNVector3(vertex.x, vertex.y, vertex.z)
                     faceNode.addChildNode(dotNode)
-                    
-                    //                    let nodeId = UUID()
-                    //                    dotNode.name = nodeId.uuidString
-                    //                    acupointNodes[nodeId] = point
+  
                 }
             }
         }
         return faceNode
     }
-    
-    //    var acupointNodes: [UUID: FaceAcupointModel] = [:]
-    //    var previousTouchedNode: SCNNode?
-    //
-    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    //        guard let touch = touches.first else { return }
-    //
-    //        let viewTouchLocation = touch.location(in: sceneVw)
-    //
-    //        let hitTestResults = sceneVw.hitTest(viewTouchLocation, options: nil)
-    //
-    //        for result in hitTestResults {
-    //            if let nodeId = UUID(uuidString: result.node.name ?? ""),
-    //               let acupoint = acupointNodes[nodeId] {
-    //                selectedFacePoint = [acupoint]
-    //
-    //                // 將原本被點擊的節點顏色恢復為原始顏色（黃色）
-    //                if let previousNode = previousTouchedNode {
-    //                    previousNode.geometry?.firstMaterial?.diffuse.contents = UIColor.white
-    //                }
-    //
-    //                // 修改當前被點擊節點的材質顏色為紅色
-    //                result.node.geometry?.firstMaterial?.diffuse.contents = UIColor.green
-    //
-    //                // 記錄當前被點擊的節點
-    //                previousTouchedNode = result.node
-    //
-    //                break
-    //            }
-    //        }
-    //    }
     
     func setUpUI() {
         
@@ -272,7 +210,6 @@ extension FaceVC: UICollectionViewDelegate, UICollectionViewDataSource {
         case .specific:
             cell.configureFaceDataFromSearchVC(with: selectedFacePoint[0])
         }
-        
         return cell
     }
     
@@ -288,4 +225,17 @@ extension FaceVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 }
 
+extension FaceVC: NameSelectionDelegate, CurrentPageUpdatable {
+    
+    func getNameByIndex(_ index: Int) {
+        let acupoint = facePoints[index]
+        selectedNameByCell = acupoint.name
+        //更新
+        let configuration = ARFaceTrackingConfiguration()
+        sceneVw.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+                print(acupoint.name)
+    }
+    
+}
+    
 

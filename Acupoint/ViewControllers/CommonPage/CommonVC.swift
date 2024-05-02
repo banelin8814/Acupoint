@@ -142,7 +142,6 @@ extension CommonVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        
         if let index = facePoints.firstIndex(where: { $0.name == acupointData.commonAcupoint[index].acupoints[indexPath.row].name }) {
             self.navigationController?.pushViewController(faceVC, animated: true)
             faceVC.selectedFacePoint = [facePoints[index]]
