@@ -9,6 +9,14 @@ import GoogleSignIn // 導入 Google Sign-In SDK
 
 class LoginVC: BaseVC {
     
+    lazy var appTitle: UILabel = {
+        let label = UILabel()
+        label.text = "ACUPOINT"
+        label.font = UIFont(name: "ZenMaruGothic-Black", size: 40)
+        label.textColor = .systemOrange
+        return label
+    }()
+    
     lazy var skipButton: UIButton = {
         let button = UIButton()
         button.setTitle("跳過", for: .normal)
@@ -27,26 +35,28 @@ class LoginVC: BaseVC {
     }()
     
     // signInWithApple
-    var signInWithAppleBtn = UIButton()
+    private var signInWithAppleBtn = UIButton()
     
     // signInWithGoogle
-    private var signInGoogleButton = GIDSignInButton()
+    private var signInGoogleBtn = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.addSubview(skipButton)
+        setTitle()
         setSkipBtn()
-        
-        // signInWithGoogle
         setGoogleBtn()
-        
-        // signInWithApple
         setSignInWithAppleBtn()
-        
+    }
+    
+    func setTitle() {
+        view.addSubview(appTitle)
+        appTitle.translatesAutoresizingMaskIntoConstraints = false
+        appTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        appTitle.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -30).isActive = true
     }
     
     func setSkipBtn() {
+        view.addSubview(skipButton)
         skipButton.translatesAutoresizingMaskIntoConstraints = false
         skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:  -10).isActive = true
         skipButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
@@ -55,17 +65,43 @@ class LoginVC: BaseVC {
     }
     
     func setGoogleBtn() {
-        signInGoogleButton.addAction(UIAction(handler: { [weak self] _ in
+        signInGoogleBtn.addAction(UIAction(handler: { [weak self] _ in
             self?.googleSignIn()
         }), for: .touchUpInside)
-        view.addSubview(signInGoogleButton)
-        
-        // add AutoLayout for the button
-        // here we just set the button to the center of the view
-        signInGoogleButton.translatesAutoresizingMaskIntoConstraints = false
-        signInGoogleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        signInGoogleButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        
+        view.addSubview(signInGoogleBtn)
+        signInGoogleBtn.setTitle("Sign in with Google", for: .normal)
+        signInGoogleBtn.setTitleColor(.black, for: .normal)
+        signInGoogleBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        signInGoogleBtn.setImage(UIImage(named: "googleLogo"), for: .normal)
+        //        signInGoogleBtn.contentVerticalAlignment = .fill
+        //        signInGoogleBtn.contentHorizontalAlignment = .fill
+        //        signInGoogleBtn.imageEdgeInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        //        signInGoogleBtn.imageView?.contentMode = .scaleAspectFit
+        //        signInGoogleBtn.semanticContentAttribute = .forceLeftToRight
+        signInGoogleBtn.layer.cornerRadius = 10
+        signInGoogleBtn.layer.borderWidth = 0.8
+        signInGoogleBtn.layer.borderColor = UIColor.gray.cgColor
+        signInGoogleBtn.backgroundColor = .white
+        signInGoogleBtn.contentHorizontalAlignment = .center
+        signInGoogleBtn.translatesAutoresizingMaskIntoConstraints = false
+        signInGoogleBtn.translatesAutoresizingMaskIntoConstraints = false
+        signInGoogleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        signInGoogleBtn.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80).isActive = true
+        signInGoogleBtn.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        signInGoogleBtn.widthAnchor.constraint(equalToConstant: 240).isActive = true
+    }
+    
+    // signInWithApple
+    func setSignInWithAppleBtn() {
+        let signInWithAppleBtn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .black)
+        view.addSubview(signInWithAppleBtn)
+        signInWithAppleBtn.cornerRadius = 10
+        signInWithAppleBtn.addTarget(self, action: #selector(signInWithApple), for: .touchUpInside)
+        signInWithAppleBtn.translatesAutoresizingMaskIntoConstraints = false
+        signInWithAppleBtn.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        signInWithAppleBtn.widthAnchor.constraint(equalToConstant: 240).isActive = true
+        signInWithAppleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        signInWithAppleBtn.bottomAnchor.constraint(equalTo: signInGoogleBtn.topAnchor, constant: -20).isActive = true
     }
     
     // signInWithGoogle
@@ -79,7 +115,7 @@ class LoginVC: BaseVC {
                 return
             }
             guard let idToken = result?.user.idToken?.tokenString,
-                let accessToken = result?.user.accessToken.tokenString
+                  let accessToken = result?.user.accessToken.tokenString
             else {
                 print("Invalid ID token or access token")
                 return
@@ -101,7 +137,6 @@ class LoginVC: BaseVC {
                 print("Invalid user profile")
                 return
             }
-            
             self?.navigateToHomeViewController(with: name)
         }
     }
@@ -109,23 +144,6 @@ class LoginVC: BaseVC {
     private func navigateToHomeViewController(with name: String) {
         // here you can create a HomeViewController and display user name
         // then just redirect to HomeViewController if needed
-    }
-    
-    // signInWithApple
-    func setSignInWithAppleBtn() {
-        let signInWithAppleBtn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: chooseAppleButtonStyle())
-        view.addSubview(signInWithAppleBtn)
-        signInWithAppleBtn.cornerRadius = 25
-        signInWithAppleBtn.addTarget(self, action: #selector(signInWithApple), for: .touchUpInside)
-        signInWithAppleBtn.translatesAutoresizingMaskIntoConstraints = false
-        signInWithAppleBtn.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        signInWithAppleBtn.widthAnchor.constraint(equalToConstant: 280).isActive = true
-        signInWithAppleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        signInWithAppleBtn.bottomAnchor.constraint(equalTo: signInGoogleButton.topAnchor, constant: -20).isActive = true
-    }
-    
-    func chooseAppleButtonStyle() -> ASAuthorizationAppleIDButton.Style {
-        return (UITraitCollection.current.userInterfaceStyle == .light) ? .black : .white // 淺色模式就顯示黑色的按鈕，深色模式就顯示白色的按鈕
     }
     
     // signInWithApple
