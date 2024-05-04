@@ -11,6 +11,8 @@
 		1B04ACFD2BCD129900F6FB8D /* AcupointData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B04ACFC2BCD129900F6FB8D /* AcupointData.swift */; };
 		1B04AD002BCD331400F6FB8D /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B04ACFF2BCD331400F6FB8D /* SearchVC.swift */; };
 		1B04AD022BCD38A300F6FB8D /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B04AD012BCD38A300F6FB8D /* SearchTableViewCell.swift */; };
+		1B3882472BE6080300393F94 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3882462BE6080300393F94 /* Alert.swift */; };
+		1B3882492BE60BB200393F94 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3882482BE60BB200393F94 /* AuthManager.swift */; };
 		1B3ADA972BD9D93F00CF613C /* GenJyuuGothicX-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B3ADA952BD9D80300CF613C /* GenJyuuGothicX-Medium.ttf */; };
 		1B3ADA992BD9DAC800CF613C /* ZenMaruGothic-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B3ADA982BD9DAC800CF613C /* ZenMaruGothic-Black.ttf */; };
 		1B3ADA9B2BD9DACF00CF613C /* ZenMaruGothic-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B3ADA9A2BD9DACF00CF613C /* ZenMaruGothic-Bold.ttf */; };
@@ -68,6 +70,7 @@
 		1BC6EEC22BE0E48900B6B127 /* AnimatedCollectionViewLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 1BC6EEC12BE0E48900B6B127 /* AnimatedCollectionViewLayout */; };
 		1BC6EEC62BE1DE6900B6B127 /* UICollectionView + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEC52BE1DE6900B6B127 /* UICollectionView + Ext.swift */; };
 		1BC6EECA2BE247B100B6B127 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEC92BE247B100B6B127 /* Protocols.swift */; };
+		1BD5A6152BE4FA6B00D50380 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD5A6142BE4FA6B00D50380 /* FirebaseManager.swift */; };
 		1BF232182BD13ACA00E2BD5E /* SavedAcupName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF232172BD13ACA00E2BD5E /* SavedAcupName.swift */; };
 		1BF9C9052BD0057F00EBEA0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -90,6 +93,8 @@
 		1B04ACFC2BCD129900F6FB8D /* AcupointData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcupointData.swift; sourceTree = "<group>"; };
 		1B04ACFF2BCD331400F6FB8D /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		1B04AD012BCD38A300F6FB8D /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
+		1B3882462BE6080300393F94 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		1B3882482BE60BB200393F94 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		1B3ADA952BD9D80300CF613C /* GenJyuuGothicX-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenJyuuGothicX-Medium.ttf"; sourceTree = "<group>"; };
 		1B3ADA982BD9DAC800CF613C /* ZenMaruGothic-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ZenMaruGothic-Black.ttf"; sourceTree = "<group>"; };
 		1B3ADA9A2BD9DACF00CF613C /* ZenMaruGothic-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ZenMaruGothic-Bold.ttf"; sourceTree = "<group>"; };
@@ -139,6 +144,7 @@
 		1BC6EEBE2BE0CE6500B6B127 /* CommonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonModel.swift; sourceTree = "<group>"; };
 		1BC6EEC52BE1DE6900B6B127 /* UICollectionView + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView + Ext.swift"; sourceTree = "<group>"; };
 		1BC6EEC92BE247B100B6B127 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		1BD5A6142BE4FA6B00D50380 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		1BF232172BD13ACA00E2BD5E /* SavedAcupName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedAcupName.swift; sourceTree = "<group>"; };
 		1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -234,6 +240,8 @@
 			isa = PBXGroup;
 			children = (
 				1B90B2E22BDBA0DE0069C868 /* CardTransitionManager.swift */,
+				1BD5A6142BE4FA6B00D50380 /* FirebaseManager.swift */,
+				1B3882482BE60BB200393F94 /* AuthManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -413,6 +421,7 @@
 			isa = PBXGroup;
 			children = (
 				1BC6EEBB2BE067A400B6B127 /* BaseVC.swift */,
+				1B3882462BE6080300393F94 /* Alert.swift */,
 				1BC6EEC92BE247B100B6B127 /* Protocols.swift */,
 			);
 			path = Base;
@@ -522,6 +531,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B90B2EF2BDD0C380069C868 /* InitialSignInVC.swift in Sources */,
+				1B3882492BE60BB200393F94 /* AuthManager.swift in Sources */,
 				1B97B0E92BD0C6EC006761CD /* WikiVCTableViewCell.swift in Sources */,
 				1BA2DF562BD118E1005A841E /* HandAcupointModel.swift in Sources */,
 				1B90B2F12BDD0CAC0069C868 /* LoginVC.swift in Sources */,
@@ -533,6 +543,7 @@
 				1B90F1052BD4E50D00452B6D /* InfoCollectionViewCell.swift in Sources */,
 				1B83A8C12BCE829000E0C440 /* TabController.swift in Sources */,
 				1B9D2AC72BCBD7CC004FDF17 /* HandJointService.swift in Sources */,
+				1BD5A6152BE4FA6B00D50380 /* FirebaseManager.swift in Sources */,
 				1B964F782BCB83220005F1CF /* HomeVC.swift in Sources */,
 				1BF232182BD13ACA00E2BD5E /* SavedAcupName.swift in Sources */,
 				1B90F1322BD87F6800452B6D /* UIImageView + Ext.swift in Sources */,
@@ -545,6 +556,7 @@
 				1B964F742BCAE8D80005F1CF /* AppError.swift in Sources */,
 				1B97B0E72BD0C17A006761CD /* WikiVC.swift in Sources */,
 				1B90B2DC2BDB5BF40069C868 /* CommonCollectionViewCell.swift in Sources */,
+				1B3882472BE6080300393F94 /* Alert.swift in Sources */,
 				1B90F1382BD8F03000452B6D /* UIColor + Ext.swift in Sources */,
 				1B90B2E32BDBA0DE0069C868 /* CardTransitionManager.swift in Sources */,
 				1BC6EEC62BE1DE6900B6B127 /* UICollectionView + Ext.swift in Sources */,

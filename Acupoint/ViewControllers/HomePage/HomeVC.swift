@@ -1,7 +1,14 @@
 import UIKit
+import GoogleSignIn
+import Firebase
 
-class HomeVC: BaseVC {
-  
+class HomeVC: BaseVC, AddDelegate {
+    
+    func didAddItem(_ item: String) {
+        userNameLabel.text = item
+        print(item)
+    }
+    
     let archiveVC = ArchiveVC()
     
     let screenHeight = UIScreen.main.bounds.size.height
@@ -18,31 +25,41 @@ class HomeVC: BaseVC {
         return label
     }()
     
-    lazy var userAvatarImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.configureCircleView(forImage: "頭貼", size: 70)
-        return imageView
-    }()
-    
-    lazy var userNameLabel: UILabel = {
+//    lazy var userAvatarImageView: UIImageView = {
+//        let imageView = UIImageView()
+//        imageView.translatesAutoresizingMaskIntoConstraints = false
+//        imageView.configureCircleView(forImage: "頭貼", size: 70)
+//        return imageView
+//    }()
+   
+    var userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Bane"
+        label.text = "你好"
         label.font = UIFont(name: "GenJyuuGothicX-Medium", size: 22)
         return label
     }()
-    
+   
     lazy var bookmarkBtn: UIButton = {
         let button = UIButton()
         //        let bookmarkTapped = false
         button.setImage(UIImage(systemName: "bookmark"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        
+
         button.addTarget(self, action: #selector(archiveButtonTapped), for: .touchUpInside)
         button.tintColor = .black
         return button
     }()
+    
+    lazy var signOutBtn: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("登出", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(signOutButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
@@ -80,12 +97,16 @@ class HomeVC: BaseVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(userAvatarImageView)
+        
+        let thevc2 = LoginVC()
+        thevc2.addDelegate = self
+
+//        view.addSubview(userAvatarImageView)
         view.addSubview(userNameLabel)
         view.addSubview(bookmarkBtn)
+        view.addSubview(signOutBtn)
         view.addSubview(collectionView)
         view.addSubview(commonPointLbl)
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -94,30 +115,51 @@ class HomeVC: BaseVC {
   
     func setUpUI() {
         NSLayoutConstraint.activate([
-            userAvatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            userAvatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            userAvatarImageView.widthAnchor.constraint(equalToConstant: 70),
-            userAvatarImageView.heightAnchor.constraint(equalToConstant: 70),
+//            userAvatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+//            userAvatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+//            userAvatarImageView.widthAnchor.constraint(equalToConstant: 70),
+//            userAvatarImageView.heightAnchor.constraint(equalToConstant: 70),
             
-            commonPointLbl.topAnchor.constraint(equalTo: userAvatarImageView.bottomAnchor, constant: 12),
+            userNameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            userNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
+            userNameLabel.heightAnchor.constraint(equalToConstant: 50),
+            userNameLabel.widthAnchor.constraint(equalToConstant: 180),
+            
+            commonPointLbl.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 12),
             commonPointLbl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 18),
             commonPointLbl.widthAnchor.constraint(equalToConstant: 120),
             
-            userNameLabel.centerYAnchor.constraint(equalTo: userAvatarImageView.centerYAnchor),
-            userNameLabel.leadingAnchor.constraint(equalTo: userAvatarImageView.trailingAnchor, constant: 22),
-            
-            bookmarkBtn.centerYAnchor.constraint(equalTo: userAvatarImageView.centerYAnchor),
+            bookmarkBtn.centerYAnchor.constraint(equalTo: userNameLabel.centerYAnchor),
             bookmarkBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
             collectionView.topAnchor.constraint(equalTo: commonPointLbl.bottomAnchor, constant: 12),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
+            
+            signOutBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -20),
+            signOutBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
     @objc func archiveButtonTapped() {
         self.navigationController?.pushViewController(archiveVC, animated: true)
+    }
+    
+    @objc func signOutButtonTapped() {
+        let controller = UIAlertController(title: "確定要登出？", message: "", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "是的", style: .default) { (_) in
+            do {
+                try Auth.auth().signOut()
+            } catch {
+            print(error)
+    //        errorMessage = error.localizedDescription
+            }
+        }
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        controller.addAction(okAction)
+        controller.addAction(cancelAction)
+        present(controller, animated: true, completion: nil)
     }
 }
 
@@ -152,4 +194,3 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
         }
     }
 }
-//

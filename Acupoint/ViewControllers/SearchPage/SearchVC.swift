@@ -7,7 +7,9 @@ class SearchVC: BaseVC {
     private let faceVC = FaceVC()
     private let handVC = HandVC()
     
-    var acupoitData = AcupointData.shared
+    let acupoitData = AcupointData.shared
+    let swiftDataService = SwiftDataService.shared
+    let firebaseManager = FirebaseManager.shared
     
     lazy var facePoints: [FaceAcupointModel] = {
         return acupoitData.faceAcupoints
@@ -16,10 +18,9 @@ class SearchVC: BaseVC {
     lazy var handPoints: [HandAcupointModel] = {
         return acupoitData.handAcupoints
     }()
-    
+   
     //    private let searchController = UISearchController(searchResultsController: nil)
     
-    //    var allAcupoints: [FaceAcupointModel]?
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "尋找穴位"
@@ -173,7 +174,19 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         }
         print("button被點了")
         SwiftDataService.shared.checkAcupointNames(name)
-        
+        //存在swiftdata的資料抓下來
+        var dataFromLocal = swiftDataService.fetchAcupointNames()
+        for data in dataFromLocal {
+            firebaseManager.saveAcupointName(data) { result in
+                switch result {
+                case .success:
+                    print("文章上傳成功")
+                    // 清空輸入欄位
+                case .failure(let error):
+                    print("文章上傳失敗: \(error.localizedDescription)")
+                }
+            }
+        }
         //        SwiftDataService.shared.saveAcupointName(name)
     }
 }

@@ -57,7 +57,6 @@ class TabController: UITabBarController {
         
         let navigation = UINavigationController(rootViewController: viewController)
         navigation.navigationBar.tintColor = .white
-
         navigation.tabBarItem.title = title
         
 //        navigation.viewControllers.first?.navigationItem.title = title

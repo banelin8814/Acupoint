@@ -11,7 +11,7 @@ class ArchiveVC: BaseVC {
     
     var archivePointName: [AcupointName]?
     // swiftdata
-    let service = SwiftDataService.shared
+    let swiftDataService = SwiftDataService.shared
     //Data
     var acupointData = AcupointData.shared
     
@@ -34,7 +34,7 @@ class ArchiveVC: BaseVC {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-            self.archivePointName = self.service.fetchAcupointNames()
+            self.archivePointName = self.swiftDataService.fetchAcupointNames()
             self.archiveTableView.reloadData()
     }
     

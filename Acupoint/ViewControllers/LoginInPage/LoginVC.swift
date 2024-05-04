@@ -7,6 +7,12 @@ import GoogleSignInSwift
 import FirebaseCore
 import GoogleSignIn // 導入 Google Sign-In SDK
 
+protocol AddDelegate: AnyObject {
+    
+    func didAddItem(_ item: String)
+    
+}
+
 class LoginVC: BaseVC {
     
     lazy var appTitle: UILabel = {
@@ -30,15 +36,14 @@ class LoginVC: BaseVC {
             return outgoing
         }
         button.configuration = configuration
-        
         return button
     }()
     
-    // signInWithApple
     private var signInWithAppleBtn = UIButton()
     
-    // signInWithGoogle
     private var signInGoogleBtn = UIButton()
+    
+    weak var addDelegate: AddDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +52,7 @@ class LoginVC: BaseVC {
         setGoogleBtn()
         setSignInWithAppleBtn()
     }
-    
+   
     func setTitle() {
         view.addSubview(appTitle)
         appTitle.translatesAutoresizingMaskIntoConstraints = false
@@ -73,11 +78,6 @@ class LoginVC: BaseVC {
         signInGoogleBtn.setTitleColor(.black, for: .normal)
         signInGoogleBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         signInGoogleBtn.setImage(UIImage(named: "googleLogo"), for: .normal)
-        //        signInGoogleBtn.contentVerticalAlignment = .fill
-        //        signInGoogleBtn.contentHorizontalAlignment = .fill
-        //        signInGoogleBtn.imageEdgeInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
-        //        signInGoogleBtn.imageView?.contentMode = .scaleAspectFit
-        //        signInGoogleBtn.semanticContentAttribute = .forceLeftToRight
         signInGoogleBtn.layer.cornerRadius = 10
         signInGoogleBtn.layer.borderWidth = 0.8
         signInGoogleBtn.layer.borderColor = UIColor.gray.cgColor
@@ -90,21 +90,7 @@ class LoginVC: BaseVC {
         signInGoogleBtn.heightAnchor.constraint(equalToConstant: 50).isActive = true
         signInGoogleBtn.widthAnchor.constraint(equalToConstant: 240).isActive = true
     }
-    
-    // signInWithApple
-    func setSignInWithAppleBtn() {
-        let signInWithAppleBtn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .black)
-        view.addSubview(signInWithAppleBtn)
-        signInWithAppleBtn.cornerRadius = 10
-        signInWithAppleBtn.addTarget(self, action: #selector(signInWithApple), for: .touchUpInside)
-        signInWithAppleBtn.translatesAutoresizingMaskIntoConstraints = false
-        signInWithAppleBtn.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        signInWithAppleBtn.widthAnchor.constraint(equalToConstant: 240).isActive = true
-        signInWithAppleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        signInWithAppleBtn.bottomAnchor.constraint(equalTo: signInGoogleBtn.topAnchor, constant: -20).isActive = true
-    }
-    
-    // signInWithGoogle
+    //MARK: - google
     private func googleSignIn() {
         // here for simplicity I used completion handler
         // feel free to use async function instead
@@ -138,18 +124,26 @@ class LoginVC: BaseVC {
                 return
             }
             self?.navigateToHomeViewController(with: name)
+            
         }
     }
-    
-    private func navigateToHomeViewController(with name: String) {
-        // here you can create a HomeViewController and display user name
-        // then just redirect to HomeViewController if needed
+    //MARK: - apple
+    //SignInApple1
+    func setSignInWithAppleBtn() {
+        let signInWithAppleBtn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .black)
+        view.addSubview(signInWithAppleBtn)
+        signInWithAppleBtn.cornerRadius = 10
+        signInWithAppleBtn.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
+        signInWithAppleBtn.translatesAutoresizingMaskIntoConstraints = false
+        signInWithAppleBtn.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        signInWithAppleBtn.widthAnchor.constraint(equalToConstant: 240).isActive = true
+        signInWithAppleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        signInWithAppleBtn.bottomAnchor.constraint(equalTo: signInGoogleBtn.topAnchor, constant: -20).isActive = true
     }
     
-    // signInWithApple
     fileprivate var currentNonce: String?
-    
-    @objc func signInWithApple() {
+    //SignInApple2
+    @objc func handleAuthorizationAppleIDButtonPress() {
         let nonce = randomNonceString()
         currentNonce = nonce
         let appleIDProvider = ASAuthorizationAppleIDProvider()
@@ -163,7 +157,6 @@ class LoginVC: BaseVC {
         authorizationController.performRequests()
     }
     
-    // signInWithApple
     private func randomNonceString(length: Int = 32) -> String {
         precondition(length > 0)
         let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
@@ -203,17 +196,42 @@ class LoginVC: BaseVC {
         return hashString
     }
     
-    func firebaseSignInWithApple(credential: AuthCredential) {
-        Auth.auth().signIn(with: credential) { (_, error) in
-            if let error = error {
-                CustomFunc.customAlert(title: "登入失敗", message: error.localizedDescription, theVc: self, actionHandler: nil)
-                return
+    //MARK: - toHomePage
+    private func navigateToHomeViewController(with name: String) {
+        
+        let tabController = TabController()
+        tabController.modalPresentationStyle = .fullScreen
+        present(tabController, animated: true, completion: nil)
+        
+        guard let controllers = tabController.viewControllers else { return }
+        for viewcontroller in controllers {
+            if let navi = viewcontroller as? UINavigationController,
+               let targetVC = navi.viewControllers.first as? HomeVC {
+                    targetVC.userNameLabel.text = "你好 \(name)"
+                
             }
-            // 登入成功，執行相應的操作
-            CustomFunc.customAlert(title: "登入成功", message: "歡迎使用我們的應用程式", theVc: self, actionHandler: nil)
         }
     }
     
+    //    func updatedisplayName(for user: User, with appleIDCredential: ASAuthorizationAppleIDCredential, force: Bool = false) async {
+    //
+    //        if let currentDisplayName = Auth.auth().currentUser?.displayName, !currentDisplayName.isEmpty {
+    //            // 有名字了
+    //        } else {
+    //            let changeRequest = user.createProfileChangeRequest()
+    //            changeRequest.displayName = appleIDCredential.displayName()
+    //            do {
+    //                try await changeRequest.commitChanges()
+    //                self.displayName = Auth.auth().currentUser?.displayName ?? ""
+    //
+    //            }
+    //            catch {
+    //                error.localizedDescription
+    //            }
+    //        }
+    //    }
+    
+    //MARK: - skipButton
     @objc func skipButtonTapped() {
         let tabController = TabController()
         tabController.modalPresentationStyle = .fullScreen
@@ -232,9 +250,12 @@ class LoginVC: BaseVC {
 }
 
 extension LoginVC: ASAuthorizationControllerDelegate {
+    //SignInApple4
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         // 登入成功
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            
+            
             guard let nonce = currentNonce else {
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
             }
@@ -247,9 +268,52 @@ extension LoginVC: ASAuthorizationControllerDelegate {
                 return
             }
             // 產生 Apple ID 登入的 Credential
-            let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-            // 與 Firebase Auth 進行串接
-            firebaseSignInWithApple(credential: credential)
+            let credential = OAuthProvider.appleCredential(withIDToken: idTokenString,
+                                                           rawNonce: nonce,
+                                                           fullName: appleIDCredential.fullName)
+            
+            // Sign in with Firebase.
+            Auth.auth().signIn(with: credential) { (authResult, error) in
+                if let error = error {
+                    CustomFunc.customAlert(title: "使用者取消登入", message: error.localizedDescription, theVc: self, actionHandler: nil)
+                    return
+                }
+                print("User is signed in to Firebase with Apple.")
+                
+                if let user = authResult?.user {
+                    if let userName = Auth.auth().currentUser?.displayName {
+                        //有名字
+                        #if DEBUG
+                        print("userName: \(userName)")
+                        #else
+                        // No debugging information in release build
+                        #endif
+                        print(userName)
+                        self.navigateToHomeViewController(with: userName)
+                    } else {
+                        //沒有名字就改名字
+                        let defaultName = "New User"
+                        let changeRequest = user.createProfileChangeRequest()
+                        changeRequest.displayName = defaultName
+                        changeRequest.commitChanges { (error) in
+                            if let error = error {
+                                #if DEBUG
+                                print("Fail to change display name: \(error.localizedDescription)")
+                                #else
+                                // No debugging information in release build
+                                #endif
+                            } else {
+                                #if DEBUG
+                                print("Updated displayName to: \(defaultName)")
+                                #else
+                                // No debugging information in release build
+                                #endif
+                                self.navigateToHomeViewController(with: defaultName)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -278,18 +342,9 @@ extension LoginVC: ASAuthorizationControllerDelegate {
 }
 
 extension LoginVC: ASAuthorizationControllerPresentationContextProviding {
+    //SignInApple3
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return view.window!
     }
 }
 
-class CustomFunc {
-    static func customAlert(title: String, message: String, theVc: UIViewController, actionHandler: (() -> Void)?) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-            actionHandler?()
-        }
-        alertController.addAction(okAction)
-        theVc.present(alertController, animated: true, completion: nil)
-    }
-}
