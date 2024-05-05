@@ -111,6 +111,7 @@ class LoginVC: BaseVC {
             
             Auth.auth().signIn(with: credential) { authResult, error in
                 if let error {
+                    
                     print("Error", error)
                     return
                 }
@@ -208,7 +209,7 @@ class LoginVC: BaseVC {
             if let navi = viewcontroller as? UINavigationController,
                let targetVC = navi.viewControllers.first as? HomeVC {
                     targetVC.userNameLabel.text = "你好 \(name)"
-                
+                AuthManager.shared.isLoggedIn = true
             }
         }
     }

@@ -1,32 +1,18 @@
-//
-//  SearchTableViewCell.swift
-//  Acupoint
-//
-//  Created by 林佑淳 on 2024/4/15.
-//
-
 import UIKit
 
 class SearchTableViewCell: UITableViewCell {
-    
-//    lazy var cellView: UIView = {
-//        let view = UIView()
-//        view.backgroundColor = UIColor.red
-//        view.layer.cornerRadius = 10
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        return view
-//    }()
     
     private var gradientLayer: CAGradientLayer?
     
     lazy var bookmarkBtn: UIButton = {
         let button = UIButton()
-        //        let bookmarkTapped = false
         button.setImage(UIImage(systemName: "bookmark"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         
-        button.addTarget(self, action: #selector(archiveButtonTapped), for: .touchUpInside)
-        button.addTarget(nil, action: #selector(SearchVC.saveAction(_:)), for: .touchUpInside)
+        if AuthManager.shared.isLoggedIn {
+            button.addTarget(self, action: #selector(archiveButtonTapped(_:)), for: .touchUpInside)
+            button.addTarget(nil, action: #selector(SearchVC.saveAction(_:)), for: .touchUpInside)
+        }
         
         button.tintColor = .black
         return button
@@ -36,7 +22,6 @@ class SearchTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "穴位名稱"
-//        label.textAlignment -
         label.font = UIFont(name: "ZenMaruGothic-Medium", size: 22)
         return label
     }()
@@ -54,7 +39,6 @@ class SearchTableViewCell: UITableViewCell {
     //純code，UITableViewCell初始化方法
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupUI()
         setupCell()
         self.selectionStyle = .none
         contentView.backgroundColor = .clear
@@ -98,7 +82,6 @@ class SearchTableViewCell: UITableViewCell {
         contentView.addSubview(shadowView)
         
         // 將 blurView 添加到陰影容器中
-        
         shadowView.addSubview(blurView)
         
         contentView.addSubview(bookmarkBtn)
@@ -143,30 +126,11 @@ class SearchTableViewCell: UITableViewCell {
         super.layoutSubviews()
         gradientLayer?.frame = blurView.bounds
     }
-    func setupUI() {
-//        contentView.addSubview(cellView)
-        
-        
-        
-        NSLayoutConstraint.activate([
-           
-//            cellView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-//            cellView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
-//            cellView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
-//            cellView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-            //            painNameLabel.trailingAnchor.constraint(equalTo: bookmarkBtn.leadingAnchor, constant: -12)
-            
-        ])
-    }
-    
-    @objc func archiveButtonTapped() {
+
+    @objc func archiveButtonTapped(_ sender: UIButton) {
         bookmarkBtn.isSelected.toggle()
-        if bookmarkBtn.isSelected {
-            bookmarkBtn.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-            //儲存
-        } else {
-            bookmarkBtn.setImage(UIImage(systemName: "bookmark"), for: .normal)
-            //刪除
-        }
+        bookmarkBtn.isSelected == true ? bookmarkBtn.setImage(UIImage(systemName: "bookmark.fill"), for: .normal) : bookmarkBtn.setImage(UIImage(systemName: "bookmark"), for: .normal)
+     
     }
 }
+

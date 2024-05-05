@@ -1,10 +1,3 @@
-//
-//  ArchiveTableViewCell.swift
-//  Acupoint
-//
-//  Created by 林佑淳 on 2024/4/19.
-//
-
 import UIKit
 
 class ArchiveTableViewCell: UITableViewCell {
@@ -24,9 +17,11 @@ class ArchiveTableViewCell: UITableViewCell {
         contentView.backgroundColor = .backgroundColor
         setupArchiveBtn()
         bookmarkBtn.addTarget(nil, action: #selector(ArchiveVC.deleteAction(_:)), for: .touchUpInside)
-        bookmarkBtn.addTarget(nil, action: #selector(SearchTableViewCell.archiveButtonTapped), for: .touchUpInside)
         self.selectionStyle = .none
+        
     }
+    
+
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

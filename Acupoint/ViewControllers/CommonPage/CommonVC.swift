@@ -78,6 +78,7 @@ class CommonVC: BaseVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         if imageView.superview == nil {
                view.addSubview(imageView)
                view.addSubview(collectionView)

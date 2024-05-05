@@ -37,13 +37,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         targetVC.userNameLabel.text = "你好 \(String(describing: name))"
                     }
                 }
+                AuthManager.shared.isLoggedIn = true
             } else {
                 window.rootViewController = InitialSignInVC()
                 self?.window = window
                 self?.window?.makeKeyAndVisible()
             }
         }
-        
+        //打APi把firebase存進swiftdata
    
     }
     

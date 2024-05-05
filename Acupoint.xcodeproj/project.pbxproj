@@ -63,7 +63,6 @@
 		1BC6EEA72BDE278A00B6B127 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 1BC6EEA62BDE278A00B6B127 /* GoogleSignIn */; };
 		1BC6EEA92BDE278A00B6B127 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1BC6EEA82BDE278A00B6B127 /* GoogleSignInSwift */; };
 		1BC6EEAB2BDE431C00B6B127 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1BC6EEAA2BDE431C00B6B127 /* GoogleService-Info.plist */; };
-		1BC6EEAE2BDE570300B6B127 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEAD2BDE570300B6B127 /* AuthService.swift */; };
 		1BC6EEB92BE0657D00B6B127 /* StyleGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEB82BE0657D00B6B127 /* StyleGuide.swift */; };
 		1BC6EEBC2BE067A400B6B127 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEBB2BE067A400B6B127 /* BaseVC.swift */; };
 		1BC6EEBF2BE0CE6500B6B127 /* CommonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEBE2BE0CE6500B6B127 /* CommonModel.swift */; };
@@ -138,7 +137,6 @@
 		1BA2DF552BD118E1005A841E /* HandAcupointModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandAcupointModel.swift; sourceTree = "<group>"; };
 		1BAC823A2BD1F6BB0034299B /* ArchiveTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveTableViewCell.swift; sourceTree = "<group>"; };
 		1BC6EEAA2BDE431C00B6B127 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		1BC6EEAD2BDE570300B6B127 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		1BC6EEB82BE0657D00B6B127 /* StyleGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleGuide.swift; sourceTree = "<group>"; };
 		1BC6EEBB2BE067A400B6B127 /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		1BC6EEBE2BE0CE6500B6B127 /* CommonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonModel.swift; sourceTree = "<group>"; };
@@ -239,9 +237,9 @@
 		1B90B2E12BDBA0AC0069C868 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				1B90B2E22BDBA0DE0069C868 /* CardTransitionManager.swift */,
 				1BD5A6142BE4FA6B00D50380 /* FirebaseManager.swift */,
 				1B3882482BE60BB200393F94 /* AuthManager.swift */,
+				1B90B2E22BDBA0DE0069C868 /* CardTransitionManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -258,7 +256,6 @@
 		1B90F1062BD794CC00452B6D /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				1BC6EEAD2BDE570300B6B127 /* AuthService.swift */,
 				1B83A8C72BCEBC8F00E0C440 /* SwiftDataService.swift */,
 				1B9D2AC62BCBD7CC004FDF17 /* HandJointService.swift */,
 			);
@@ -564,7 +561,6 @@
 				1BC6EECA2BE247B100B6B127 /* Protocols.swift in Sources */,
 				1B964F202BC912690005F1CF /* AppDelegate.swift in Sources */,
 				1BC6EEBF2BE0CE6500B6B127 /* CommonModel.swift in Sources */,
-				1BC6EEAE2BDE570300B6B127 /* AuthService.swift in Sources */,
 				1BAC823B2BD1F6BB0034299B /* ArchiveTableViewCell.swift in Sources */,
 				1B90F13A2BD8F93D00452B6D /* UIView + Ext.swift in Sources */,
 				1B964F722BCAE8B10005F1CF /* CameraView.swift in Sources */,

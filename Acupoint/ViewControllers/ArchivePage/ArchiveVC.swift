@@ -25,6 +25,9 @@ class ArchiveVC: BaseVC {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem?.tintColor = .white
+        
         archiveTableView.dataSource = self
         archiveTableView.delegate = self
         archiveTableView.register(ArchiveTableViewCell.self, forCellReuseIdentifier: "ArchiveTableViewCell")
