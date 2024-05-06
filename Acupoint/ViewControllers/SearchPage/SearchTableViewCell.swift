@@ -1,7 +1,9 @@
 import UIKit
+
 protocol SearchTableViewCellDelegate: AnyObject {
     func searchTableViewCell(_ cell: UITableViewCell, _ button: UIButton)
 }
+
 class SearchTableViewCell: UITableViewCell {
     
     private var gradientLayer: CAGradientLayer?
@@ -18,7 +20,6 @@ class SearchTableViewCell: UITableViewCell {
         if AuthManager.shared.isLoggedIn {
             button.addTarget(self, action: #selector(archiveButtonTapped(_:)), for: .touchUpInside)
         }
-        
         button.tintColor = .black
         return button
     }()

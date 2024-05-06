@@ -157,17 +157,30 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                 cell.painNameLabel.text = handPoints[indexPath.row].effect
             }
         }
-        
-        if let archivePointName = archivePointName {
-            for data in archivePointName {
-                if cell.acupointNameLabel.text == data.name {
-                    print("對應到的穴位名字\(data.name)")
-                    cell.bookmarkBtn.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-                } else {
-                    cell.bookmarkBtn.setImage(UIImage(systemName: "bookmark"), for: .normal)
-                }
+//        //        print("全部的穴位\(String(describing: cell.acupointNameLabel.text!))index:\(indexPath)")
+//        if let archivePointName = archivePointName {
+//            print("我現在總共有\(archivePointName.count)")
+//            for data in archivePointName {
+//                print("現在的名字：\(data.name)對應的index:\(indexPath)")
+//                if cell.acupointNameLabel.text == data.name {
+//                    print("Yes有對到的穴位\(String(describing: cell.acupointNameLabel.text))")
+//                    cell.bookmarkBtn.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+//                } else {
+//                    //                    cell.bookmarkBtn.setImage(UIImage(systemName: "bookmark"), for: .normal)
+//                }
+//                
+//            }
+////            print("NO沒對到的穴位\(String(describing: cell.acupointNameLabel.text))")
+//        }
+        if let archivePointName = archivePointName,
+               let acupointName = cell.acupointNameLabel.text,
+               archivePointName.contains(where: { $0.name == acupointName }) {
+            
+                cell.bookmarkBtn.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+            } else {
+                cell.bookmarkBtn.setImage(UIImage(systemName: "bookmark"), for: .normal)
             }
-        }
+        
         return cell
     }
     
@@ -261,10 +274,8 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                     }
                     if let result = searchResults[indexPath.row] as? FaceAcupointModel {
                         name = result.name
-                        print("第\(indexPath.row)的cell")
                     } else if let result = searchResults[indexPath.row] as? HandAcupointModel {
                         name = result.name
-                        print("第\(indexPath.row)的cell")
                     }
                 } else {
                     //用convert得到button的indextPath：簡單說是用button的位置得到indexPath
@@ -287,7 +298,10 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                     }
                 }
                 if let name = name {
-                    print("點擊bookmark的穴位名字:\(name)")
+                    //把存的名字存在現在的Array
+                    let newAcupointName = AcupointName(name: name)
+                      archivePointName?.append(newAcupointName)
+                 
                     SwiftDataService.shared.checkAcupointNames(name)
                 }
                 
@@ -317,6 +331,10 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension SearchVC: SearchTableViewCellDelegate {
+    func reuse() {
+        searchTableView.reloadData()
+    }
+    
     func searchTableViewCell(_ cell: UITableViewCell, _ button: UIButton) {
         saveAction(button)
     }
