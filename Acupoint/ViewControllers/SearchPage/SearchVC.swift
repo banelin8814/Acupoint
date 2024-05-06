@@ -12,7 +12,7 @@ class SearchVC: BaseVC {
     let swiftDataService = SwiftDataService.shared
     let firebaseManager = FirebaseManager.shared
     
-    var archivePointName: [AcupointName]?
+    var archivePointNames: [AcupointName]?
     
     lazy var facePoints: [FaceAcupointModel] = {
         return acupoitData.faceAcupoints
@@ -70,7 +70,7 @@ class SearchVC: BaseVC {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.archivePointName = self.swiftDataService.fetchAcupointNames()
+        self.archivePointNames = self.swiftDataService.fetchAcupointNames()
         searchTableView.reloadData()
     }
     
@@ -113,7 +113,7 @@ extension SearchVC: UISearchResultsUpdating, UISearchBarDelegate, UISearchContro
         } else {
             searchResults.removeAll()
         }
-        self.archivePointName = self.swiftDataService.fetchAcupointNames()
+        self.archivePointNames = self.swiftDataService.fetchAcupointNames()
         searchTableView.reloadData()
     }
 }
@@ -172,7 +172,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
 //            }
 ////            print("NO沒對到的穴位\(String(describing: cell.acupointNameLabel.text))")
 //        }
-        if let archivePointName = archivePointName,
+        if let archivePointName = archivePointNames,
                let acupointName = cell.acupointNameLabel.text,
                archivePointName.contains(where: { $0.name == acupointName }) {
             
@@ -300,7 +300,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                 if let name = name {
                     //把存的名字存在現在的Array
                     let newAcupointName = AcupointName(name: name)
-                      archivePointName?.append(newAcupointName)
+                      archivePointNames?.append(newAcupointName)
                  
                     SwiftDataService.shared.checkAcupointNames(name)
                 }
