@@ -109,7 +109,7 @@ class LoginVC: BaseVC {
             
             let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
             
-            Auth.auth().signIn(with: credential) { authResult, error in
+            Auth.auth().signIn(with: credential) { _, error in
                 if let error {
                     
                     print("Error", error)

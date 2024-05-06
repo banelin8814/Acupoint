@@ -27,7 +27,7 @@ class SwiftDataService {
         }
     }
     // 獲取所有保存的穴位名字
-    func fetchAcupointNames() -> [AcupointName] {
+      func fetchAcupointNames() -> [AcupointName] {
         let descriptor = FetchDescriptor<AcupointName>()
         do {
             if let context = acupointNameContext {

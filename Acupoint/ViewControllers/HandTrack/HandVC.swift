@@ -417,7 +417,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             handSideSegmentedControl.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 0),
             handSideSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
             handSideSegmentedControl.widthAnchor.constraint(equalToConstant: 120),
-            handSideSegmentedControl.heightAnchor.constraint(equalToConstant: 30),
+            handSideSegmentedControl.heightAnchor.constraint(equalToConstant: 30)
             
         ])
     }
@@ -446,7 +446,7 @@ extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
         switch currentDisplayMode {
         case .allPoint:
             let isBackHand = handSideSegmentedControl.selectedSegmentIndex == 0
-            let filteredAcupoints = handPoints.filter( { $0.isBackHand == isBackHand } )
+            let filteredAcupoints = handPoints.filter({ $0.isBackHand == isBackHand })
             acupoint = filteredAcupoints[indexPath.item]
             cell.configureHandDataFromWikiVC(with: acupoint)
             

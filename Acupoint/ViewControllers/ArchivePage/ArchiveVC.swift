@@ -51,7 +51,7 @@ class ArchiveVC: BaseVC {
             archiveTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
-    
+    //點擊bookmark
     @objc func deleteAction(_ sender: UIButton) {
 
         let buttonPosition = sender.convert(CGPoint.zero, to: archiveTableView)
@@ -59,11 +59,10 @@ class ArchiveVC: BaseVC {
             return
         }
         
-        let entityTODelete = archivePointName?[indexPath.row]
+        let entityToDelete = archivePointName?[indexPath.row]
         
-        if let entity = entityTODelete {
+        if let entity = entityToDelete {
             SwiftDataService.shared.acupointNameContainer?.mainContext.delete(entity)
-            
             do {
                 try SwiftDataService.shared.acupointNameContainer?.mainContext.save()
                 
@@ -71,8 +70,6 @@ class ArchiveVC: BaseVC {
                 
                 archiveTableView.deleteRows(at: [indexPath], with: .fade)
                 self.archiveTableView.reloadData()
-
-                
             } catch {
                 print("Error deleting entity: \(error)")
             }
@@ -83,7 +80,7 @@ class ArchiveVC: BaseVC {
 extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return archivePointName?.count ?? 2
+        return archivePointName?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -97,7 +94,9 @@ extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
         return cell
         
     }
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        60
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //        self.tabBarController?.tabBar.isHidden = true
         if let index = facePoints.firstIndex(where: { $0.name == archivePointName?[indexPath.row].name }) {

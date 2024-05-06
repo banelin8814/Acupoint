@@ -7,32 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3AFA45AB-FECF-42DD-A1F7-44EA7017F94F"
+            uuid = "6D24FC61-69C6-4316-8691-E7DCB838393F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Acupoint/ViewControllers/SearchPage/SearchTableViewCell.swift"
+            filePath = "Acupoint/ViewControllers/SearchPage/SearchVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
-            landmarkName = "archiveButtonTapped(_:)"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
+            landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7B20BE7E-EE84-4236-BEB4-84AC0FE581D8"
+            uuid = "A803A74F-2981-44A9-AF0D-8304C81DD62A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Acupoint/ViewControllers/ArchivePage/ArchiveTableViewCell.swift"
+            filePath = "Acupoint/ViewControllers/SearchPage/SearchTableViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
-            landmarkName = "init(style:reuseIdentifier:)"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "archiveButtonTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
