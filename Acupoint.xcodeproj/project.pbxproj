@@ -13,6 +13,7 @@
 		1B04AD022BCD38A300F6FB8D /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B04AD012BCD38A300F6FB8D /* SearchTableViewCell.swift */; };
 		1B3882472BE6080300393F94 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3882462BE6080300393F94 /* Alert.swift */; };
 		1B3882492BE60BB200393F94 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3882482BE60BB200393F94 /* AuthManager.swift */; };
+		1B38824C2BE8FDE700393F94 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B38824B2BE8FDE700393F94 /* UserProfile.swift */; };
 		1B3ADA972BD9D93F00CF613C /* GenJyuuGothicX-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B3ADA952BD9D80300CF613C /* GenJyuuGothicX-Medium.ttf */; };
 		1B3ADA992BD9DAC800CF613C /* ZenMaruGothic-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B3ADA982BD9DAC800CF613C /* ZenMaruGothic-Black.ttf */; };
 		1B3ADA9B2BD9DACF00CF613C /* ZenMaruGothic-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B3ADA9A2BD9DACF00CF613C /* ZenMaruGothic-Bold.ttf */; };
@@ -94,6 +95,7 @@
 		1B04AD012BCD38A300F6FB8D /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		1B3882462BE6080300393F94 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		1B3882482BE60BB200393F94 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		1B38824B2BE8FDE700393F94 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		1B3ADA952BD9D80300CF613C /* GenJyuuGothicX-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenJyuuGothicX-Medium.ttf"; sourceTree = "<group>"; };
 		1B3ADA982BD9DAC800CF613C /* ZenMaruGothic-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ZenMaruGothic-Black.ttf"; sourceTree = "<group>"; };
 		1B3ADA9A2BD9DACF00CF613C /* ZenMaruGothic-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ZenMaruGothic-Bold.ttf"; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				1B04ACFA2BCD0F5D00F6FB8D /* FaceAcupointModel.swift */,
 				1BA2DF552BD118E1005A841E /* HandAcupointModel.swift */,
 				1BC6EEBE2BE0CE6500B6B127 /* CommonModel.swift */,
+				1B38824B2BE8FDE700393F94 /* UserProfile.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 				1BD5A6152BE4FA6B00D50380 /* FirebaseManager.swift in Sources */,
 				1B964F782BCB83220005F1CF /* HomeVC.swift in Sources */,
 				1BF232182BD13ACA00E2BD5E /* SavedAcupName.swift in Sources */,
+				1B38824C2BE8FDE700393F94 /* UserProfile.swift in Sources */,
 				1B90F1322BD87F6800452B6D /* UIImageView + Ext.swift in Sources */,
 				1B964F242BC912690005F1CF /* FaceVC.swift in Sources */,
 				1B90B2DF2BDB92710069C868 /* DetailVC.swift in Sources */,
