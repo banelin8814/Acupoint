@@ -15,6 +15,8 @@ class HomeVC: BaseVC, AddDelegate {
     
     let mainImageData: [String] = ["頭痛", "失眠", "美顏","眼睛疲勞"]
     let mainTitleData: [String] = ["頭 痛", "助 眠", "美 顏","眼 睛 疲 勞"]
+    let cellImage: [String] = ["頭痛大圖", "助眠大圖", "美顏大圖", "眼睛疲勞大圖"]
+
     
     lazy var commonPointLbl: UILabel = {
         let label = UILabel()
@@ -106,7 +108,6 @@ class HomeVC: BaseVC, AddDelegate {
         view.addSubview(signOutBtn)
         view.addSubview(collectionView)
         view.addSubview(commonPointLbl)
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -125,6 +126,9 @@ class HomeVC: BaseVC, AddDelegate {
             //            userAvatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             //            userAvatarImageView.widthAnchor.constraint(equalToConstant: 70),
             //            userAvatarImageView.heightAnchor.constraint(equalToConstant: 70),
+            
+            
+            
             
             userNameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             userNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
@@ -189,7 +193,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let commonVC = CommonVC()
         commonVC.index = indexPath.row
-    
+        commonVC.imageView.image = UIImage(named: cellImage[indexPath.row])
         commonVC.titleLbl.text =  acupointData.commonAcupoint[indexPath.row].categoryName
         commonVC.contentLbl.text = acupointData.commonAcupoint[indexPath.row].description
         

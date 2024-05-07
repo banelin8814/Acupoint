@@ -27,7 +27,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     //selected
     //負責給畫點的位置 selectedAcupointPosition = handAcupoints[self.acupointIndex].position
-    var acupointIndex: Int = 2
+    var acupointIndex: Int = 0
     
     enum DisplayMode {
         case allPoint
@@ -51,6 +51,14 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     let drawPath = UIBezierPath()
     
     var jointPoints: [VNRecognizedPoint] = []
+    
+    lazy var handOutlineImg: UIImageView = {
+        let handOutlineImg = UIImageView()
+        handOutlineImg.image = UIImage(named: "handOutline")
+        handOutlineImg.translatesAutoresizingMaskIntoConstraints = false
+        handOutlineImg.backgroundColor = .clear
+        return handOutlineImg
+    }()
     
     
     lazy var leftRightSegmentedControl: UISegmentedControl = {
@@ -83,9 +91,9 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-            // 在这里设置 layout 的属性
+        // 在这里设置 layout 的属性
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-      
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
@@ -96,13 +104,13 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         return collectionView
     }()
     //updateCurrentPage偵測index給currentPage，被賦予新的值後，執行邏輯。
-   
+    
     var selectedNameByCell: String = "" {
-            didSet {
-
-            }
+        didSet {
+            
         }
-     var currentPage: Int = 0 {
+    }
+    var currentPage: Int = 0 {
         didSet {
             if oldValue != currentPage {
                 print("The page changed to \(currentPage)")
@@ -125,6 +133,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         view.addSubview(leftRightSegmentedControl)
         view.addSubview(handSideSegmentedControl)
         view.addSubview(collectionView)
+        view.addSubview(handOutlineImg)
         
         drawOverlay.frame = view.layer.bounds
         drawOverlay.lineWidth = 40
@@ -137,15 +146,15 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     override func viewWillAppear(_ animated: Bool) {
         updateCurrentPage(collectionView: collectionView)
-
-
+        
+        
         if numberOfAcupoints == 1 {
             
             let promptVC = PromptVC()
-
+            handPoints = acupoitData.handAcupoints
             promptVC.promptNameLbl.text = handPoints[acupointIndex].name
             promptVC.promptPostionLbl.text = handPoints[acupointIndex].location
-            
+            promptVC.promptEffectLbl.text = handPoints[acupointIndex].effect
             present(promptVC, animated: true, completion: nil)
         }
     }
@@ -176,6 +185,30 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     }
     
     //MARK: - function
+    func setUpUI() {
+        
+        NSLayoutConstraint.activate([
+            leftRightSegmentedControl.topAnchor.constraint(equalTo: view.topAnchor, constant: 90),
+            leftRightSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            leftRightSegmentedControl.widthAnchor.constraint(equalToConstant: 90),
+            leftRightSegmentedControl.heightAnchor.constraint(equalToConstant: 30),
+            
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
+            collectionView.heightAnchor.constraint(equalToConstant: 130),
+            
+            handSideSegmentedControl.topAnchor.constraint(equalTo: leftRightSegmentedControl.bottomAnchor, constant: 30),
+            handSideSegmentedControl.leadingAnchor.constraint(equalTo: leftRightSegmentedControl.leadingAnchor),
+            handSideSegmentedControl.widthAnchor.constraint(equalToConstant: 90),
+            handSideSegmentedControl.heightAnchor.constraint(equalToConstant: 30)
+            
+//            handOutlineImg.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 50),
+//            handOutlineImg.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            handOutlineImg.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9),
+//            handOutlineImg.heightAnchor.constraint(equalTo: handOutlineImg.widthAnchor)
+        ])
+    }
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         
@@ -261,7 +294,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             DispatchQueue.main.async { [self] in
                 
                 let isBackHand = handSideSegmentedControl.selectedSegmentIndex == 0
-                                
+                
                 let filteredAcupoints = handPoints.filter { $0.isBackHand == isBackHand }
                 
                 for acupoint in filteredAcupoints {
@@ -282,7 +315,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             
             //更新當前頁面的名字
             updateCurrentPage(collectionView: collectionView)
-
+            
             // 移除先前的子层
             self.drawOverlay.sublayers?.forEach { $0.removeFromSuperlayer() }
             
@@ -334,6 +367,15 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             //更新當前cell的名字
             self.getNameByIndex(self.currentPage)
             self.updateAcupointPositions()
+            
+//            if self.isLeftHand {
+//                self.handOutlineImg.transform = CGAffineTransform(scaleX: -1, y: 1)
+//            } else {
+//                self.handOutlineImg.transform = CGAffineTransform.identity
+//            }
+//            if self.isBackHand {
+//                
+//            }
         }
     }
     
@@ -400,27 +442,6 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         session.commitConfiguration()
         cameraFeedSession = session
     }
-    
-    func setUpUI() {
-        
-        NSLayoutConstraint.activate([
-            leftRightSegmentedControl.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 0),
-            leftRightSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            leftRightSegmentedControl.widthAnchor.constraint(equalToConstant: 120),
-            leftRightSegmentedControl.heightAnchor.constraint(equalToConstant: 30),
-            
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
-            collectionView.heightAnchor.constraint(equalToConstant: 130),
-            
-            handSideSegmentedControl.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 0),
-            handSideSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            handSideSegmentedControl.widthAnchor.constraint(equalToConstant: 120),
-            handSideSegmentedControl.heightAnchor.constraint(equalToConstant: 30)
-            
-        ])
-    }
 }
 
 
@@ -483,6 +504,6 @@ extension HandVC: NameSelectionDelegate, CurrentPageUpdatable {
         updateAcupointPositions()
     }
 }
-    
+
 
 

@@ -5,6 +5,11 @@ class TabController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupTabs()
+        //注意事項
+        var alertView = AlertView()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            self.view.addSubview(alertView)
+        }
         
         overrideUserInterfaceStyle = .light
 

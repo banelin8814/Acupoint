@@ -25,10 +25,11 @@ enum BackgroundType: String {
 
 extension UIColor {
     static let backgroundColor = UIColor(hex: "#F4F1E8")
+    static let BlutTitleColor = UIColor(hex: "406f7e")
     static let lightSubtitleTextColor: UIColor = UIColor.white.withAlphaComponent(0.8)
+    static let darkTitleTextColor: UIColor = .black
     static let lightTitleTextColor: UIColor = .white
     static let darkSubtitleTextColor: UIColor = .gray
-    static let darkTitleTextColor: UIColor = .black
 }
 
 extension UILabel {

@@ -32,7 +32,7 @@ class CommonVC: BaseVC {
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "頭痛")
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -103,7 +103,7 @@ class CommonVC: BaseVC {
     
     func setupUI() {
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: view.topAnchor),
+            imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: -10),
             imageView.heightAnchor.constraint(equalToConstant: screenHeight * 0.35),
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),

@@ -80,7 +80,8 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         if selectedFacePoint.count == 1 {
             promptVC.promptNameLbl.text = facePoints[selectedIndex].name
             promptVC.promptPostionLbl.text = facePoints[selectedIndex].location
-            promptVC.promptImageView.loadGif(name: "face-animation")
+            promptVC.promptEffectLbl.text = facePoints[selectedIndex].effect
+//            promptVC.promptImageView.loadGif(name: "face-animation")
             present(promptVC, animated: true, completion: nil)
         }
         //animation
