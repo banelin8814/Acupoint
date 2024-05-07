@@ -4,13 +4,18 @@ class TabController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupTabs()
+        //popuploginPage
+   
+        
         //注意事項
         var alertView = AlertView()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
             self.view.addSubview(alertView)
         }
         
+        
+        self.setupTabs()
+
         overrideUserInterfaceStyle = .light
 
         // 設置tabBar的appearance
@@ -91,3 +96,5 @@ class TabController: UITabBarController {
         return navigation
     }
 }
+
+

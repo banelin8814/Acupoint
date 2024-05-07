@@ -1,10 +1,3 @@
-//
-//  AlertView.swift
-//  Acupoint
-//
-//  Created by 林佑淳 on 2024/5/7.
-//
-
 import UIKit
 
 class AlertView: UIView {

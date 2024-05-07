@@ -4,11 +4,16 @@ protocol SearchTableViewCellDelegate: AnyObject {
     func searchTableViewCell(_ cell: UITableViewCell, _ button: UIButton)
 }
 
+protocol LoginDelegate: AnyObject {
+    func popUpLoginPage()
+}
+
 class SearchTableViewCell: UITableViewCell {
     
     private var gradientLayer: CAGradientLayer?
     
-    weak var delegate: SearchTableViewCellDelegate?
+    weak var searchDelegate: SearchTableViewCellDelegate?
+    weak var loginDelegate: LoginDelegate?
     
     lazy var bookmarkBtn: UIButton = {
         let button = UIButton()
@@ -17,9 +22,8 @@ class SearchTableViewCell: UITableViewCell {
         button.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         button.contentVerticalAlignment = .fill
         button.contentHorizontalAlignment = .fill
-        if AuthManager.shared.isLoggedIn {
-            button.addTarget(self, action: #selector(archiveButtonTapped(_:)), for: .touchUpInside)
-        }
+        button.addTarget(self, action: #selector(archiveButtonTapped(_:)), for: .touchUpInside)
+
         button.tintColor = .black
         return button
     }()
@@ -124,12 +128,17 @@ class SearchTableViewCell: UITableViewCell {
     }
     
     @objc func archiveButtonTapped(_ sender: UIButton) {
-        if bookmarkBtn.image(for: .normal) == UIImage(systemName: "bookmark.fill") {
-            bookmarkBtn.setImage(UIImage(systemName: "bookmark"), for: .normal)
+        if AuthManager.shared.isLoggedIn {
+            if bookmarkBtn.image(for: .normal) == UIImage(systemName: "bookmark.fill") {
+                bookmarkBtn.setImage(UIImage(systemName: "bookmark"), for: .normal)
+            } else {
+                bookmarkBtn.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+            }
+            searchDelegate?.searchTableViewCell(self, sender)
         } else {
-            bookmarkBtn.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+            loginDelegate?.popUpLoginPage()
         }
-        delegate?.searchTableViewCell(self, sender)
     }
+  
 }
 

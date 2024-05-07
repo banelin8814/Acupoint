@@ -7,7 +7,7 @@ class SearchVC: BaseVC {
     private let faceVC = FaceVC()
     private let handVC = HandVC()
     private let archiveVC = ArchiveVC()
-    
+
     let acupoitData = AcupointData.shared
     let swiftDataService = SwiftDataService.shared
     let firebaseManager = FirebaseManager.shared
@@ -99,8 +99,7 @@ class SearchVC: BaseVC {
         if isArchiveEnable {
             self.navigationController?.pushViewController(archiveVC, animated: true)
         } else {
-            let loginPage = LoginVC()
-            present(loginPage, animated: true, completion: nil)
+            popUpLoginPage()
         }
     }
 }
@@ -135,7 +134,8 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchTableViewCell", for: indexPath) as? SearchTableViewCell else {
             return UITableViewCell() }
         
-        cell.delegate = self
+        cell.loginDelegate = self
+        cell.searchDelegate = self
         cell.contentView.backgroundColor = .backgroundColor
         cell.selectionStyle = .none
         
@@ -175,7 +175,6 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         if let archivePointName = archivePointNames,
                let acupointName = cell.acupointNameLabel.text,
                archivePointName.contains(where: { $0.name == acupointName }) {
-            
                 cell.bookmarkBtn.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
             } else {
                 cell.bookmarkBtn.setImage(UIImage(systemName: "bookmark"), for: .normal)
@@ -337,5 +336,14 @@ extension SearchVC: SearchTableViewCellDelegate {
     
     func searchTableViewCell(_ cell: UITableViewCell, _ button: UIButton) {
         saveAction(button)
+    }
+}
+
+extension SearchVC: LoginDelegate {
+    func popUpLoginPage() {
+        let loginVC = LoginVC()
+        loginVC.descibeTitle.text = "請登入使用收藏功能"
+        loginVC.appTitle.isHidden = true
+        present(loginVC, animated: true, completion: nil)
     }
 }

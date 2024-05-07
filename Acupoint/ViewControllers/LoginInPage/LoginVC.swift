@@ -7,10 +7,8 @@ import GoogleSignInSwift
 import FirebaseCore
 import GoogleSignIn // 導入 Google Sign-In SDK
 
-protocol AddDelegate: AnyObject {
-    
-    func didAddItem(_ item: String)
-    
+protocol AddNameDelegate: AnyObject {
+    func didAddUserName(_ item: String)
 }
 
 class LoginVC: BaseVC {
@@ -18,8 +16,18 @@ class LoginVC: BaseVC {
     lazy var appTitle: UILabel = {
         let label = UILabel()
         label.text = "ACUPOINT"
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(name: "ZenMaruGothic-Black", size: 40)
         label.textColor = .systemOrange
+        return label
+    }()
+    
+    lazy var descibeTitle: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "ZenMaruGothic-Black", size: 26)
+        label.textColor = UIColor.BlutTitleColor
         return label
     }()
     
@@ -27,7 +35,7 @@ class LoginVC: BaseVC {
         let button = UIButton()
         button.setTitle("跳過", for: .normal)
         button.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
-        
+        button.translatesAutoresizingMaskIntoConstraints = false
         var configuration = UIButton.Configuration.plain()
         configuration.baseForegroundColor = .black
         configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
@@ -43,7 +51,7 @@ class LoginVC: BaseVC {
     
     private var signInGoogleBtn = UIButton()
     
-    weak var addDelegate: AddDelegate?
+    weak var addDelegate: AddNameDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,18 +59,18 @@ class LoginVC: BaseVC {
         setSkipBtn()
         setGoogleBtn()
         setSignInWithAppleBtn()
+        //havnt login
+        setDescibeTitle()
     }
    
     func setTitle() {
         view.addSubview(appTitle)
-        appTitle.translatesAutoresizingMaskIntoConstraints = false
         appTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         appTitle.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -30).isActive = true
     }
     
     func setSkipBtn() {
         view.addSubview(skipButton)
-        skipButton.translatesAutoresizingMaskIntoConstraints = false
         skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:  -10).isActive = true
         skipButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         skipButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
@@ -90,6 +98,16 @@ class LoginVC: BaseVC {
         signInGoogleBtn.heightAnchor.constraint(equalToConstant: 50).isActive = true
         signInGoogleBtn.widthAnchor.constraint(equalToConstant: 240).isActive = true
     }
+    
+    func setDescibeTitle() {
+        view.addSubview(descibeTitle)
+        descibeTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        descibeTitle.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -30).isActive = true
+//        descibeTitle.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//        descibeTitle.widthAnchor.constraint(equalToConstant: 240).isActive = true
+
+    }
+    
     //MARK: - google
     private func googleSignIn() {
         // here for simplicity I used completion handler

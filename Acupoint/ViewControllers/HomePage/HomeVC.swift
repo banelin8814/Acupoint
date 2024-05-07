@@ -2,9 +2,9 @@ import UIKit
 import GoogleSignIn
 import Firebase
 
-class HomeVC: BaseVC, AddDelegate {
+class HomeVC: BaseVC, AddNameDelegate {
     
-    func didAddItem(_ item: String) {
+    func didAddUserName(_ item: String) {
         userNameLabel.text = item
         print(item)
     }
