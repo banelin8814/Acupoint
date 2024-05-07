@@ -134,7 +134,6 @@ class LoginVC: BaseVC {
                     return
                 }
             }
-            
             // you can add anything with user data if you like
             // here I save user name for HomeViewController
             guard let name = result?.user.profile?.name else {

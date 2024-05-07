@@ -1,7 +1,7 @@
 import UIKit
 
 class ArchiveVC: BaseVC {
-    
+        
     private let archiveTableView = UITableView()
     
     private let faceVC = FaceVC()
@@ -27,7 +27,9 @@ class ArchiveVC: BaseVC {
         super.viewDidLoad()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = .white
+        navigationItem.title = "收藏穴位"
         
+        archiveTableView.separatorStyle = .singleLine
         archiveTableView.dataSource = self
         archiveTableView.delegate = self
         archiveTableView.register(ArchiveTableViewCell.self, forCellReuseIdentifier: "ArchiveTableViewCell")
@@ -87,16 +89,18 @@ extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ArchiveTableViewCell", for: indexPath) as? ArchiveTableViewCell else { return UITableViewCell() }
         
         if let name = archivePointName?[indexPath.row].name {
-            cell.textLabel?.text = name
+//            cell.textLabel?.text = name
+            cell.setupLbl(name)
         } else {
             cell.textLabel?.text = "non"
         }
         return cell
-        
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         60
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //        self.tabBarController?.tabBar.isHidden = true
         if let index = facePoints.firstIndex(where: { $0.name == archivePointName?[indexPath.row].name }) {

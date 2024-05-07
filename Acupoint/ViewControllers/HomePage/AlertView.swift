@@ -37,7 +37,7 @@ class AlertView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(container)
-        self.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        self.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         self.frame = UIScreen.main.bounds
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(animateOut)))
         setupUI()
