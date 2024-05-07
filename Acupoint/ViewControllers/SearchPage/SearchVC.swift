@@ -43,7 +43,6 @@ class SearchVC: BaseVC {
         AuthManager.shared.$isLoggedIn
             .assign(to: &$isArchiveEnable)
         
-        navigationController?.navigationBar.prefersLargeTitles = true
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont(name: "ZenMaruGothic-Medium", size: 30)!,
             .foregroundColor: UIColor.black
@@ -70,6 +69,7 @@ class SearchVC: BaseVC {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = true
         self.archivePointNames = self.swiftDataService.fetchAcupointNames()
         searchTableView.reloadData()
     }

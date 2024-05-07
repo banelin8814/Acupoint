@@ -173,7 +173,7 @@ struct AcupointData {
                 """,
                 basePoint: [.thumbMP],
                 offSet: joiningValley,
-                isBackHand: true
+                isBackHand: true //是手心
             ),
             
             HandAcupointModel(
@@ -192,22 +192,22 @@ struct AcupointData {
                 isBackHand: true
             ),
             
-            HandAcupointModel(
-                name: "內關穴",
-                effect: "改善失眠、緩解心悸、胸悶等症狀",
-                method: "合併食指中指，兩指按揉",
-                location: "手腕橫紋中點往下三橫指寬處",
-                notice:"""
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
-                basePoint: [.wrist],
-                offSet: innerPass,
-                isBackHand: false
-            ),
-            
+//            HandAcupointModel(
+//                name: "內關穴",
+//                effect: "改善失眠、緩解心悸、胸悶等症狀",
+//                method: "合併食指中指，兩指按揉",
+//                location: "手腕橫紋中點往下三橫指寬處",
+//                notice:"""
+//                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
+//                2.局部感染發炎處，應避開按摩
+//                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
+//                4.全身性發炎或自體免疫疾病，須注意按摩力道
+//                """,
+//                basePoint: [.wrist],
+//                offSet: innerPass,
+//                isBackHand: false
+//            ),
+//            
             HandAcupointModel(
                 name: "勞宮穴",
                 effect: "養心安神、改善心悸、失眠、健忘等症狀",

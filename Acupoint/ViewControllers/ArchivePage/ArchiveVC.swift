@@ -39,6 +39,7 @@ class ArchiveVC: BaseVC {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.prefersLargeTitles = true
             self.archivePointName = self.swiftDataService.fetchAcupointNames()
             self.archiveTableView.reloadData()
     }
