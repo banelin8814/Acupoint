@@ -11,6 +11,10 @@
 		1B04ACFD2BCD129900F6FB8D /* AcupointData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B04ACFC2BCD129900F6FB8D /* AcupointData.swift */; };
 		1B04AD002BCD331400F6FB8D /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B04ACFF2BCD331400F6FB8D /* SearchVC.swift */; };
 		1B04AD022BCD38A300F6FB8D /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B04AD012BCD38A300F6FB8D /* SearchTableViewCell.swift */; };
+		1B3882472BE6080300393F94 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3882462BE6080300393F94 /* Alert.swift */; };
+		1B3882492BE60BB200393F94 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3882482BE60BB200393F94 /* AuthManager.swift */; };
+		1B38824C2BE8FDE700393F94 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B38824B2BE8FDE700393F94 /* UserProfile.swift */; };
+		1B38824E2BE9B4C200393F94 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B38824D2BE9B4C200393F94 /* AlertView.swift */; };
 		1B3ADA972BD9D93F00CF613C /* GenJyuuGothicX-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B3ADA952BD9D80300CF613C /* GenJyuuGothicX-Medium.ttf */; };
 		1B3ADA992BD9DAC800CF613C /* ZenMaruGothic-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B3ADA982BD9DAC800CF613C /* ZenMaruGothic-Black.ttf */; };
 		1B3ADA9B2BD9DACF00CF613C /* ZenMaruGothic-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B3ADA9A2BD9DACF00CF613C /* ZenMaruGothic-Bold.ttf */; };
@@ -61,14 +65,13 @@
 		1BC6EEA72BDE278A00B6B127 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 1BC6EEA62BDE278A00B6B127 /* GoogleSignIn */; };
 		1BC6EEA92BDE278A00B6B127 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1BC6EEA82BDE278A00B6B127 /* GoogleSignInSwift */; };
 		1BC6EEAB2BDE431C00B6B127 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1BC6EEAA2BDE431C00B6B127 /* GoogleService-Info.plist */; };
-		1BC6EEAE2BDE570300B6B127 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEAD2BDE570300B6B127 /* AuthService.swift */; };
 		1BC6EEB92BE0657D00B6B127 /* StyleGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEB82BE0657D00B6B127 /* StyleGuide.swift */; };
 		1BC6EEBC2BE067A400B6B127 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEBB2BE067A400B6B127 /* BaseVC.swift */; };
 		1BC6EEBF2BE0CE6500B6B127 /* CommonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEBE2BE0CE6500B6B127 /* CommonModel.swift */; };
 		1BC6EEC22BE0E48900B6B127 /* AnimatedCollectionViewLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 1BC6EEC12BE0E48900B6B127 /* AnimatedCollectionViewLayout */; };
 		1BC6EEC62BE1DE6900B6B127 /* UICollectionView + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEC52BE1DE6900B6B127 /* UICollectionView + Ext.swift */; };
-		1BC6EEC82BE2477C00B6B127 /* BaseCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEC72BE2477C00B6B127 /* BaseCollectionViewLayout.swift */; };
-		1BC6EECA2BE247B100B6B127 /* BaseCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEC92BE247B100B6B127 /* BaseCollectionView.swift */; };
+		1BC6EECA2BE247B100B6B127 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEC92BE247B100B6B127 /* Protocols.swift */; };
+		1BD5A6152BE4FA6B00D50380 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD5A6142BE4FA6B00D50380 /* FirebaseManager.swift */; };
 		1BF232182BD13ACA00E2BD5E /* SavedAcupName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF232172BD13ACA00E2BD5E /* SavedAcupName.swift */; };
 		1BF9C9052BD0057F00EBEA0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -91,6 +94,10 @@
 		1B04ACFC2BCD129900F6FB8D /* AcupointData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcupointData.swift; sourceTree = "<group>"; };
 		1B04ACFF2BCD331400F6FB8D /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		1B04AD012BCD38A300F6FB8D /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
+		1B3882462BE6080300393F94 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		1B3882482BE60BB200393F94 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		1B38824B2BE8FDE700393F94 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		1B38824D2BE9B4C200393F94 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		1B3ADA952BD9D80300CF613C /* GenJyuuGothicX-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenJyuuGothicX-Medium.ttf"; sourceTree = "<group>"; };
 		1B3ADA982BD9DAC800CF613C /* ZenMaruGothic-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ZenMaruGothic-Black.ttf"; sourceTree = "<group>"; };
 		1B3ADA9A2BD9DACF00CF613C /* ZenMaruGothic-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ZenMaruGothic-Bold.ttf"; sourceTree = "<group>"; };
@@ -134,13 +141,12 @@
 		1BA2DF552BD118E1005A841E /* HandAcupointModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandAcupointModel.swift; sourceTree = "<group>"; };
 		1BAC823A2BD1F6BB0034299B /* ArchiveTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveTableViewCell.swift; sourceTree = "<group>"; };
 		1BC6EEAA2BDE431C00B6B127 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		1BC6EEAD2BDE570300B6B127 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		1BC6EEB82BE0657D00B6B127 /* StyleGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleGuide.swift; sourceTree = "<group>"; };
 		1BC6EEBB2BE067A400B6B127 /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		1BC6EEBE2BE0CE6500B6B127 /* CommonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonModel.swift; sourceTree = "<group>"; };
 		1BC6EEC52BE1DE6900B6B127 /* UICollectionView + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView + Ext.swift"; sourceTree = "<group>"; };
-		1BC6EEC72BE2477C00B6B127 /* BaseCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewLayout.swift; sourceTree = "<group>"; };
-		1BC6EEC92BE247B100B6B127 /* BaseCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionView.swift; sourceTree = "<group>"; };
+		1BC6EEC92BE247B100B6B127 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		1BD5A6142BE4FA6B00D50380 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		1BF232172BD13ACA00E2BD5E /* SavedAcupName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedAcupName.swift; sourceTree = "<group>"; };
 		1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -174,6 +180,7 @@
 				1B04ACFA2BCD0F5D00F6FB8D /* FaceAcupointModel.swift */,
 				1BA2DF552BD118E1005A841E /* HandAcupointModel.swift */,
 				1BC6EEBE2BE0CE6500B6B127 /* CommonModel.swift */,
+				1B38824B2BE8FDE700393F94 /* UserProfile.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -209,6 +216,7 @@
 		1B83A8BB2BCE752100E0C440 /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
+				1B38824D2BE9B4C200393F94 /* AlertView.swift */,
 				1B964F772BCB83220005F1CF /* HomeVC.swift */,
 				1B83A8BE2BCE7ADC00E0C440 /* HomeCollectionViewCell.swift */,
 			);
@@ -235,6 +243,8 @@
 		1B90B2E12BDBA0AC0069C868 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				1BD5A6142BE4FA6B00D50380 /* FirebaseManager.swift */,
+				1B3882482BE60BB200393F94 /* AuthManager.swift */,
 				1B90B2E22BDBA0DE0069C868 /* CardTransitionManager.swift */,
 			);
 			path = Manager;
@@ -252,7 +262,6 @@
 		1B90F1062BD794CC00452B6D /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				1BC6EEAD2BDE570300B6B127 /* AuthService.swift */,
 				1B83A8C72BCEBC8F00E0C440 /* SwiftDataService.swift */,
 				1B9D2AC62BCBD7CC004FDF17 /* HandJointService.swift */,
 			);
@@ -415,8 +424,8 @@
 			isa = PBXGroup;
 			children = (
 				1BC6EEBB2BE067A400B6B127 /* BaseVC.swift */,
-				1BC6EEC72BE2477C00B6B127 /* BaseCollectionViewLayout.swift */,
-				1BC6EEC92BE247B100B6B127 /* BaseCollectionView.swift */,
+				1B3882462BE6080300393F94 /* Alert.swift */,
+				1BC6EEC92BE247B100B6B127 /* Protocols.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -525,6 +534,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B90B2EF2BDD0C380069C868 /* InitialSignInVC.swift in Sources */,
+				1B3882492BE60BB200393F94 /* AuthManager.swift in Sources */,
 				1B97B0E92BD0C6EC006761CD /* WikiVCTableViewCell.swift in Sources */,
 				1BA2DF562BD118E1005A841E /* HandAcupointModel.swift in Sources */,
 				1B90B2F12BDD0CAC0069C868 /* LoginVC.swift in Sources */,
@@ -535,10 +545,11 @@
 				1BC6EEBC2BE067A400B6B127 /* BaseVC.swift in Sources */,
 				1B90F1052BD4E50D00452B6D /* InfoCollectionViewCell.swift in Sources */,
 				1B83A8C12BCE829000E0C440 /* TabController.swift in Sources */,
-				1BC6EEC82BE2477C00B6B127 /* BaseCollectionViewLayout.swift in Sources */,
 				1B9D2AC72BCBD7CC004FDF17 /* HandJointService.swift in Sources */,
+				1BD5A6152BE4FA6B00D50380 /* FirebaseManager.swift in Sources */,
 				1B964F782BCB83220005F1CF /* HomeVC.swift in Sources */,
 				1BF232182BD13ACA00E2BD5E /* SavedAcupName.swift in Sources */,
+				1B38824C2BE8FDE700393F94 /* UserProfile.swift in Sources */,
 				1B90F1322BD87F6800452B6D /* UIImageView + Ext.swift in Sources */,
 				1B964F242BC912690005F1CF /* FaceVC.swift in Sources */,
 				1B90B2DF2BDB92710069C868 /* DetailVC.swift in Sources */,
@@ -546,17 +557,18 @@
 				1B83A8BF2BCE7ADC00E0C440 /* HomeCollectionViewCell.swift in Sources */,
 				1BC6EEB92BE0657D00B6B127 /* StyleGuide.swift in Sources */,
 				1B04ACFD2BCD129900F6FB8D /* AcupointData.swift in Sources */,
+				1B38824E2BE9B4C200393F94 /* AlertView.swift in Sources */,
 				1B964F742BCAE8D80005F1CF /* AppError.swift in Sources */,
 				1B97B0E72BD0C17A006761CD /* WikiVC.swift in Sources */,
 				1B90B2DC2BDB5BF40069C868 /* CommonCollectionViewCell.swift in Sources */,
+				1B3882472BE6080300393F94 /* Alert.swift in Sources */,
 				1B90F1382BD8F03000452B6D /* UIColor + Ext.swift in Sources */,
 				1B90B2E32BDBA0DE0069C868 /* CardTransitionManager.swift in Sources */,
 				1BC6EEC62BE1DE6900B6B127 /* UICollectionView + Ext.swift in Sources */,
 				1B53803F2BDB557300927D8F /* CommonVC.swift in Sources */,
-				1BC6EECA2BE247B100B6B127 /* BaseCollectionView.swift in Sources */,
+				1BC6EECA2BE247B100B6B127 /* Protocols.swift in Sources */,
 				1B964F202BC912690005F1CF /* AppDelegate.swift in Sources */,
 				1BC6EEBF2BE0CE6500B6B127 /* CommonModel.swift in Sources */,
-				1BC6EEAE2BDE570300B6B127 /* AuthService.swift in Sources */,
 				1BAC823B2BD1F6BB0034299B /* ArchiveTableViewCell.swift in Sources */,
 				1B90F13A2BD8F93D00452B6D /* UIView + Ext.swift in Sources */,
 				1B964F722BCAE8B10005F1CF /* CameraView.swift in Sources */,
@@ -721,13 +733,13 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "Acupoint想要使用您的相機";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bane.Acupoint;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -750,13 +762,13 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "Acupoint想要使用您的相機";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bane.Acupoint;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

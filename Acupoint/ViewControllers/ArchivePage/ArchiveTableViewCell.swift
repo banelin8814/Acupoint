@@ -1,14 +1,24 @@
-//
-//  ArchiveTableViewCell.swift
-//  Acupoint
-//
-//  Created by 林佑淳 on 2024/4/19.
-//
-
 import UIKit
 
 class ArchiveTableViewCell: UITableViewCell {
     
+    lazy var titleLbl: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "ZenMaruGothic-Medium", size: 22)
+        label.textColor = .black
+        return label
+    }()
+    
+//    lazy var descirbeLbl: UILabel = {
+//        let label = UILabel()
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        label.font = UIFont(name: "GenJyuuGothicX-Regular", size: 14)
+//        label.textColor = .black
+//        return label
+//    }()
+
+
     lazy var bookmarkBtn: UIButton = {
         let button = UIButton()
         //        let bookmarkTapped = false
@@ -24,7 +34,6 @@ class ArchiveTableViewCell: UITableViewCell {
         contentView.backgroundColor = .backgroundColor
         setupArchiveBtn()
         bookmarkBtn.addTarget(nil, action: #selector(ArchiveVC.deleteAction(_:)), for: .touchUpInside)
-        bookmarkBtn.addTarget(nil, action: #selector(SearchTableViewCell.archiveButtonTapped), for: .touchUpInside)
         self.selectionStyle = .none
     }
     
@@ -34,20 +43,30 @@ class ArchiveTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
     }
     
     func setupArchiveBtn() {
+        contentView.addSubview(titleLbl)
         contentView.addSubview(bookmarkBtn)
+//        contentView.addSubview(descirbeLbl)
+
         NSLayoutConstraint.activate([
             bookmarkBtn.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            bookmarkBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            bookmarkBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            titleLbl.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            titleLbl.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+//            descirbeLbl.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+//            descirbeLbl.leadingAnchor.constraint(equalTo: titleLbl.trailingAnchor, constant: 20),
+//            descirbeLbl.trailingAnchor.constraint(equalTo: bookmarkBtn.leadingAnchor, constant: -20)
+//            descirbeLbl.heightAnchor.constraint(equalTo: contentView.heightAnchor)
         ])
+    }
+    
+    func setupLbl(_ name: String) {
+        titleLbl.text = name
     }
 }

@@ -20,7 +20,6 @@ extension UIColor {
             self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
         }
     // swiftlint:disable identifier_name
-    
     static func hexStringToUIColor(theHex: String) -> UIColor {
         var cString: String = theHex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
 

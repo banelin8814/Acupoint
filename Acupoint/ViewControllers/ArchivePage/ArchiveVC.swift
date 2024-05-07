@@ -1,7 +1,7 @@
 import UIKit
 
 class ArchiveVC: BaseVC {
-    
+        
     private let archiveTableView = UITableView()
     
     private let faceVC = FaceVC()
@@ -11,7 +11,7 @@ class ArchiveVC: BaseVC {
     
     var archivePointName: [AcupointName]?
     // swiftdata
-    let service = SwiftDataService.shared
+    let swiftDataService = SwiftDataService.shared
     //Data
     var acupointData = AcupointData.shared
     
@@ -25,6 +25,11 @@ class ArchiveVC: BaseVC {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem?.tintColor = .white
+        navigationItem.title = "收藏穴位"
+        
+        archiveTableView.separatorStyle = .singleLine
         archiveTableView.dataSource = self
         archiveTableView.delegate = self
         archiveTableView.register(ArchiveTableViewCell.self, forCellReuseIdentifier: "ArchiveTableViewCell")
@@ -34,7 +39,8 @@ class ArchiveVC: BaseVC {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-            self.archivePointName = self.service.fetchAcupointNames()
+        navigationController?.navigationBar.prefersLargeTitles = true
+            self.archivePointName = self.swiftDataService.fetchAcupointNames()
             self.archiveTableView.reloadData()
     }
     
@@ -48,7 +54,7 @@ class ArchiveVC: BaseVC {
             archiveTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
-    
+    //點擊bookmark
     @objc func deleteAction(_ sender: UIButton) {
 
         let buttonPosition = sender.convert(CGPoint.zero, to: archiveTableView)
@@ -56,11 +62,10 @@ class ArchiveVC: BaseVC {
             return
         }
         
-        let entityTODelete = archivePointName?[indexPath.row]
+        let entityToDelete = archivePointName?[indexPath.row]
         
-        if let entity = entityTODelete {
+        if let entity = entityToDelete {
             SwiftDataService.shared.acupointNameContainer?.mainContext.delete(entity)
-            
             do {
                 try SwiftDataService.shared.acupointNameContainer?.mainContext.save()
                 
@@ -68,8 +73,6 @@ class ArchiveVC: BaseVC {
                 
                 archiveTableView.deleteRows(at: [indexPath], with: .fade)
                 self.archiveTableView.reloadData()
-
-                
             } catch {
                 print("Error deleting entity: \(error)")
             }
@@ -80,19 +83,23 @@ class ArchiveVC: BaseVC {
 extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return archivePointName?.count ?? 2
+        return archivePointName?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ArchiveTableViewCell", for: indexPath) as? ArchiveTableViewCell else { return UITableViewCell() }
         
         if let name = archivePointName?[indexPath.row].name {
-            cell.textLabel?.text = name
+//            cell.textLabel?.text = name
+            cell.setupLbl(name)
         } else {
             cell.textLabel?.text = "non"
         }
         return cell
-        
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        60
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -113,7 +120,7 @@ extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
             handVC.handPoints = [handPoints[index]]
             //負責給畫點的位置 selectedAcupointPosition = handAcupoints[self.acupointIndex].position
             handVC.acupointIndex = index
-//            handVC.e幾個穴位 = 1
+            // handVC.e幾個穴位 = 1
             handVC.handSideSegmentedControl.isHidden = true
             handVC.collectionView.reloadData()
             self.navigationController?.pushViewController(handVC, animated: true)

@@ -30,6 +30,7 @@
 		<string>ZenMaruGothic-Light.ttf</string>
 		<string>GenJyuuGothicX-Regular.ttf</string>
 		<string>ZenMaruGothic-Bold.ttf</string>
+		<string>ZenMaruGothic-Black.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

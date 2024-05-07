@@ -1,8 +1,13 @@
 import UIKit
+import GoogleSignIn
+import Firebase
 
-class HomeVC: BaseVC {
-  
-    let archiveVC = ArchiveVC()
+class HomeVC: BaseVC, AddNameDelegate {
+    
+    func didAddUserName(_ item: String) {
+        userNameLabel.text = item
+        print(item)
+    }
     
     let screenHeight = UIScreen.main.bounds.size.height
     
@@ -10,6 +15,8 @@ class HomeVC: BaseVC {
     
     let mainImageData: [String] = ["頭痛", "失眠", "美顏","眼睛疲勞"]
     let mainTitleData: [String] = ["頭 痛", "助 眠", "美 顏","眼 睛 疲 勞"]
+    let cellImage: [String] = ["頭痛大圖", "助眠大圖", "美顏大圖", "眼睛疲勞大圖"]
+
     
     lazy var commonPointLbl: UILabel = {
         let label = UILabel()
@@ -18,32 +25,44 @@ class HomeVC: BaseVC {
         return label
     }()
     
-    lazy var userAvatarImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.configureCircleView(forImage: "頭貼", size: 70)
-        return imageView
-    }()
-    
-    lazy var userNameLabel: UILabel = {
+//    lazy var userAvatarImageView: UIImageView = {
+//        let imageView = UIImageView()
+//        imageView.translatesAutoresizingMaskIntoConstraints = false
+//        imageView.configureCircleView(forImage: "頭貼", size: 70)
+//        return imageView
+//    }()
+   
+    var userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Bane"
+        label.text = "你好"
         label.font = UIFont(name: "GenJyuuGothicX-Medium", size: 22)
         return label
     }()
     
-    lazy var bookmarkBtn: UIButton = {
+    lazy var signOutBtn: UIButton = {
         let button = UIButton()
-        //        let bookmarkTapped = false
-        button.setImage(UIImage(systemName: "bookmark"), for: .normal)
+        button.setTitle("尚未設定", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        
-        button.addTarget(self, action: #selector(archiveButtonTapped), for: .touchUpInside)
-        button.tintColor = .black
+        button.setTitleColor(.black, for: .normal)
+        if AuthManager.shared.isLoggedIn {
+            button.setTitle("登出", for: .normal)
+            button.addTarget(self, action: #selector(signOutButtonTapped), for: .touchUpInside)
+        } else {
+            button.setTitle("請登入", for: .normal)
+            button.addTarget(self, action: #selector(havntLoginYet), for: .touchUpInside)
+        }
+//        updateSignOutButtonTitle()
         return button
     }()
     
+//    @objc func loginStateChanged() {
+//        updateSignOutButtonTitle()
+//    }
+//    func updateSignOutButtonTitle() {
+//      
+//    }
+
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -80,44 +99,77 @@ class HomeVC: BaseVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(userAvatarImageView)
+        
+        let thevc2 = LoginVC()
+        thevc2.addDelegate = self
+
+//        view.addSubview(userAvatarImageView)
         view.addSubview(userNameLabel)
-        view.addSubview(bookmarkBtn)
+        view.addSubview(signOutBtn)
         view.addSubview(collectionView)
         view.addSubview(commonPointLbl)
-        
     }
     
     override func viewDidLayoutSubviews() {
         setUpUI()
     }
-  
+
+    
+    deinit {
+        // 移除觀察者
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     func setUpUI() {
         NSLayoutConstraint.activate([
-            userAvatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            userAvatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            userAvatarImageView.widthAnchor.constraint(equalToConstant: 70),
-            userAvatarImageView.heightAnchor.constraint(equalToConstant: 70),
+            //            userAvatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            //            userAvatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            //            userAvatarImageView.widthAnchor.constraint(equalToConstant: 70),
+            //            userAvatarImageView.heightAnchor.constraint(equalToConstant: 70),
             
-            commonPointLbl.topAnchor.constraint(equalTo: userAvatarImageView.bottomAnchor, constant: 12),
+            
+            
+            
+            userNameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            userNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
+            userNameLabel.heightAnchor.constraint(equalToConstant: 50),
+            userNameLabel.widthAnchor.constraint(equalToConstant: 180),
+            
+            commonPointLbl.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 12),
             commonPointLbl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 18),
             commonPointLbl.widthAnchor.constraint(equalToConstant: 120),
-            
-            userNameLabel.centerYAnchor.constraint(equalTo: userAvatarImageView.centerYAnchor),
-            userNameLabel.leadingAnchor.constraint(equalTo: userAvatarImageView.trailingAnchor, constant: 22),
-            
-            bookmarkBtn.centerYAnchor.constraint(equalTo: userAvatarImageView.centerYAnchor),
-            bookmarkBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
             collectionView.topAnchor.constraint(equalTo: commonPointLbl.bottomAnchor, constant: 12),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
+            
+            signOutBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -20),
+            signOutBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
-    @objc func archiveButtonTapped() {
-        self.navigationController?.pushViewController(archiveVC, animated: true)
+    @objc func havntLoginYet() {
+        let loginPage = LoginVC()
+        present(loginPage, animated: true, completion: nil)
+    }
+    
+    @objc func signOutButtonTapped() {
+        
+        let controller = UIAlertController(title: "確定要登出？", message: "", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "是的", style: .default) { (_) in
+            do {
+                try Auth.auth().signOut()
+                AuthManager.shared.isLoggedIn = false
+            } catch {
+            print(error)
+    //        errorMessage = error.localizedDescription
+            }
+        }
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        controller.addAction(okAction)
+        controller.addAction(cancelAction)
+        present(controller, animated: true, completion: nil)
     }
 }
 
@@ -141,7 +193,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let commonVC = CommonVC()
         commonVC.index = indexPath.row
-    
+        commonVC.imageView.image = UIImage(named: cellImage[indexPath.row])
         commonVC.titleLbl.text =  acupointData.commonAcupoint[indexPath.row].categoryName
         commonVC.contentLbl.text = acupointData.commonAcupoint[indexPath.row].description
         
@@ -152,4 +204,3 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
         }
     }
 }
-//

@@ -32,7 +32,7 @@ class CommonVC: BaseVC {
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "頭痛")
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -78,6 +78,7 @@ class CommonVC: BaseVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         if imageView.superview == nil {
                view.addSubview(imageView)
                view.addSubview(collectionView)
@@ -102,7 +103,7 @@ class CommonVC: BaseVC {
     
     func setupUI() {
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: view.topAnchor),
+            imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: -10),
             imageView.heightAnchor.constraint(equalToConstant: screenHeight * 0.35),
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -141,7 +142,6 @@ extension CommonVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         
         if let index = facePoints.firstIndex(where: { $0.name == acupointData.commonAcupoint[index].acupoints[indexPath.row].name }) {
             self.navigationController?.pushViewController(faceVC, animated: true)
