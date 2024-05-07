@@ -207,7 +207,7 @@ struct AcupointData {
 //                offSet: innerPass,
 //                isBackHand: false
 //            ),
-//            
+         
             HandAcupointModel(
                 name: "勞宮穴",
                 effect: "養心安神、改善心悸、失眠、健忘等症狀",
