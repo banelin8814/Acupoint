@@ -35,8 +35,8 @@ class HomeVC: BaseVC, AddNameDelegate {
     var userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "你好"
-        label.font = UIFont(name: "GenJyuuGothicX-Medium", size: 22)
+
+        label.configureHeadingThreeLabel(withText: "你好")
         return label
     }()
     
@@ -125,27 +125,24 @@ class HomeVC: BaseVC, AddNameDelegate {
             //            userAvatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             //            userAvatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             //            userAvatarImageView.widthAnchor.constraint(equalToConstant: 70),
-            //            userAvatarImageView.heightAnchor.constraint(equalToConstant: 70),
-            
-            
-            
+            //            userAvatarImageView.heightAnchor.constraint(equalToConstant: 70),  
             
             userNameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             userNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
-            userNameLabel.heightAnchor.constraint(equalToConstant: 50),
+            userNameLabel.trailingAnchor.constraint(equalTo: signOutBtn.leadingAnchor, constant: 20),
             userNameLabel.widthAnchor.constraint(equalToConstant: 180),
             
             commonPointLbl.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 12),
             commonPointLbl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 18),
-            commonPointLbl.widthAnchor.constraint(equalToConstant: 120),
-            
+            commonPointLbl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -18),
+
             collectionView.topAnchor.constraint(equalTo: commonPointLbl.bottomAnchor, constant: 12),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
             
-            signOutBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -20),
-            signOutBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            signOutBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            signOutBtn.centerYAnchor.constraint(equalTo: userNameLabel.centerYAnchor)
         ])
     }
     

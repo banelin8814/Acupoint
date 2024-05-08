@@ -66,7 +66,7 @@ class AlertView: UIView {
         titleLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 20).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20).isActive = true
         contantLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15).isActive = true
-        contantLabel.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
+        contantLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -20).isActive = true
         contantLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 20).isActive = true
         contantLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20).isActive = true
     }

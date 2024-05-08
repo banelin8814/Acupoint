@@ -190,7 +190,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
             return 2
         }
     }
-    
+    //Mark:更改進入handvc的邏輯
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if searchController.isActive {
             if let result = searchResults as? [FaceAcupointModel] {
@@ -207,11 +207,13 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                     self.tabBarController?.tabBar.isHidden = true
                 }
             } else if let result = searchResults as? [HandAcupointModel] {
+                //Mark:更改進入handvc的邏輯
                 if let index = handPoints.firstIndex(where: { $0.name == result[indexPath.row].name }) {
                     handVC.acupointIndex = index
                     handVC.currentDisplayMode = .specific(name: handPoints[index].name)
-                    //            handVC.handPoints = [handPoints[indexPath.row]]
                     handVC.numberOfAcupoints = 1
+                    
+                    
                     handVC.collectionView.reloadData()
                     handVC.handSideSegmentedControl.isHidden = true
                     self.navigationController?.pushViewController(handVC, animated: true)
@@ -230,10 +232,12 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                 faceVC.collectionView.reloadData()
                 self.tabBarController?.tabBar.isHidden = true
             } else {
+                //Mark:更改進入handvc的邏輯
                 handVC.acupointIndex = indexPath.row
                 handVC.currentDisplayMode = .specific(name: handPoints[indexPath.row].name)
-                //            handVC.handPoints = [handPoints[indexPath.row]]
                 handVC.numberOfAcupoints = 1
+                
+                
                 handVC.collectionView.reloadData()
                 handVC.handSideSegmentedControl.isHidden = true
                 self.navigationController?.pushViewController(handVC, animated: true)

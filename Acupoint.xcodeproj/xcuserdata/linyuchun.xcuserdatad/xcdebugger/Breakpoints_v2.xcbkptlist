@@ -32,8 +32,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "239"
             endingLineNumber = "239"
-            landmarkName = "calculateMidPoint(point1:point2:)"
-            landmarkType = "7">
+            landmarkName = "innerPass"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

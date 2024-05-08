@@ -34,25 +34,25 @@ extension UIColor {
 
 extension UILabel {
     func configureHeadingOneLabel(withText text: String) {
-        configureZenMaruGothic(withText: text, alignment: .left, lines: 1, size: 30)
+        configureZenMaruGothic(withText: text, alignment: .left, lines: 1, size: 42)
     }
-    
+//    30
     func configureHeadingTwoLabel(withText text: String) {
-        configureZenMaruGothic(withText: text, alignment: .left, lines: 1, size: 24)
+        configureZenMaruGothic(withText: text, alignment: .left, lines: 1, size: 32)
     }
-    
+//    24
     func configureHeadingThreeLabel(withText text: String) {
-        configureZenMaruGothic(withText: text, alignment: .left, lines: 1, size: 21)
+        configureZenMaruGothic(withText: text, alignment: .left, lines: 1, size: 26)
     }
-    
+//    21
     func configureTextOneLabel(withText text: String) {
-        configureGenJyuuGothicX(withText: text, alignment: .left, lines: 0, size: 18)
+        configureGenJyuuGothicX(withText: text, alignment: .left, lines: 0, size: 26)
     }
-    
+//    18
     func configureTextTwoLabel(withText text: String) {
-        configureGenJyuuGothicX(withText: text, alignment: .left, lines: 0, size: 15)
+        configureGenJyuuGothicX(withText: text, alignment: .left, lines: 0, size: 20)
     }
-
+//15
     private func configureZenMaruGothic(withText newText: String, alignment: NSTextAlignment, lines: Int, size: CGFloat) {
         text = newText
         font = UIFont(name: "ZenMaruGothic-Medium", size: size)
