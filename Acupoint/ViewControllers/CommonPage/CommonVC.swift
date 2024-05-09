@@ -94,6 +94,7 @@ class CommonVC: BaseVC {
             view.addSubview(imageView)
             setupUI()
         }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -140,7 +141,7 @@ extension CommonVC: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.setupCell(theColor, title: acupointData.commonAcupoint[index].acupoints[indexPath.row].name, image: UIImage(named: acupointData.commonAcupoint[index].acupoints[indexPath.row].image)!)
         return cell
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if let index = facePoints.firstIndex(where: { $0.name == acupointData.commonAcupoint[index].acupoints[indexPath.row].name }) {
@@ -152,7 +153,7 @@ extension CommonVC: UICollectionViewDelegate, UICollectionViewDataSource {
             faceVC.collectionView.reloadData()
             self.tabBarController?.tabBar.isHidden = true
         }
-            
+        //Mark:更改進入handvc的邏輯
         if let index = handPoints.firstIndex(where: { $0.name == acupointData.commonAcupoint[index].acupoints[indexPath.row].name }) {
             handVC.acupointIndex = index
             handVC.currentDisplayMode = .specific(name: handPoints[index].name)

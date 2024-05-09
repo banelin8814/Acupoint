@@ -54,8 +54,9 @@ class SearchVC: BaseVC {
         navigationItem.title = "尋找穴位"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = .black
-        let bookmarkButton = UIBarButtonItem(customView: bookmarkBtn)
-        navigationItem.rightBarButtonItem = bookmarkButton
+        //5/8:先準備上架，不把加入進去bookmarkButton，之後再加回來5/8
+//        let bookmarkButton = UIBarButtonItem(customView: bookmarkBtn)
+//        navigationItem.rightBarButtonItem = bookmarkButton
         
         searchTableView.dataSource = self
         searchTableView.delegate = self
@@ -190,7 +191,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
             return 2
         }
     }
-    
+    //Mark:更改進入handvc的邏輯
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if searchController.isActive {
             if let result = searchResults as? [FaceAcupointModel] {
@@ -207,11 +208,13 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                     self.tabBarController?.tabBar.isHidden = true
                 }
             } else if let result = searchResults as? [HandAcupointModel] {
+                //Mark:更改進入handvc的邏輯
                 if let index = handPoints.firstIndex(where: { $0.name == result[indexPath.row].name }) {
                     handVC.acupointIndex = index
                     handVC.currentDisplayMode = .specific(name: handPoints[index].name)
-                    //            handVC.handPoints = [handPoints[indexPath.row]]
                     handVC.numberOfAcupoints = 1
+                    
+                    
                     handVC.collectionView.reloadData()
                     handVC.handSideSegmentedControl.isHidden = true
                     self.navigationController?.pushViewController(handVC, animated: true)
@@ -230,10 +233,12 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                 faceVC.collectionView.reloadData()
                 self.tabBarController?.tabBar.isHidden = true
             } else {
+                //Mark:更改進入handvc的邏輯
                 handVC.acupointIndex = indexPath.row
                 handVC.currentDisplayMode = .specific(name: handPoints[indexPath.row].name)
-                //            handVC.handPoints = [handPoints[indexPath.row]]
                 handVC.numberOfAcupoints = 1
+                
+                
                 handVC.collectionView.reloadData()
                 handVC.handSideSegmentedControl.isHidden = true
                 self.navigationController?.pushViewController(handVC, animated: true)

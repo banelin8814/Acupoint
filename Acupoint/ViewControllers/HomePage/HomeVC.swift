@@ -16,7 +16,7 @@ class HomeVC: BaseVC, AddNameDelegate {
     let mainImageData: [String] = ["頭痛", "失眠", "美顏","眼睛疲勞"]
     let mainTitleData: [String] = ["頭 痛", "助 眠", "美 顏","眼 睛 疲 勞"]
     let cellImage: [String] = ["頭痛大圖", "助眠大圖", "美顏大圖", "眼睛疲勞大圖"]
-
+    
     
     lazy var commonPointLbl: UILabel = {
         let label = UILabel()
@@ -25,44 +25,49 @@ class HomeVC: BaseVC, AddNameDelegate {
         return label
     }()
     
-//    lazy var userAvatarImageView: UIImageView = {
-//        let imageView = UIImageView()
-//        imageView.translatesAutoresizingMaskIntoConstraints = false
-//        imageView.configureCircleView(forImage: "頭貼", size: 70)
-//        return imageView
-//    }()
-   
+    //    lazy var userAvatarImageView: UIImageView = {
+    //        let imageView = UIImageView()
+    //        imageView.translatesAutoresizingMaskIntoConstraints = false
+    //        imageView.configureCircleView(forImage: "頭貼", size: 70)
+    //        return imageView
+    //    }()
+    
     var userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "你好"
-        label.font = UIFont(name: "GenJyuuGothicX-Medium", size: 22)
+        label.configureHeadingThreeLabel(withText: "你好")
         return label
     }()
     
-    lazy var signOutBtn: UIButton = {
+    let menuButton: UIButton = {
         let button = UIButton()
-        button.setTitle("尚未設定", for: .normal)
+//        button.setTitle("尚未設定", for: .normal)
+        button.setImage(UIImage(named: "Hamburger_icon"), for: .normal)
+        button.contentMode = .scaleAspectFit
+//        button.tintColor = .black
+        button.showsMenuAsPrimaryAction = true
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitleColor(.black, for: .normal)
-        if AuthManager.shared.isLoggedIn {
-            button.setTitle("登出", for: .normal)
-            button.addTarget(self, action: #selector(signOutButtonTapped), for: .touchUpInside)
-        } else {
-            button.setTitle("請登入", for: .normal)
-            button.addTarget(self, action: #selector(havntLoginYet), for: .touchUpInside)
-        }
-//        updateSignOutButtonTitle()
+       
         return button
     }()
+   
     
-//    @objc func loginStateChanged() {
-//        updateSignOutButtonTitle()
-//    }
-//    func updateSignOutButtonTitle() {
-//      
-//    }
-
+    
+        lazy var signOutBtn: UIButton = {
+            let button = UIButton()
+            button.setTitle("尚未設定", for: .normal)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.setTitleColor(.black, for: .normal)
+            if AuthManager.shared.isLoggedIn {
+                button.setTitle("登出", for: .normal)
+                button.addTarget(self, action: #selector(signOutButtonTapped), for: .touchUpInside)
+            } else {
+                button.setTitle("請登入", for: .normal)
+//                button.addTarget(self, action: #selector(havntLoginYet), for: .touchUpInside)
+            }
+            return button
+        }()
+    
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -102,21 +107,33 @@ class HomeVC: BaseVC, AddNameDelegate {
         
         let thevc2 = LoginVC()
         thevc2.addDelegate = self
-
-//        view.addSubview(userAvatarImageView)
+        
+        //        view.addSubview(userAvatarImageView)
         view.addSubview(userNameLabel)
-        view.addSubview(signOutBtn)
+        //        view.addSubview(signOutBtn)
+        view.addSubview(menuButton)
         view.addSubview(collectionView)
         view.addSubview(commonPointLbl)
+        setUIMenu()
+        
+        // Crashlytics
+        let button = UIButton(type: .roundedRect)
+              button.frame = CGRect(x: 60, y: 200, width: 100, height: 30)
+              button.setTitle("Test Crash", for: [])
+              button.addTarget(self, action: #selector(self.crashButtonTapped(_:)), for: .touchUpInside)
+              view.addSubview(button)
     }
+    // Crashlytics
+    @objc func crashButtonTapped(_ sender: AnyObject) {
+          let numbers = [0]
+          let _ = numbers[1]
+      }
     
     override func viewDidLayoutSubviews() {
         setUpUI()
     }
-
     
     deinit {
-        // 移除觀察者
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -127,29 +144,71 @@ class HomeVC: BaseVC, AddNameDelegate {
             //            userAvatarImageView.widthAnchor.constraint(equalToConstant: 70),
             //            userAvatarImageView.heightAnchor.constraint(equalToConstant: 70),
             
-            
-            
-            
             userNameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             userNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
-            userNameLabel.heightAnchor.constraint(equalToConstant: 50),
-            userNameLabel.widthAnchor.constraint(equalToConstant: 180),
+            userNameLabel.trailingAnchor.constraint(equalTo: menuButton.leadingAnchor, constant: 10),
+            //            userNameLabel.widthAnchor.constraint(equalToConstant: 180),
+            
+            menuButton.centerYAnchor.constraint(equalTo: userNameLabel.centerYAnchor),
+            menuButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            menuButton.heightAnchor.constraint(equalToConstant: 25),
+            menuButton.widthAnchor.constraint(equalToConstant: 25),
             
             commonPointLbl.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 12),
             commonPointLbl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 18),
-            commonPointLbl.widthAnchor.constraint(equalToConstant: 120),
+            commonPointLbl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -18),
             
             collectionView.topAnchor.constraint(equalTo: commonPointLbl.bottomAnchor, constant: 12),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
             
-            signOutBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -20),
-            signOutBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            //            signOutBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            //            signOutBtn.centerYAnchor.constraint(equalTo: userNameLabel.centerYAnchor)
         ])
     }
     
-    @objc func havntLoginYet() {
+    func setUIMenu() {
+        if AuthManager.shared.isLoggedIn == false {
+            let action1 = UIAction(title: "登入", handler: { _ in
+                self.havntLoginYet()
+            })
+            let menu = UIMenu(title: "帳號管理", children: [action1])
+            menuButton.menu = menu
+            
+        } else {
+            let action1 = UIAction(title: "登出", handler: { _ in
+                self.signOutButtonTapped()
+            })
+            let action2 = UIAction(title: "刪除帳號", handler: { _ in
+                self.deleteActionTriggered()
+            })
+            let menu = UIMenu(title: "帳號管理", children: [action1, action2])
+            menuButton.menu = menu
+        }
+      
+    }
+    
+    func deleteActionTriggered() {
+        let controller = UIAlertController(title: "確定要刪除帳號？", message: "", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "是的", style: .default) { (_) in
+                Task {
+                    do {
+                        try await AuthManager.shared.deleteUserAccount()
+                    } catch {
+                        print(error)
+                        // errorMessage = error.localizedDescription
+                    }
+                }
+            }
+        
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        controller.addAction(okAction)
+        controller.addAction(cancelAction)
+        present(controller, animated: true, completion: nil)
+    }
+
+     func havntLoginYet() {
         let loginPage = LoginVC()
         present(loginPage, animated: true, completion: nil)
     }
@@ -162,8 +221,8 @@ class HomeVC: BaseVC, AddNameDelegate {
                 try Auth.auth().signOut()
                 AuthManager.shared.isLoggedIn = false
             } catch {
-            print(error)
-    //        errorMessage = error.localizedDescription
+                print(error)
+                //        errorMessage = error.localizedDescription
             }
         }
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
@@ -204,3 +263,6 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
         }
     }
 }
+
+
+

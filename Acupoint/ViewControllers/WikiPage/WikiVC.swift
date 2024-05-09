@@ -108,7 +108,7 @@ extension WikiVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 180
     }
-    
+//Mark:更改進入handvc的邏輯
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             self.navigationController?.pushViewController(faceVC, animated: true)
@@ -121,10 +121,11 @@ extension WikiVC: UITableViewDelegate {
             faceVC.collectionView.reloadData()
             
         } else {
+            //Mark:更改進入handvc的邏輯
             handVC.currentDisplayMode = .allPoint
             handVC.handSideSegmentedControl.isHidden = false
-//            handVC.handPoints = self.handPoints
             handVC.numberOfAcupoints = self.handPoints.count
+            
             self.navigationController?.pushViewController(handVC, animated: true)
             self.tabBarController?.tabBar.isHidden = true
             

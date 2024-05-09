@@ -24,6 +24,8 @@
 		1B3ADAA32BD9DCE700CF613C /* GenJyuuGothicX-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B3ADAA22BD9DCE700CF613C /* GenJyuuGothicX-Regular.ttf */; };
 		1B3ADAA52BD9DCF600CF613C /* GenJyuuGothicX-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B3ADAA42BD9DCF600CF613C /* GenJyuuGothicX-Light.ttf */; };
 		1B3ADAA72BD9DD0B00CF613C /* GenJyuuGothicX-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B3ADAA62BD9DD0A00CF613C /* GenJyuuGothicX-Bold.ttf */; };
+		1B49D6F72BEBB86C0034DB6A /* AppleSiginInManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B49D6F62BEBB86C0034DB6A /* AppleSiginInManager.swift */; };
+		1B49D6F92BEBB8F10034DB6A /* GoogleSignInManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B49D6F82BEBB8F10034DB6A /* GoogleSignInManager.swift */; };
 		1B53803F2BDB557300927D8F /* CommonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B53803E2BDB557300927D8F /* CommonVC.swift */; };
 		1B83A8BF2BCE7ADC00E0C440 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B83A8BE2BCE7ADC00E0C440 /* HomeCollectionViewCell.swift */; };
 		1B83A8C12BCE829000E0C440 /* TabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B83A8C02BCE829000E0C440 /* TabController.swift */; };
@@ -62,6 +64,8 @@
 		1B9D2ACA2BCBF988004FDF17 /* CHGlassmorphismView in Frameworks */ = {isa = PBXBuildFile; productRef = 1B9D2AC92BCBF988004FDF17 /* CHGlassmorphismView */; };
 		1BA2DF562BD118E1005A841E /* HandAcupointModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA2DF552BD118E1005A841E /* HandAcupointModel.swift */; };
 		1BAC823B2BD1F6BB0034299B /* ArchiveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC823A2BD1F6BB0034299B /* ArchiveTableViewCell.swift */; };
+		1BBADDAF2BEC653200611B33 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1BBADDAE2BEC653200611B33 /* FirebaseCrashlytics */; };
+		1BBADDB12BEC653F00611B33 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1BBADDB02BEC653F00611B33 /* FirebaseAnalyticsSwift */; };
 		1BC6EEA72BDE278A00B6B127 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 1BC6EEA62BDE278A00B6B127 /* GoogleSignIn */; };
 		1BC6EEA92BDE278A00B6B127 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1BC6EEA82BDE278A00B6B127 /* GoogleSignInSwift */; };
 		1BC6EEAB2BDE431C00B6B127 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1BC6EEAA2BDE431C00B6B127 /* GoogleService-Info.plist */; };
@@ -107,6 +111,8 @@
 		1B3ADAA22BD9DCE700CF613C /* GenJyuuGothicX-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenJyuuGothicX-Regular.ttf"; sourceTree = "<group>"; };
 		1B3ADAA42BD9DCF600CF613C /* GenJyuuGothicX-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenJyuuGothicX-Light.ttf"; sourceTree = "<group>"; };
 		1B3ADAA62BD9DD0A00CF613C /* GenJyuuGothicX-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenJyuuGothicX-Bold.ttf"; sourceTree = "<group>"; };
+		1B49D6F62BEBB86C0034DB6A /* AppleSiginInManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSiginInManager.swift; sourceTree = "<group>"; };
+		1B49D6F82BEBB8F10034DB6A /* GoogleSignInManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInManager.swift; sourceTree = "<group>"; };
 		1B53803E2BDB557300927D8F /* CommonVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonVC.swift; sourceTree = "<group>"; };
 		1B83A8BE2BCE7ADC00E0C440 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		1B83A8C02BCE829000E0C440 /* TabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabController.swift; sourceTree = "<group>"; };
@@ -165,6 +171,8 @@
 				1BC6EEA92BDE278A00B6B127 /* GoogleSignInSwift in Frameworks */,
 				1B964F552BC93B340005F1CF /* FirebaseDatabase in Frameworks */,
 				1B964F532BC93B340005F1CF /* FirebaseAuth in Frameworks */,
+				1BBADDB12BEC653F00611B33 /* FirebaseAnalyticsSwift in Frameworks */,
+				1BBADDAF2BEC653200611B33 /* FirebaseCrashlytics in Frameworks */,
 				1B964F5D2BC93B340005F1CF /* FirebaseStorage in Frameworks */,
 				1BC6EEA72BDE278A00B6B127 /* GoogleSignIn in Frameworks */,
 			);
@@ -245,6 +253,8 @@
 			children = (
 				1BD5A6142BE4FA6B00D50380 /* FirebaseManager.swift */,
 				1B3882482BE60BB200393F94 /* AuthManager.swift */,
+				1B49D6F62BEBB86C0034DB6A /* AppleSiginInManager.swift */,
+				1B49D6F82BEBB8F10034DB6A /* GoogleSignInManager.swift */,
 				1B90B2E22BDBA0DE0069C868 /* CardTransitionManager.swift */,
 			);
 			path = Manager;
@@ -441,6 +451,7 @@
 				1B964F192BC912690005F1CF /* Frameworks */,
 				1B964F1A2BC912690005F1CF /* Resources */,
 				1B90F0FF2BD3BC7200452B6D /* Embed Frameworks */,
+				1BBADDB22BEC65BC00611B33 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -460,6 +471,8 @@
 				1BC6EEA62BDE278A00B6B127 /* GoogleSignIn */,
 				1BC6EEA82BDE278A00B6B127 /* GoogleSignInSwift */,
 				1BC6EEC12BE0E48900B6B127 /* AnimatedCollectionViewLayout */,
+				1BBADDAE2BEC653200611B33 /* FirebaseCrashlytics */,
+				1BBADDB02BEC653F00611B33 /* FirebaseAnalyticsSwift */,
 			);
 			productName = Acupoint;
 			productReference = 1B964F1C2BC912690005F1CF /* Acupoint.app */;
@@ -528,6 +541,31 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1BBADDB22BEC65BC00611B33 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}\n",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist\n",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist\n",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)\n",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1B964F182BC912690005F1CF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -535,6 +573,7 @@
 			files = (
 				1B90B2EF2BDD0C380069C868 /* InitialSignInVC.swift in Sources */,
 				1B3882492BE60BB200393F94 /* AuthManager.swift in Sources */,
+				1B49D6F72BEBB86C0034DB6A /* AppleSiginInManager.swift in Sources */,
 				1B97B0E92BD0C6EC006761CD /* WikiVCTableViewCell.swift in Sources */,
 				1BA2DF562BD118E1005A841E /* HandAcupointModel.swift in Sources */,
 				1B90B2F12BDD0CAC0069C868 /* LoginVC.swift in Sources */,
@@ -543,6 +582,7 @@
 				1B90F12F2BD7BDF200452B6D /* PromptVC.swift in Sources */,
 				1B04AD002BCD331400F6FB8D /* SearchVC.swift in Sources */,
 				1BC6EEBC2BE067A400B6B127 /* BaseVC.swift in Sources */,
+				1B49D6F92BEBB8F10034DB6A /* GoogleSignInManager.swift in Sources */,
 				1B90F1052BD4E50D00452B6D /* InfoCollectionViewCell.swift in Sources */,
 				1B83A8C12BCE829000E0C440 /* TabController.swift in Sources */,
 				1B9D2AC72BCBD7CC004FDF17 /* HandJointService.swift in Sources */,
@@ -727,7 +767,9 @@
 				CODE_SIGN_ENTITLEMENTS = Acupoint/Acupoint.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 96FT7QHVFB;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Acupoint/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Acupoint想要使用您的相機";
@@ -757,6 +799,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 96FT7QHVFB;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Acupoint/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Acupoint想要使用您的相機";
@@ -888,6 +931,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1B9D2AC82BCBF988004FDF17 /* XCRemoteSwiftPackageReference "CHGlassmorphismView" */;
 			productName = CHGlassmorphismView;
+		};
+		1BBADDAE2BEC653200611B33 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1B964F512BC93B340005F1CF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		1BBADDB02BEC653F00611B33 /* FirebaseAnalyticsSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1B964F512BC93B340005F1CF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsSwift;
 		};
 		1BC6EEA62BDE278A00B6B127 /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
