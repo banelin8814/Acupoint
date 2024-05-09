@@ -54,8 +54,9 @@ class SearchVC: BaseVC {
         navigationItem.title = "尋找穴位"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = .black
-        let bookmarkButton = UIBarButtonItem(customView: bookmarkBtn)
-        navigationItem.rightBarButtonItem = bookmarkButton
+        //5/8:先準備上架，不把加入進去bookmarkButton，之後再加回來5/8
+//        let bookmarkButton = UIBarButtonItem(customView: bookmarkBtn)
+//        navigationItem.rightBarButtonItem = bookmarkButton
         
         searchTableView.dataSource = self
         searchTableView.delegate = self
