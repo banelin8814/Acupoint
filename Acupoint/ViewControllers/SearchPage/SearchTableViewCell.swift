@@ -31,8 +31,9 @@ class SearchTableViewCell: UITableViewCell {
     lazy var acupointNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "穴位名稱"
-        label.font = UIFont(name: "ZenMaruGothic-Medium", size: 22)
+        label.sizeToFit()
+//        label.text = "穴位名稱"
+        label.configureHeadingThreeLabel(withText: "")
         return label
     }()
     
@@ -40,8 +41,7 @@ class SearchTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.text = "疼痛名稱"
-        label.font = UIFont(name: "GenJyuuGothicX-Regular", size: 14)
+        label.configureTextTwoLabel(withText: "")
         label.textColor = .gray
         return label
     }()
@@ -113,7 +113,7 @@ class SearchTableViewCell: UITableViewCell {
 //            bookmarkBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             acupointNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             acupointNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
-            acupointNameLabel.widthAnchor.constraint(equalToConstant: 70),
+//            acupointNameLabel.widthAnchor.constraint(equalToConstant: 70),
             painNameLabel.centerYAnchor.constraint(equalTo: acupointNameLabel.centerYAnchor),
             painNameLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor),
 //            painNameLabel.widthAnchor.constraint(equalToConstant: 200),

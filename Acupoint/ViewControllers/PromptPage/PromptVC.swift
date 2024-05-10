@@ -12,7 +12,7 @@ class PromptVC: UIViewController {
     
     lazy var promptNameLbl: UILabel = {
         let label = UILabel()
-        label.configureHeadingOneLabel(withText: "穴位名稱")
+        label.configureHeadingOneLabel(withText: "")
         label.textColor = UIColor.BlutTitleColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -20,7 +20,7 @@ class PromptVC: UIViewController {
     
     lazy var promptEffectLbl: UILabel = {
         let label = UILabel()
-        label.configureTextOneLabel(withText: "")
+        label.configureHeadingThreeLabel(withText: "")
         label.textColor = .darkGray
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -30,7 +30,7 @@ class PromptVC: UIViewController {
     
     lazy var promptPostionLbl: UILabel = {
         let label = UILabel()
-        label.configureTextOneLabel(withText: "")
+        label.configureHeadingThreeLabel(withText: "")
         label.textColor = .lightGray
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -65,23 +65,23 @@ class PromptVC: UIViewController {
 //            promptImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
 //            promptImageView.widthAnchor.constraint(equalToConstant: 200),
 //            promptImageView.heightAnchor.constraint(equalToConstant: 200),
-            promptNameLbl.heightAnchor.constraint(equalToConstant: 40),
+            promptNameLbl.heightAnchor.constraint(equalToConstant: 50),
             promptNameLbl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            promptNameLbl.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
+            promptNameLbl.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -80),
             
             promptEffectLbl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            promptEffectLbl.topAnchor.constraint(equalTo: promptNameLbl.bottomAnchor, constant: 10),
+            promptEffectLbl.topAnchor.constraint(equalTo: promptNameLbl.bottomAnchor, constant: 15),
             promptEffectLbl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             promptEffectLbl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
             
             promptPostionLbl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            promptPostionLbl.topAnchor.constraint(equalTo: promptEffectLbl.bottomAnchor, constant: 10),
+            promptPostionLbl.topAnchor.constraint(equalTo: promptEffectLbl.bottomAnchor, constant: 15),
             promptPostionLbl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             promptPostionLbl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
           
             handleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             handleView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            handleView.widthAnchor.constraint(equalToConstant: 50),
+            handleView.widthAnchor.constraint(equalToConstant: 60),
             handleView.heightAnchor.constraint(equalToConstant: 6)
         ])
     }

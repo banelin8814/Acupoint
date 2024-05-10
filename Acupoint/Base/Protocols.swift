@@ -27,9 +27,9 @@ extension CurrentPageUpdatable {
     func collectionViewLayoutFromProtocol(collectionView: UICollectionView) -> UICollectionViewLayout {
         let galleryItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                                                     heightDimension: .fractionalHeight(1.0)))
-        galleryItem.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 8)
+        galleryItem.contentInsets = .init(top: 0, leading: 4, bottom: 0, trailing: 4)
         
-        let galleryGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.85),heightDimension: .fractionalHeight(1)),
+        let galleryGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.8),heightDimension: .fractionalHeight(1)),
                                                               subitems: [galleryItem])
         
         let gallerySection = NSCollectionLayoutSection(group: galleryGroup)
@@ -37,6 +37,22 @@ extension CurrentPageUpdatable {
         //監聽當前可見項目的變化
         gallerySection.visibleItemsInvalidationHandler = { [weak self] _, _, _ in
             self?.updateCurrentPage(collectionView: collectionView)
+            //動畫
+            collectionView.visibleCells.forEach { cell in
+                if let cell = cell as? InfoCollectionViewCell {
+                    let indexPath = collectionView.indexPath(for: cell)
+                    if indexPath?.item == self?.currentPage {
+                        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: [], animations: {
+                            cell.transform = CGAffineTransform.identity
+                        }, completion: nil)
+                    } else {
+                        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: [], animations: {
+                            cell.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+                        }, completion: nil)
+                    }
+                }
+            }
+        
         }
         
         let layout = UICollectionViewCompositionalLayout(section: gallerySection)

@@ -44,7 +44,7 @@ class SearchVC: BaseVC {
             .assign(to: &$isArchiveEnable)
         
         let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont(name: "ZenMaruGothic-Medium", size: 30)!,
+            .font: UIFont(name: "ZenMaruGothic-Medium", size: 38) ?? 38,
             .foregroundColor: UIColor.black
         ]
         navigationController?.navigationBar.largeTitleTextAttributes = attributes
@@ -264,7 +264,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 100
     }
     
     func saveAction(_ sender: UIButton) {

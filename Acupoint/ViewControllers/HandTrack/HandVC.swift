@@ -237,11 +237,11 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
-            collectionView.heightAnchor.constraint(equalToConstant: 130),
+            collectionView.heightAnchor.constraint(equalToConstant: 140),
             
             handOutlineImg.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -70),
             handOutlineImg.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            handOutlineImg.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1.1),
+            handOutlineImg.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1.25),
             handOutlineImg.heightAnchor.constraint(equalTo: handOutlineImg.widthAnchor),
             
             leftRightSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

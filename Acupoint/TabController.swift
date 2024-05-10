@@ -74,7 +74,7 @@ class TabController: UITabBarController {
         
         // 調整未選中圖片的大小
         if let unselectedImage = unselectedImage {
-            let size = CGSize(width: 36, height: 36) // 設置所需的大小
+            let size = CGSize(width: 45, height: 45) // 設置所需的大小
             UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
             unselectedImage.draw(in: CGRect(origin: .zero, size: size))
             let resizedUnselectedImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -84,7 +84,7 @@ class TabController: UITabBarController {
         
         // 調整選中圖片的大小
         if let selectedImage = selectedImage {
-            let size = CGSize(width: 36, height: 36) // 設置所需的大小
+            let size = CGSize(width: 45, height: 45) // 設置所需的大小
             UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
             selectedImage.draw(in: CGRect(origin: .zero, size: size))
             let resizedSelectedImage = UIGraphicsGetImageFromCurrentImageContext()

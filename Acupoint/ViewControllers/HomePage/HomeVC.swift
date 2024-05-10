@@ -115,19 +115,9 @@ class HomeVC: BaseVC, AddNameDelegate {
         view.addSubview(collectionView)
         view.addSubview(commonPointLbl)
         setUIMenu()
-        
-        // Crashlytics
-        let button = UIButton(type: .roundedRect)
-              button.frame = CGRect(x: 60, y: 200, width: 100, height: 30)
-              button.setTitle("Test Crash", for: [])
-              button.addTarget(self, action: #selector(self.crashButtonTapped(_:)), for: .touchUpInside)
-              view.addSubview(button)
+    
     }
-    // Crashlytics
-    @objc func crashButtonTapped(_ sender: AnyObject) {
-          let numbers = [0]
-          let _ = numbers[1]
-      }
+  
     
     override func viewDidLayoutSubviews() {
         setUpUI()

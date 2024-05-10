@@ -36,8 +36,7 @@ class HomeCollectionViewCell: UICollectionViewCell {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "失眠"
-        label.font = UIFont(name: "GenJyuuGothicX-Medium", size: 22)
+        label.configureHeadingTwoLabel(withText: "失眠")
         label.textColor = .white
         return label
     }()

@@ -21,6 +21,7 @@ class WikiVC: BaseVC {
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
+        tableView.isScrollEnabled = false
         tableView.backgroundColor = .backgroundColor
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight] //父視圖大小發生變化時如何自動調整自身的大小。
@@ -106,7 +107,7 @@ class WikiVC: BaseVC {
 
 extension WikiVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 180
+        return 240
     }
 //Mark:更改進入handvc的邏輯
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
