@@ -116,7 +116,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     //MARK: - UI Component
     lazy var handOutlineImg: UIImageView = {
         let handOutlineImg = UIImageView()
-        handOutlineImg.image = UIImage(named: "handOutline")
+        handOutlineImg.image = UIImage(named: "handOutline2")
         handOutlineImg.translatesAutoresizingMaskIntoConstraints = false
         handOutlineImg.backgroundColor = .clear
         return handOutlineImg
@@ -249,7 +249,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             
             handOutlineImg.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -10),
             handOutlineImg.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            handOutlineImg.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1.35),
+            handOutlineImg.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1.3),
             handOutlineImg.heightAnchor.constraint(equalTo: handOutlineImg.widthAnchor),
             
             leftRightSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
