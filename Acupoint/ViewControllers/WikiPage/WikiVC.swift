@@ -26,7 +26,7 @@ class WikiVC: BaseVC {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight] //父視圖大小發生變化時如何自動調整自身的大小。
         tableView.separatorStyle = .none
-        tableView.isScrollEnabled = true
+        tableView.isScrollEnabled = false
         //        tableView.sec
         tableView.delegate = self
         return tableView
@@ -61,7 +61,7 @@ class WikiVC: BaseVC {
     
     func setupUI() {
         NSLayoutConstraint.activate([
-            commonPointLbl.heightAnchor.constraint(equalToConstant: 40),
+            commonPointLbl.heightAnchor.constraint(equalToConstant: 50),
             commonPointLbl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             commonPointLbl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 18),
             tableView.topAnchor.constraint(equalTo: commonPointLbl.bottomAnchor, constant: 20),

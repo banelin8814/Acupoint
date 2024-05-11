@@ -5,7 +5,7 @@ class ArchiveTableViewCell: UITableViewCell {
     lazy var titleLbl: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "ZenMaruGothic-Medium", size: 22)
+        label.configureHeadingThreeLabel(withText: "")
         label.textColor = .black
         return label
     }()
@@ -18,12 +18,14 @@ class ArchiveTableViewCell: UITableViewCell {
 //        return label
 //    }()
 
-
     lazy var bookmarkBtn: UIButton = {
         let button = UIButton()
         //        let bookmarkTapped = false
         button.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        button.contentVerticalAlignment = .fill
+        button.contentHorizontalAlignment = .fill
         button.tintColor = .black
         return button
     }()
@@ -55,14 +57,18 @@ class ArchiveTableViewCell: UITableViewCell {
 //        contentView.addSubview(descirbeLbl)
 
         NSLayoutConstraint.activate([
-            bookmarkBtn.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            bookmarkBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             titleLbl.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             titleLbl.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            
 //            descirbeLbl.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
 //            descirbeLbl.leadingAnchor.constraint(equalTo: titleLbl.trailingAnchor, constant: 20),
-//            descirbeLbl.trailingAnchor.constraint(equalTo: bookmarkBtn.leadingAnchor, constant: -20)
-//            descirbeLbl.heightAnchor.constraint(equalTo: contentView.heightAnchor)
+//            descirbeLbl.trailingAnchor.constraint(equalTo: bookmarkBtn.leadingAnchor, constant: -20),
+//            descirbeLbl.heightAnchor.constraint(equalTo: contentView.heightAnchor),
+//            
+            bookmarkBtn.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            bookmarkBtn.heightAnchor.constraint(equalToConstant: 40),
+            bookmarkBtn.widthAnchor.constraint(equalToConstant: 40),
+            bookmarkBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
     }
     
