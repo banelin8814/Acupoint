@@ -37,9 +37,7 @@ class PromptVC: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-  
-    
+
     private let handleView: UIView = {
         let view = UIView()
         view.backgroundColor = .darkGray
@@ -47,6 +45,8 @@ class PromptVC: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    weak var delegate: CanDismissAnimate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +57,14 @@ class PromptVC: UIViewController {
         view.addSubview(handleView)
         setupUI()
     }
-   
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if isBeingDismissed {
+            delegate?.dismissAnimate()
+        }
+    }
+    
     func setupUI() {
         
         NSLayoutConstraint.activate([
@@ -86,3 +93,5 @@ class PromptVC: UIViewController {
         ])
     }
 }
+
+

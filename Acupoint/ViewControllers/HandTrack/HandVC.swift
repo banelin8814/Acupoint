@@ -201,16 +201,6 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         navigationController?.navigationBar.prefersLargeTitles = false
 
         updateCurrentPage(collectionView: collectionView)
-        
-        if numberOfAcupoints == 1 {
-            
-            let promptVC = PromptVC()
-            handPoints = acupoitData.handAcupoints
-            promptVC.promptNameLbl.text = handPoints[acupointIndex].name
-            promptVC.promptPostionLbl.text = handPoints[acupointIndex].location
-            promptVC.promptEffectLbl.text = handPoints[acupointIndex].effect
-            present(promptVC, animated: true, completion: nil)
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -230,6 +220,17 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         } catch {
             AppError.display(error, inViewController: self)
         }
+        
+        if numberOfAcupoints == 1 {
+            let promptVC = PromptVC()
+            promptVC.delegate = self
+            handPoints = acupoitData.handAcupoints
+            promptVC.promptNameLbl.text = handPoints[acupointIndex].name
+            promptVC.promptPostionLbl.text = handPoints[acupointIndex].location
+            promptVC.promptEffectLbl.text = handPoints[acupointIndex].effect
+            present(promptVC, animated: true, completion: nil)
+        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -538,6 +539,12 @@ extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
                 return cell
             }
         }
+        //cell縮小動畫
+        if indexPath.row == 0 {
+            print("有啟動")
+                self.dismissAnimate()
+        }
+        
         return cell
     }
     
@@ -571,6 +578,6 @@ extension HandVC: NameSelectionDelegate, CurrentPageUpdatable {
         }
     }
 }
-
-
+//動畫
+extension HandVC: CanDismissAnimate {}
 
