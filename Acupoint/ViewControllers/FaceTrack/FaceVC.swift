@@ -85,14 +85,11 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
 //            promptVC.promptImageView.loadGif(name: "face-animation")
             present(promptVC, animated: true, completion: nil)
         }
-        //animation
-//        let indexPath = IndexPath(item: 1, section: 0)
-//            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
-//            
+//        //動畫
+//        let indexPath = IndexPath(item: 1, section: 0)            
 //            UIView.animate(withDuration: 0.5, delay: 0.5, options: .curveEaseInOut, animations: {
 //                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: false)
 //            }, completion: nil)
-        
     }
 
     
@@ -113,26 +110,6 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         self.tabBarController?.tabBar.isHidden = false
         
     }
-  
-    //偵測
-  
-        //動畫
-//        if 
-//        collectionView.visibleCells.forEach { cell in
-//            if let cell = cell as? InfoCollectionViewCell {
-//                let indexPath = collectionView.indexPath(for: cell)
-//                if indexPath?.item == currentPage {
-//                    UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: [], animations: {
-//                        cell.transform = CGAffineTransform.identity
-//                    }, completion: nil)
-//                } else {
-//                    UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: [], animations: {
-//                        cell.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-//                    }, completion: nil)
-//                }
-//            }
-//        }
-    
     
     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
         
@@ -179,7 +156,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
-            collectionView.heightAnchor.constraint(equalToConstant: 130)
+            collectionView.heightAnchor.constraint(equalToConstant: 140)
         ])
     }
     

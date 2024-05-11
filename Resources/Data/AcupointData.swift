@@ -131,7 +131,7 @@ struct AcupointData {
             name: "太陽穴",
             effect: "偏頭痛、目赤腫痛、目眩、目澀、牙痛、三叉神經痛",
             method: "用中指或食指指腹，畫圓按摩",
-            location: "眉尾直上,在髮際旁凹陷處",
+            location: "眉尾直上，在髮際旁凹陷處",
             notice: """
                 1.出血傾向或服用抗凝血劑者，避免力道大的按摩
                 2.局部感染發炎處，應避開按摩
@@ -256,7 +256,7 @@ struct AcupointData {
     var commonAcupoint: [CommonModel] {
         return [
             CommonModel(categoryName: "頭痛",
-                        description: "穴位按摩能緩解頭部緊繃,促進血液循環,減輕頭痛不適。來試試按摩太陽穴、印堂等穴位吧,讓疼痛隨著指尖的溫柔撫觸而煙消雲散。給自己一個放鬆的時刻,讓穴位按摩帶你遠離頭痛的困擾!",
+                        description: "穴位按摩能緩解頭部緊繃，促進血液循環，減輕頭痛不適。來試試按摩太陽穴、印堂等穴位吧，讓疼痛隨著指尖的溫柔撫觸而煙消雲散。給自己一個放鬆的時刻，讓穴位按摩帶你遠離頭痛的困擾!",
                         acupoints: [
                             Acupoint(name: "太陽穴", image: "透明臉"),
                             Acupoint(name: "印堂穴", image: "透明臉"),

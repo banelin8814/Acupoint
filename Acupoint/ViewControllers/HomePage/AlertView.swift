@@ -6,18 +6,27 @@ class AlertView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.configureHeadingTwoLabel(withText: "按摩注意事項")
+//        label.contentMode = .topLeft
+        label.sizeToFit()
+
+//        label.textAlignment = .left
         return label
     }()
     
     lazy var contantLabel: UILabel = {
         let label = UILabel()
-        label.configureTextTwoLabel(withText: """
+        label.configureTextOneLabel(withText: """
                 1.出血傾向或服用抗凝血劑者，避免力道大的按摩
                 2.局部感染發炎處，應避開按摩
                 3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
                 4.全身性發炎或自體免疫疾病，須注意按摩力道
                 """)
         label.translatesAutoresizingMaskIntoConstraints = false
+//        label.textAlignment = .left
+//        label.contentMode = .topLeft
+//        label.contentMode = .topLeft
+        label.textColor = .darkGray
+        label.sizeToFit()
         label.numberOfLines = 0
         return label
     }()
@@ -47,7 +56,7 @@ class AlertView: UIView {
         UIView.animate(withDuration: 0.9, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
             self.container.transform = CGAffineTransform(translationX: 0, y: -self.frame.height)
             self.alpha = 0
-        }) {(complete) in
+        }) { (complete) in
                 if complete {
                     self.removeFromSuperview()
                 }
@@ -58,15 +67,15 @@ class AlertView: UIView {
         container.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         container.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         container.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7).isActive = true
-        container.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.45).isActive = true
+        container.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1).isActive = true
         container.addSubview(titleLabel)
         container.addSubview(contantLabel)
         titleLabel.topAnchor.constraint(equalTo: container.topAnchor, constant: 20).isActive = true
-        titleLabel.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 20).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20).isActive = true
+//        titleLabel.heightAnchor.constraint(equalToConstant: 70).isActive = true
         contantLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15).isActive = true
-        contantLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -20).isActive = true
+//        contantLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -20).isActive = true
         contantLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 20).isActive = true
         contantLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20).isActive = true
     }

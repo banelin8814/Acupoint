@@ -6,7 +6,7 @@ class InfoCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.configureHeadingOneLabel(withText: "")
+        label.configureHeadingTwoLabel(withText: "")
 
         return label
     }()
@@ -15,9 +15,8 @@ class InfoCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.lineBreakMode = .byWordWrapping
-        label.contentMode = .topLeft
-        label.configureTextTwoLabel(withText: "")
+        label.sizeToFit()
+        label.configureTextOneLabel(withText: "")
         return label
     }()
     
@@ -64,14 +63,12 @@ class InfoCollectionViewCell: UICollectionViewCell {
         
         NSLayoutConstraint.activate([
             acupointNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            acupointNameLabel.heightAnchor.constraint(equalToConstant: 30),
             acupointNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             acupointNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            
+            acupointNameLabel.heightAnchor.constraint(equalToConstant: 40),
             introLabel.topAnchor.constraint(equalTo: acupointNameLabel.bottomAnchor, constant: 8),
             introLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            introLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            introLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
+            introLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
     }
     

@@ -23,8 +23,9 @@ class CommonVC: BaseVC {
     lazy var titleLbl: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "助眠穴位"
-        label.font = UIFont(name: "ZenMaruGothic-Medium", size: 30)
+//        label.text = "助眠穴位"
+        label.configureHeadingOneLabel(withText: "")
+//        label.font = UIFont(name: "ZenMaruGothic-Medium", size: 30)
         label.textColor = .white
         return label
     }()
@@ -41,12 +42,10 @@ class CommonVC: BaseVC {
         let label = UILabel()
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "穴位按摩能調節自律神經系統，減少交感神經活動，提高副交感神經活動，幫助我們放鬆入睡。給自己的穴位來個放鬆的按摩吧，讓這些神奇的穴道帶你進入甜美夢鄉！"
-        label.font = UIFont(name: "GenJyuuGothicX-Medium", size: 16)
+        label.configureTextOneLabel(withText: "")
         label.backgroundColor = .clear
         return label
     }()
-
 
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())

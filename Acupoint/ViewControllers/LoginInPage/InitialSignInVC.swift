@@ -14,9 +14,9 @@ class InitialSignInVC: BaseVC {
     lazy var loginButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .white
-        button.setTitle("開始", for: .normal)
+        button.setTitle("開 始", for: .normal)
         button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
-        button.titleLabel?.font = UIFont(name: "ZenMaruGothic-Medium", size: 22)
+        button.titleLabel?.font = UIFont(name: "ZenMaruGothic-Medium", size: 28)
         button.titleLabel?.textAlignment = .center
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 18
@@ -26,14 +26,14 @@ class InitialSignInVC: BaseVC {
     
     lazy var skipButton: UIButton = {
         let button = UIButton()
-        button.setTitle("跳過", for: .normal)
+        button.setTitle("跳 過", for: .normal)
         button.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
         
         var configuration = UIButton.Configuration.plain()
         configuration.baseForegroundColor = .black
         configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
-            outgoing.font = UIFont(name: "ZenMaruGothic-Medium", size: 16)
+            outgoing.font = UIFont(name: "ZenMaruGothic-Medium", size: 20)
             return outgoing
         }
         button.configuration = configuration
@@ -43,8 +43,7 @@ class InitialSignInVC: BaseVC {
     
     lazy var discribeLbl: UILabel = {
         let label = UILabel()
-        label.text = "找到自己的穴位!"
-        label.font = UIFont(name: "ZenMaruGothic-Bold", size: 30)
+        label.configureHeadingTwoLabel(withText: "找到自己的穴位!")
         label.textAlignment = .center
         label.textColor = .black
         label.numberOfLines = 0

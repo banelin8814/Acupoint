@@ -97,7 +97,7 @@ class DetailVC: UIViewController {
             acupointNameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
             acupointNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             acupointNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            acupointNameLabel.heightAnchor.constraint(equalToConstant: 30),
+            acupointNameLabel.heightAnchor.constraint(equalToConstant: 60),
             
             effectLabel.topAnchor.constraint(equalTo: acupointNameLabel.bottomAnchor, constant: 20),
             effectLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),

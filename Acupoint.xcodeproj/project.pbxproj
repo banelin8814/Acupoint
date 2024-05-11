@@ -772,7 +772,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Acupoint/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "允許應用程式開啟相機來偵測臉部穴位";
+				INFOPLIST_KEY_NSCameraUsageDescription = "允許應用程式開啟相機，使用偵測臉部穴位的功能，您的隱私將受到嚴格的保護措施。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -807,7 +807,11 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Acupoint/Info.plist;
+<<<<<<< HEAD
 				INFOPLIST_KEY_NSCameraUsageDescription = "允許應用程式開啟相機來偵測臉部穴位";
+=======
+				INFOPLIST_KEY_NSCameraUsageDescription = "允許應用程式開啟相機，使用偵測臉部穴位的功能，您的隱私將受到嚴格的保護措施。";
+>>>>>>> develop
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
