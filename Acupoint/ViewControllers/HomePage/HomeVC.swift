@@ -210,6 +210,7 @@ class HomeVC: BaseVC, AddNameDelegate {
             do {
                 try Auth.auth().signOut()
                 AuthManager.shared.isLoggedIn = false
+                SwiftDataService.shared.deleteAllAcupointNames()
             } catch {
                 print(error)
                 //        errorMessage = error.localizedDescription

@@ -61,5 +61,13 @@ class SwiftDataService {
             }
         }
     }
-
+    
+    func deleteAllAcupointNames() {
+        if let context = acupointNameContext {
+            let allAcupoint = fetchAcupointNames()
+            for acupoint in allAcupoint {
+                context.delete(acupoint)
+            }
+        }
+    }
 }
