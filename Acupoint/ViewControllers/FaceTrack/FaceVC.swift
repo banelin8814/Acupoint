@@ -155,7 +155,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
-            collectionView.heightAnchor.constraint(equalToConstant: 140)
+            collectionView.heightAnchor.constraint(equalToConstant: 150)
         ])
     }
     
