@@ -334,7 +334,7 @@ struct AcupointData {
                 basePoint:  [.thumbCMC],
                 offSet: yuChi,
                 isBackHand: false
-            ),
+            )
             
             //            HandAcupointModel(
             //                name: "神門穴",
