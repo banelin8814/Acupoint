@@ -13,7 +13,7 @@ class PromptVC: UIViewController {
     lazy var promptNameLbl: UILabel = {
         let label = UILabel()
         label.configureHeadingOneLabel(withText: "")
-        label.textColor = UIColor.BlutTitleColor
+        label.textColor = UIColor.BlueTitleColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

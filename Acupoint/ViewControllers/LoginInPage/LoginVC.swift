@@ -27,7 +27,7 @@ class LoginVC: BaseVC {
         label.text = ""
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(name: "ZenMaruGothic-Black", size: 26)
-        label.textColor = UIColor.BlutTitleColor
+        label.textColor = UIColor.BlueTitleColor
         return label
     }()
     
