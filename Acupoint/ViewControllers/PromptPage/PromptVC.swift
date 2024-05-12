@@ -60,6 +60,10 @@ class PromptVC: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        disAppear()
+    }
+    
+    func disAppear() {
         if isBeingDismissed {
             delegate?.dismissAnimate()
         }
