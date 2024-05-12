@@ -33,7 +33,6 @@
 		1B83A8C82BCEBC8F00E0C440 /* SwiftDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B83A8C72BCEBC8F00E0C440 /* SwiftDataService.swift */; };
 		1B90B2DC2BDB5BF40069C868 /* CommonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90B2DB2BDB5BF40069C868 /* CommonCollectionViewCell.swift */; };
 		1B90B2DF2BDB92710069C868 /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90B2DE2BDB92710069C868 /* DetailVC.swift */; };
-		1B90B2E32BDBA0DE0069C868 /* CardTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90B2E22BDBA0DE0069C868 /* CardTransitionManager.swift */; };
 		1B90B2EF2BDD0C380069C868 /* InitialSignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90B2EE2BDD0C380069C868 /* InitialSignInVC.swift */; };
 		1B90B2F12BDD0CAC0069C868 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90B2F02BDD0CAC0069C868 /* LoginVC.swift */; };
 		1B90F1052BD4E50D00452B6D /* InfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90F1042BD4E50D00452B6D /* InfoCollectionViewCell.swift */; };
@@ -120,7 +119,6 @@
 		1B83A8C72BCEBC8F00E0C440 /* SwiftDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataService.swift; sourceTree = "<group>"; };
 		1B90B2DB2BDB5BF40069C868 /* CommonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonCollectionViewCell.swift; sourceTree = "<group>"; };
 		1B90B2DE2BDB92710069C868 /* DetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
-		1B90B2E22BDBA0DE0069C868 /* CardTransitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTransitionManager.swift; sourceTree = "<group>"; };
 		1B90B2EC2BDCDCBE0069C868 /* Acupoint.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Acupoint.entitlements; sourceTree = "<group>"; };
 		1B90B2EE2BDD0C380069C868 /* InitialSignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSignInVC.swift; sourceTree = "<group>"; };
 		1B90B2F02BDD0CAC0069C868 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -255,7 +253,6 @@
 				1B3882482BE60BB200393F94 /* AuthManager.swift */,
 				1B49D6F62BEBB86C0034DB6A /* AppleSiginInManager.swift */,
 				1B49D6F82BEBB8F10034DB6A /* GoogleSignInManager.swift */,
-				1B90B2E22BDBA0DE0069C868 /* CardTransitionManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -603,7 +600,6 @@
 				1B90B2DC2BDB5BF40069C868 /* CommonCollectionViewCell.swift in Sources */,
 				1B3882472BE6080300393F94 /* Alert.swift in Sources */,
 				1B90F1382BD8F03000452B6D /* UIColor + Ext.swift in Sources */,
-				1B90B2E32BDBA0DE0069C868 /* CardTransitionManager.swift in Sources */,
 				1BC6EEC62BE1DE6900B6B127 /* UICollectionView + Ext.swift in Sources */,
 				1B53803F2BDB557300927D8F /* CommonVC.swift in Sources */,
 				1BC6EECA2BE247B100B6B127 /* Protocols.swift in Sources */,

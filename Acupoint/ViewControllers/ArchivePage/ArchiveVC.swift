@@ -1,4 +1,5 @@
 import UIKit
+import FirebaseAuth
 
 class ArchiveVC: BaseVC {
         
@@ -56,9 +57,8 @@ class ArchiveVC: BaseVC {
     }
     //點擊bookmark
     @objc func deleteAction(_ sender: UIButton) {
-
         let buttonPosition = sender.convert(CGPoint.zero, to: archiveTableView)
-        guard let indexPath = archiveTableView.indexPathForRow(at:buttonPosition) else {
+        guard let indexPath = archiveTableView.indexPathForRow(at: buttonPosition) else {
             return
         }
         
@@ -73,6 +73,20 @@ class ArchiveVC: BaseVC {
                 
                 archiveTableView.deleteRows(at: [indexPath], with: .fade)
                 self.archiveTableView.reloadData()
+                
+                // 從 Firebase 中刪除穴位名字
+                if let userId = Auth.auth().currentUser?.uid {
+                    FirebaseManager.shared.deleteAcupointNameFromUserSubcollection(entity.name, userId: userId) { [weak self] result in
+                        switch result {
+                        case .success:
+                            print("穴位從 Firebase 使用者子集合中刪除成功")
+                        case .failure(let error):
+                            print("穴位從 Firebase 使用者子集合中刪除失敗: \(error.localizedDescription)")
+                            // 如果從 Firebase 中刪除失敗，您可以選擇是否需要將其重新加入到 SwiftData 中
+                            // self?.swiftDataService.saveAcupointName(name)
+                        }
+                    }
+                }
             } catch {
                 print("Error deleting entity: \(error)")
             }
