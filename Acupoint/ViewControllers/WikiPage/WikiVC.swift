@@ -51,12 +51,8 @@ class WikiVC: BaseVC {
         super.viewDidLoad()
         view.addSubview(tableView)
         view.addSubview(commonPointLbl)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
         setupUI()
         configDataSource()
-        
     }
     
     func setupUI() {
@@ -76,15 +72,14 @@ class WikiVC: BaseVC {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "WikiVCTableViewCell", for: indexPath) as? WikiVCTableViewCell else { return WikiVCTableViewCell() }
             cell.indexPath = indexPath
             // 根據 model 的屬性設置 cell 的內容
-            cell.titleLabel.text = model.title
 
             // 可以根據 model 的 genre 屬性設置不同的樣式或內容
             switch model.genre {
             case .face:
-                cell.mainVw.image = UIImage(named: "臉部")
-            case .hand:
-                cell.mainVw.image = UIImage(named: "手部")
+                cell.configure(withTitle: "臉 部", image: UIImage(named: "臉部"), indexPath: indexPath)
 
+            case .hand:
+                cell.configure(withTitle: "手 部", image: UIImage(named: "手部"), indexPath: indexPath)
             }
             return cell
         }
