@@ -1,14 +1,16 @@
 import UIKit
 
 class PromptVC: UIViewController {
-
-//    lazy var promptImageView: UIImageView = {
-//        let imageView = UIImageView()
-//        imageView.image = UIImage(named: "intro")
-//        imageView.contentMode = .scaleAspectFit
-//        imageView.translatesAutoresizingMaskIntoConstraints = false
-//        return imageView
-//    }()
+    
+    //    lazy var promptImageView: UIImageView = {
+    //        let imageView = UIImageView()
+    //        imageView.image = UIImage(named: "intro")
+    //        imageView.contentMode = .scaleAspectFit
+    //        imageView.translatesAutoresizingMaskIntoConstraints = false
+    //        return imageView
+    //    }()
+    var timer: Timer?
+    
     var isBackHand = false {
         didSet {
             if isBackHand {
@@ -46,7 +48,7 @@ class PromptVC: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
     private let handleView: UIView = {
         let view = UIView()
         view.backgroundColor = .lightGray
@@ -62,7 +64,7 @@ class PromptVC: UIViewController {
         return label
     }()
     
-    weak var delegate: CanDismissAnimate?
+    weak var delegate: CanChangeCellSizeAnimate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,9 +77,18 @@ class PromptVC: UIViewController {
         setupUI()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
+            self?.animateDownward()
+        }
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         disAppear()
+        timer?.invalidate()
     }
     
     func disAppear() {
@@ -89,10 +100,10 @@ class PromptVC: UIViewController {
     func setupUI() {
         
         NSLayoutConstraint.activate([
-//            promptImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            promptImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
-//            promptImageView.widthAnchor.constraint(equalToConstant: 200),
-//            promptImageView.heightAnchor.constraint(equalToConstant: 200),
+            //            promptImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            //            promptImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
+            //            promptImageView.widthAnchor.constraint(equalToConstant: 200),
+            //            promptImageView.heightAnchor.constraint(equalToConstant: 200),
             promptNameLbl.heightAnchor.constraint(equalToConstant: 50),
             promptNameLbl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             promptNameLbl.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -90),
@@ -109,7 +120,7 @@ class PromptVC: UIViewController {
             
             handSideLbl.topAnchor.constraint(equalTo: promptPostionLbl.bottomAnchor, constant: 10),
             handSideLbl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-
+            
             handleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             handleView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             handleView.widthAnchor.constraint(equalToConstant: 60),
@@ -117,6 +128,13 @@ class PromptVC: UIViewController {
             
         ])
     }
+    func animateDownward() {
+        UIView.animate(withDuration: 0.5) {
+            self.view.frame.origin.y += 50
+        } completion: { _ in
+            UIView.animate(withDuration: 0.5) {
+                self.view.frame.origin.y -= 50
+            }
+        }
+    }
 }
-
-

@@ -585,5 +585,5 @@ extension HandVC: NameSelectionDelegate, CurrentPageUpdatable {
     }
 }
 //動畫
-extension HandVC: CanDismissAnimate {}
+extension HandVC: CanChangeCellSizeAnimate {}
 

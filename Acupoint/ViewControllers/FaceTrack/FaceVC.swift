@@ -222,4 +222,4 @@ extension FaceVC: NameSelectionDelegate, CurrentPageUpdatable {
     
 }
 //動畫
-extension FaceVC: CanDismissAnimate {}
+extension FaceVC: CanChangeCellSizeAnimate {}
