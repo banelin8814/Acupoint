@@ -225,6 +225,12 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             let promptVC = PromptVC()
             promptVC.delegate = self
             handPoints = acupoitData.handAcupoints
+            promptVC.handSideLbl.isHidden = false
+            if handPoints[acupointIndex].isBackHand {
+                promptVC.isBackHand = true
+            } else {
+                promptVC.isBackHand = false
+            }
             promptVC.promptNameLbl.text = handPoints[acupointIndex].name
             promptVC.promptPostionLbl.text = handPoints[acupointIndex].location
             promptVC.promptEffectLbl.text = handPoints[acupointIndex].effect

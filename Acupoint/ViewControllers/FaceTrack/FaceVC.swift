@@ -93,6 +93,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         //intro Page
         let promptVC = PromptVC()
         if selectedFacePoint.count == 1 {
+            promptVC.handSideLbl.isHidden = true
             promptVC.promptNameLbl.text = facePoints[selectedIndex].name
             promptVC.promptPostionLbl.text = facePoints[selectedIndex].location
             promptVC.promptEffectLbl.text = facePoints[selectedIndex].effect

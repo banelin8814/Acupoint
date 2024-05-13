@@ -173,7 +173,7 @@ struct AcupointData {
                 """,
                 basePoint: [.thumbMP],
                 offSet: heGu,
-                isBackHand: true //是手心
+                isBackHand: true //是手背
             ),
             
             HandAcupointModel(
