@@ -1,4 +1,5 @@
 import UIKit
+import FirebaseAuth
 
 class SearchVC: BaseVC {
     
@@ -7,7 +8,7 @@ class SearchVC: BaseVC {
     private let faceVC = FaceVC()
     private let handVC = HandVC()
     private let archiveVC = ArchiveVC()
-
+    
     let acupoitData = AcupointData.shared
     let swiftDataService = SwiftDataService.shared
     let firebaseManager = FirebaseManager.shared
@@ -55,8 +56,8 @@ class SearchVC: BaseVC {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = .black
         //5/8:先準備上架，不把加入進去bookmarkButton，之後再加回來5/8
-//        let bookmarkButton = UIBarButtonItem(customView: bookmarkBtn)
-//        navigationItem.rightBarButtonItem = bookmarkButton
+        let bookmarkButton = UIBarButtonItem(customView: bookmarkBtn)
+        navigationItem.rightBarButtonItem = bookmarkButton
         
         searchTableView.dataSource = self
         searchTableView.delegate = self
@@ -70,6 +71,7 @@ class SearchVC: BaseVC {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        fetchDataFromFirebaseToSwiftData()
         navigationController?.navigationBar.prefersLargeTitles = true
         self.archivePointNames = self.swiftDataService.fetchAcupointNames()
         searchTableView.reloadData()
@@ -158,28 +160,14 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                 cell.painNameLabel.text = handPoints[indexPath.row].effect
             }
         }
-//        //        print("全部的穴位\(String(describing: cell.acupointNameLabel.text!))index:\(indexPath)")
-//        if let archivePointName = archivePointName {
-//            print("我現在總共有\(archivePointName.count)")
-//            for data in archivePointName {
-//                print("現在的名字：\(data.name)對應的index:\(indexPath)")
-//                if cell.acupointNameLabel.text == data.name {
-//                    print("Yes有對到的穴位\(String(describing: cell.acupointNameLabel.text))")
-//                    cell.bookmarkBtn.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-//                } else {
-//                    //                    cell.bookmarkBtn.setImage(UIImage(systemName: "bookmark"), for: .normal)
-//                }
-//                
-//            }
-////            print("NO沒對到的穴位\(String(describing: cell.acupointNameLabel.text))")
-//        }
+        
         if let archivePointName = archivePointNames,
-               let acupointName = cell.acupointNameLabel.text,
-               archivePointName.contains(where: { $0.name == acupointName }) {
-                cell.bookmarkBtn.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-            } else {
-                cell.bookmarkBtn.setImage(UIImage(systemName: "bookmark"), for: .normal)
-            }
+           let acupointName = cell.acupointNameLabel.text,
+           archivePointName.contains(where: { $0.name == acupointName }) {
+            cell.bookmarkBtn.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+        } else {
+            cell.bookmarkBtn.setImage(UIImage(systemName: "bookmark"), for: .normal)
+        }
         
         return cell
     }
@@ -196,7 +184,6 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         if searchController.isActive {
             if let result = searchResults as? [FaceAcupointModel] {
                 if let index = facePoints.firstIndex(where: { $0.name == result[indexPath.row].name }) {
-                    
                     self.navigationController?.pushViewController(faceVC, animated: true)
                     faceVC.selectedFacePoint = [facePoints[index]]
                     faceVC.selectedIndex = index
@@ -212,9 +199,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                 if let index = handPoints.firstIndex(where: { $0.name == result[indexPath.row].name }) {
                     handVC.acupointIndex = index
                     handVC.currentDisplayMode = .specific(name: handPoints[index].name)
-                    handVC.numberOfAcupoints = 1
-                    
-                    
+                    handVC.numberOfAcupoints = 1                    
                     handVC.collectionView.reloadData()
                     handVC.handSideSegmentedControl.isHidden = true
                     self.navigationController?.pushViewController(handVC, animated: true)
@@ -270,6 +255,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
     func saveAction(_ sender: UIButton) {
         if AuthManager.shared.isLoggedIn {
             if isArchiveEnable {
+                
                 var name: String?
                 if searchController.isActive {
                     let buttonPosition = sender.convert(CGPoint.zero, to: searchTableView)
@@ -301,35 +287,67 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                         name = acupoint.name
                     }
                 }
-                if let name = name {
-                    //把存的名字存在現在的Array
-                    let newAcupointName = AcupointName(name: name)
-                      archivePointNames?.append(newAcupointName)
-                 
-                    SwiftDataService.shared.checkAcupointNames(name)
+                if let name = name, let userId = Auth.auth().currentUser?.uid {
+                    // 檢查穴位名字是否已經存在於使用者的子集合中
+                    FirebaseManager.shared.fetchAcupointNamesFromUserSubcollection(userId: userId) { [weak self] result in
+                        switch result {
+                        case .success(let acupointNames):
+                            if acupointNames.contains(name) {
+                                // 如果存在，則從 Firebase 和 SwiftData 中刪除
+                                FirebaseManager.shared.deleteAcupointNameFromUserSubcollection(name, userId: userId) { result in
+                                    switch result {
+                                    case .success:
+                                        print("穴位從 Firebase 使用者子集合中刪除成功")
+                                        SwiftDataService.shared.checkAcupointNames(name)
+//                                        self?.searchTableView.reloadData()
+                                    case .failure(let error):
+                                        print("穴位從 Firebase 使用者子集合中刪除失敗: \(error.localizedDescription)")
+                                    }
+                                }
+                            } else {
+                                // 如果不存在，則儲存到 Firebase 和 SwiftData 中
+                                FirebaseManager.shared.saveAcupointNameToUserSubcollection(name, userId: userId) { result in
+                                    switch result {
+                                    case .success:
+                                        print("穴位保存到 Firebase 使用者子集合成功")
+                                        SwiftDataService.shared.checkAcupointNames(name)
+//                                        self?.searchTableView.reloadData()
+                                    case .failure(let error):
+                                        print("穴位保存到 Firebase 使用者子集合失敗: \(error.localizedDescription)")
+                                    }
+                                }
+                            }
+                        case .failure(let error):
+                            print("從 Firebase 獲取使用者的儲存穴位失敗: \(error.localizedDescription)")
+                        }
+                    }
                 }
-                
-                //存在swiftdata的資料抓下來
-                
-                //                if let dataFromLocal = archivePointName {
-                //                    for data in dataFromLocal {
-                //                        firebaseManager.saveAcupointName(data) { result in
-                //                            switch result {
-                //                            case .success:
-                //                                print("穴位上傳成功")
-                //                                // 清空輸入欄位
-                //                            case .failure(let error):
-                //                                print("穴位上傳失敗: \(error.localizedDescription)")
-                //                            }
-                //                        }
-                //                    }
-                //                }
             } else {
                 print("pleaseLogin")
             }
         } else {
             let loginPage = LoginVC()
             present(loginPage, animated: true, completion: nil)
+        }
+    }
+    
+    func fetchDataFromFirebaseToSwiftData() {
+        if AuthManager.shared.isLoggedIn {
+            if let userId = Auth.auth().currentUser?.uid {
+                FirebaseManager.shared.fetchAcupointNamesFromUserSubcollection(userId: userId) { result in
+                    switch result {
+                    case .success(let acupointNames):
+                        SwiftDataService.shared.deleteAllAcupointNames()
+                        for name in acupointNames {
+                            SwiftDataService.shared.saveAcupointName(name)
+                        }
+                        self.archivePointNames = self.swiftDataService.fetchAcupointNames()
+                        self.searchTableView.reloadData()
+                    case .failure(let error):
+                        print("從firebase獲得使用者的儲存的穴位: \(error.localizedDescription)")
+                    }
+                }
+            }
         }
     }
 }

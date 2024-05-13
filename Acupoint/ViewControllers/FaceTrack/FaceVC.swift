@@ -21,7 +21,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     }()
     //特定的index
     lazy var selectedIndex: Int = 0
- 
+    
     var currentPage = 0 {
         didSet {
             if oldValue != currentPage {
@@ -31,16 +31,16 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
     }
     
     var selectedNameByCell: String = "" {
-            didSet {
-
-            }
+        didSet {
+            
         }
+    }
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-            // 在这里设置 layout 的属性
+        // 在这里设置 layout 的属性
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-      
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
@@ -76,7 +76,6 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
         sceneVw.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
         
         //intro Page
-
         let promptVC = PromptVC()
         if selectedFacePoint.count == 1 {
             promptVC.promptNameLbl.text = facePoints[selectedIndex].name
@@ -90,16 +89,28 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
 //            UIView.animate(withDuration: 0.5, delay: 0.5, options: .curveEaseInOut, animations: {
 //                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: false)
 //            }, completion: nil)
-    }
 
+    }
+    
     
     override func viewDidLayoutSubviews() {
-        
         setUpUI()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        //intro Page
+        let promptVC = PromptVC()
+        if selectedFacePoint.count == 1 {
+            promptVC.handSideLbl.isHidden = true
+            promptVC.promptNameLbl.text = facePoints[selectedIndex].name
+            promptVC.promptPostionLbl.text = facePoints[selectedIndex].location
+            promptVC.promptEffectLbl.text = facePoints[selectedIndex].effect
+            //            promptVC.promptImageView.loadGif(name: "face-animation")
+            present(promptVC, animated: true, completion: nil)
+            promptVC.delegate = self
+        }
         
     }
     
@@ -143,7 +154,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
                     
                     dotNode.position = SCNVector3(vertex.x, vertex.y, vertex.z)
                     faceNode.addChildNode(dotNode)
-  
+                    
                 }
             }
         }
@@ -156,7 +167,7 @@ class FaceVC: UIViewController, ARSCNViewDelegate {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
-            collectionView.heightAnchor.constraint(equalToConstant: 140)
+            collectionView.heightAnchor.constraint(equalToConstant: 150)
         ])
     }
     
@@ -189,6 +200,10 @@ extension FaceVC: UICollectionViewDelegate, UICollectionViewDataSource {
         case .specific:
             cell.configureFaceDataFromSearchVC(with: selectedFacePoint[0])
         }
+        
+        if indexPath.row == 0 {
+                self.dismissAnimate()
+        }
         return cell
     }
     
@@ -212,9 +227,9 @@ extension FaceVC: NameSelectionDelegate, CurrentPageUpdatable {
         //更新
         let configuration = ARFaceTrackingConfiguration()
         sceneVw.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
-                print(acupoint.name)
+        print(acupoint.name)
     }
     
 }
-    
-
+//動畫
+extension FaceVC: CanChangeCellSizeAnimate {}

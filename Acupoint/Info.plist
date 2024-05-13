@@ -19,6 +19,10 @@
 			<string>Editor</string>
 		</dict>
 	</array>
+	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
+	<true/>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>GIDClientID</key>
 	<string>646557953334-na6nepqnspf12c5il1s8eigublpfeufb.apps.googleusercontent.com</string>
 	<key>ITSAppUsesNonExemptEncryption</key>

@@ -172,8 +172,8 @@ struct AcupointData {
                 4.全身性發炎或自體免疫疾病，須注意按摩力道
                 """,
                 basePoint: [.thumbMP],
-                offSet: joiningValley,
-                isBackHand: true //是手心
+                offSet: heGu,
+                isBackHand: true //是手背
             ),
             
             HandAcupointModel(
@@ -188,10 +188,74 @@ struct AcupointData {
                 4.全身性發炎或自體免疫疾病，須注意按摩力道
                 """,
                 basePoint: [.littleTip],
-                offSet: lesserSurge,
+                offSet: shaoChong,
                 isBackHand: true
             ),
             
+            HandAcupointModel(
+                name: "商陽穴",
+                effect: "有助於緩解肺部、腸胃小困擾",
+                method: "用大拇指點按",
+                location: "食指指甲下方內側",
+                notice:"""
+                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
+                2.局部感染發炎處，應避開按摩
+                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
+                4.全身性發炎或自體免疫疾病，須注意按摩力道
+                """,
+                basePoint: [.indexTip],
+                offSet: shangYang,
+                isBackHand: true
+            ),
+            
+            HandAcupointModel(
+                name: "中渚穴",
+                effect: "頭痛、目赤、耳聾、耳鳴、咽喉腫痛",
+                method: "手掌心向下，用另一手反手握住該手的小指側，用拇指的指尖掐揉",
+                location: "第四、五掌骨間凹陷處",
+                notice:"""
+                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
+                2.局部感染發炎處，應避開按摩
+                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
+                4.全身性發炎或自體免疫疾病，須注意按摩力道
+                """,
+                basePoint:  [.wrist, .littlePIP],
+                offSet: chongDu,
+                isBackHand: true
+            ),
+            
+//            HandAcupointModel(
+//                name: "液門穴",
+//                effect: "",
+//                method: "",
+//                location: "",
+//                notice:"""
+//                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
+//                2.局部感染發炎處，應避開按摩
+//                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
+//                4.全身性發炎或自體免疫疾病，須注意按摩力道
+//                """,
+//                basePoint:  [.middleMCP, .littleMCP],
+//                offSet: yiMen,
+//                isBackHand: true
+//            ),
+//            
+//            HandAcupointModel(
+//                name: "陽池穴",
+//                effect: "",
+//                method: "",
+//                location: "",
+//                notice:"""
+//                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
+//                2.局部感染發炎處，應避開按摩
+//                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
+//                4.全身性發炎或自體免疫疾病，須注意按摩力道
+//                """,
+//                basePoint:  [.wrist],
+//                offSet: yangChi,
+//                isBackHand: true
+//            ),
+
 //            HandAcupointModel(
 //                name: "內關穴",
 //                effect: "改善失眠、緩解心悸、胸悶等症狀",
@@ -220,18 +284,85 @@ struct AcupointData {
                 4.全身性發炎或自體免疫疾病，須注意按摩力道
                 """,
                 basePoint: [.wrist, .middleMCP],
-                offSet: palaceOfToil,
+                offSet: laoGong,
+                isBackHand: false
+            ),
+            
+            HandAcupointModel(
+                name: "少府穴",
+                effect: "緩解心悸、胸痛、心律不整，心火旺盛引起的失眠、口臭、痘痘",
+                method: "用拇指尖按壓",
+                location: "手握拳，小指尖在掌心所指處",
+                notice:"""
+                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
+                2.局部感染發炎處，應避開按摩
+                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
+                4.全身性發炎或自體免疫疾病，須注意按摩力道
+                """,
+                basePoint:  [.wrist, .littleMCP],
+                offSet: shaoFu,
+                isBackHand: false
+            ),
+            
+            HandAcupointModel(
+                name: "大陵穴",
+                effect: "鎮驚安神、緩解失眠",
+                method: "大拇指按壓",
+                location: "腕掌橫紋的中點處",
+                notice:"""
+                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
+                2.局部感染發炎處，應避開按摩
+                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
+                4.全身性發炎或自體免疫疾病，須注意按摩力道
+                """,
+                basePoint:  [.wrist],
+                offSet: daLin,
+                isBackHand: false
+            ),
+            
+            HandAcupointModel(
+                name: "魚際穴",
+                effect: "緩解咽喉腫痛、咳嗽、發熱、頭痛、風寒",
+                method: "一手手掌輕握另一手手背彎曲大拇指，以指甲尖垂直下按第一掌骨側中點肉際處",
+                location: "第一掌骨中點橈側",
+                notice:"""
+                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
+                2.局部感染發炎處，應避開按摩
+                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
+                4.全身性發炎或自體免疫疾病，須注意按摩力道
+                """,
+                basePoint:  [.thumbCMC],
+                offSet: yuChi,
                 isBackHand: false
             )
+            
+            //            HandAcupointModel(
+            //                name: "神門穴",
+            //                effect: "",
+            //                method: "",
+            //                location: "",
+            //                notice:"""
+            //                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
+            //                2.局部感染發炎處，應避開按摩
+            //                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
+            //                4.全身性發炎或自體免疫疾病，須注意按摩力道
+            //                """,
+            //                basePoint:  [.middleMCP, .littleMCP],
+            //                offSet: shaunMang,
+            //                isBackHand: false
+            //            ),
         ]
     }
     
     var middleMCP: VNRecognizedPoint?
     var wrist: VNRecognizedPoint?
-    
+    var littleMCP: VNRecognizedPoint?
+    var littlePIP: VNRecognizedPoint?
+    var thumbCMC: VNRecognizedPoint?
+
     var isLeftHand: Bool = false
     
-    var joiningValley: CGPoint {
+    var heGu: CGPoint {
         return isLeftHand ? CGPoint(x: 0, y: 0.1) : CGPoint(x: 0, y: 0.08)
     }
     
@@ -239,13 +370,42 @@ struct AcupointData {
         return isLeftHand ? CGPoint(x: -0.18, y: 0.08) : CGPoint(x: 0.19, y: 0)
     }
     
-    var palaceOfToil: CGPoint {
+    var laoGong: CGPoint {
         return calculateMidPoint(point1: wrist?.location, point2: middleMCP?.location)
     }
     
-    var lesserSurge: CGPoint {
+    var shaoChong: CGPoint {
         return isLeftHand ? CGPoint(x: -0.01, y: -0.03) : CGPoint(x: 0.02, y: -0.009)
     }
+    
+    var shangYang: CGPoint {
+        return isLeftHand ? CGPoint(x: -0.02, y: -0.02) : CGPoint(x: 0.02, y: -0.03)
+    }
+    
+    var shaoFu: CGPoint {
+        return calculateMidPoint(point1: wrist?.location, point2: littleMCP?.location)
+    }
+
+    var chongDu: CGPoint {
+        return calculateMidPoint(point1: wrist?.location, point2: littlePIP?.location)
+    }
+    
+//    var yiMen: CGPoint {
+//        return calculateMidPoint(point1: littleMCP?.location, point2: middleMCP?.location)
+//    }
+//    
+    var yangChi: CGPoint {
+        return calculateMidPoint(point1: wrist?.location, point2: wrist?.location)
+    }
+    
+    var daLin: CGPoint {
+        return isLeftHand ? CGPoint(x: -0.04, y: 0.1) : CGPoint(x: 0.08, y: -0.03)
+    }
+    
+    var yuChi: CGPoint {
+        return calculateMidPoint(point1: thumbCMC?.location, point2: thumbCMC?.location)
+    }
+    
     
     func calculateMidPoint(point1: CGPoint?, point2: CGPoint?) -> CGPoint {
         guard let point1 = point1, let point2 = point2 else { return .zero }

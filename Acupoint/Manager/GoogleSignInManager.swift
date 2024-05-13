@@ -7,8 +7,6 @@ class GoogleSignInManager {
     
     static let shared = GoogleSignInManager()
     
-    typealias GoogleAuthResult = (GIDGoogleUser?, Error?) -> Void
-    
     private init() {}
     
     @MainActor

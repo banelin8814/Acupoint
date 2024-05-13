@@ -1,5 +1,6 @@
 import UIKit
 
+//偵測頁面的protocol
 protocol NameSelectionDelegate: AnyObject {
     
     var selectedNameByCell: String { get set }
@@ -57,5 +58,26 @@ extension CurrentPageUpdatable {
         
         let layout = UICollectionViewCompositionalLayout(section: gallerySection)
         return layout
+    }
+}
+
+//動畫的protocol
+protocol CanChangeCellSizeAnimate: AnyObject {
+    var collectionView: UICollectionView { get
+    }
+    func dismissAnimate()
+}
+
+extension CanChangeCellSizeAnimate {
+    func dismissAnimate() {
+        if let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) {
+            UIView.animate(withDuration: 0.4, delay: 0.5, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: [], animations: {
+                cell.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+            }, completion: { _ in
+                UIView.animate(withDuration: 0.1) {
+                    cell.transform = CGAffineTransform.identity
+                }
+            })
+        }
     }
 }

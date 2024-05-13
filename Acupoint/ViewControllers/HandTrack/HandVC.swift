@@ -105,6 +105,9 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     lazy var handPoints: [HandAcupointModel] = {
         return acupoitData.handAcupoints
     }()
+    lazy var allHandPoints: [HandAcupointModel] = {
+        return acupoitData.handAcupoints
+    }()
 
     //graphic
     let drawOverlay = CAShapeLayer()
@@ -114,7 +117,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     //MARK: - UI Component
     lazy var handOutlineImg: UIImageView = {
         let handOutlineImg = UIImageView()
-        handOutlineImg.image = UIImage(named: "handOutline")
+        handOutlineImg.image = UIImage(named: "handOutline2")
         handOutlineImg.translatesAutoresizingMaskIntoConstraints = false
         handOutlineImg.backgroundColor = .clear
         return handOutlineImg
@@ -163,9 +166,13 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-   
+        //進來先顯示正面selectedname
+        isBackHandInVC = true
+        
+        
+        allHandPoints = acupoitData.handAcupoints
         //創兩個空的陣列，一個放手背的點，一個放手心的點
-        for acupoint in handPoints {
+        for acupoint in allHandPoints {
             acupoint.isBackHand ? outsideOfHandAcupoins.append(acupoint) : insideOfHandAcupoins.append(acupoint)
         }
         //偵測
@@ -188,22 +195,13 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         //一進來就要更新selectedname
         getNameByIndex(currentPage)
 
         navigationController?.navigationBar.prefersLargeTitles = false
 
         updateCurrentPage(collectionView: collectionView)
-        
-        if numberOfAcupoints == 1 {
-            
-            let promptVC = PromptVC()
-            handPoints = acupoitData.handAcupoints
-            promptVC.promptNameLbl.text = handPoints[acupointIndex].name
-            promptVC.promptPostionLbl.text = handPoints[acupointIndex].location
-            promptVC.promptEffectLbl.text = handPoints[acupointIndex].effect
-            present(promptVC, animated: true, completion: nil)
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -223,6 +221,23 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         } catch {
             AppError.display(error, inViewController: self)
         }
+        
+        if numberOfAcupoints == 1 {
+            let promptVC = PromptVC()
+            promptVC.delegate = self
+            handPoints = acupoitData.handAcupoints
+            promptVC.handSideLbl.isHidden = false
+            if handPoints[acupointIndex].isBackHand {
+                promptVC.isBackHand = true
+            } else {
+                promptVC.isBackHand = false
+            }
+            promptVC.promptNameLbl.text = handPoints[acupointIndex].name
+            promptVC.promptPostionLbl.text = handPoints[acupointIndex].location
+            promptVC.promptEffectLbl.text = handPoints[acupointIndex].effect
+            present(promptVC, animated: true, completion: nil)
+        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -238,11 +253,11 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
-            collectionView.heightAnchor.constraint(equalToConstant: 140),
+            collectionView.heightAnchor.constraint(equalToConstant: 150),
             
-            handOutlineImg.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -70),
+            handOutlineImg.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -10),
             handOutlineImg.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            handOutlineImg.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1.25),
+            handOutlineImg.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1.3),
             handOutlineImg.heightAnchor.constraint(equalTo: handOutlineImg.widthAnchor),
             
             leftRightSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -368,11 +383,10 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
                     guard let cameraPreviewLayer = self.cameraVw.previewLayer, let observation = observation else { return }
                     HandJointService.shared.drawCustomJoints(on: self.drawOverlay, with: path, in: cameraPreviewLayer, observation: observation, with: actualPosition)
                     acupointPaths.append((path, acupoint))
-                    print("----------")
-                    print("現在選到的名字\(selectedNameByCell)")
-                    print("篩選出來的每個穴位\(acupoint.name)")
-                    print("----------")
-
+//                    print("----------")
+//                    print("使用者選到的名字\(selectedNameByCell)")
+//                    print("分左右手篩選出來的每個穴位\(acupoint.name)")
+//                    print("----------")
                 }
             }
         }
@@ -487,6 +501,8 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     @objc func handSideSegmentedControlValueChanged() {
         DispatchQueue.main.async {
+            self.isBackHandInVC.toggle()
+            self.getNameByIndex(self.currentPage)
             self.collectionView.reloadData()
         }
         updateAcupointPositions()
@@ -530,6 +546,12 @@ extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
                 return cell
             }
         }
+        //cell縮小動畫
+        if indexPath.row == 0 {
+            print("有啟動")
+                self.dismissAnimate()
+        }
+        
         return cell
     }
     
@@ -548,7 +570,10 @@ extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
 extension HandVC: NameSelectionDelegate, CurrentPageUpdatable {
     
     func getNameByIndex(_ index: Int) {
-   
+//        print("""
+//                現在是正面嗎\(isBackHandInVC)
+//                現在是左手嗎\(isLeftHand)
+//                現在是第\(index)頁""")
         if isBackHandInVC {
             //只有正面的
             selectedNameByCell = outsideOfHandAcupoins[index].name
@@ -560,6 +585,6 @@ extension HandVC: NameSelectionDelegate, CurrentPageUpdatable {
         }
     }
 }
-
-
+//動畫
+extension HandVC: CanChangeCellSizeAnimate {}
 

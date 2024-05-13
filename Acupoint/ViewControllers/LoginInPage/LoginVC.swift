@@ -27,7 +27,7 @@ class LoginVC: BaseVC {
         label.text = ""
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(name: "ZenMaruGothic-Black", size: 26)
-        label.textColor = UIColor.BlutTitleColor
+        label.textColor = UIColor.BlueTitleColor
         return label
     }()
     
@@ -110,39 +110,26 @@ class LoginVC: BaseVC {
     
     //MARK: - google
     private func googleSignIn() {
-        // here for simplicity I used completion handler
-        // feel free to use async function instead
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { [weak self] result, error in
-            if let error {
-                // you can add error handling
+            if let error = error {
                 print("Error", error)
                 return
             }
-            guard let idToken = result?.user.idToken?.tokenString,
-                  let accessToken = result?.user.accessToken.tokenString
-            else {
-                print("Invalid ID token or access token")
+            guard let user = result?.user else {
+                print("Invalid user")
                 return
             }
             
-            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
-            
-            Auth.auth().signIn(with: credential) { _, error in
-                if let error {
-                    
-                    print("Error", error)
-                    return
+            Task {
+                do {
+                    let authResult = try await AuthManager.shared.googleAuth(user)
+                    if let name = authResult?.user.displayName {
+                        self?.navigateToHomeViewController(with: name)
+                    }
+                } catch {
+                    print("Error: \(error)")
                 }
             }
-            // you can add anything with user data if you like
-            // here I save user name for HomeViewController
-            guard let name = result?.user.profile?.name else {
-                // you can add error handling
-                print("Invalid user profile")
-                return
-            }
-            self?.navigateToHomeViewController(with: name)
-            
         }
     }
     //MARK: - apple

@@ -22,6 +22,8 @@ enum AuthState {
 class AuthManager {
     static let shared = AuthManager()
     
+    private init() {}
+    
     var authState: AuthState = .signedOut
     
     // 1.
@@ -32,29 +34,30 @@ class AuthManager {
         guard let nonce = nonce else {
             fatalError("Invalid state: A login callback was received, but no login request was sent.")
         }
-
+        
         guard let appleIDToken = appleIDCredential.identityToken else {
             print("Unable to fetch identity token")
             return nil
         }
-
+        
         guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
             print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
             return nil
         }
-
+        
         // 2.
         let credentials = OAuthProvider.appleCredential(withIDToken: idTokenString,
-                                                       rawNonce: nonce,
-                                                       fullName: appleIDCredential.fullName)
-
+                                                        rawNonce: nonce,
+                                                        fullName: appleIDCredential.fullName)
+        
         do { // 3.
-            return try await authenticateUser(credentials: credentials)
-        }
-        catch {
-            print("FirebaseAuthError: appleAuth(appleIDCredential:nonce:) failed. \(error)")
-            throw error
-        }
+                let result = try await authenticateUser(credentials: credentials)
+                print("Apple authentication successful: \(result?.user.uid ?? "")")
+                return result
+            } catch {
+                print("FirebaseAuthError: appleAuth(appleIDCredential:nonce:) failed. \(error.localizedDescription)")
+                throw error
+            }
     }
     
     var handle: AuthStateDidChangeListenerHandle?
@@ -76,7 +79,9 @@ class AuthManager {
         )
         do {
             // 2.
-            return try await authenticateUser(credentials: credentials)
+            let result =  try await authenticateUser(credentials: credentials)
+            print("Google authentication successful: \(result?.user.uid ?? "")")
+            return result
         } catch {
             print("FirebaseAuthError: googleAuth(user:) failed. \(error)")
             throw error
@@ -84,7 +89,21 @@ class AuthManager {
     }
     private func authenticateUser(credentials: AuthCredential) async throws -> AuthDataResult? {
         do {
-            return try await Auth.auth().signIn(with: credentials)
+            let result = try await Auth.auth().signIn(with: credentials)
+            let authDataResult = AuthDataResultModel(
+                userId: result.user.uid,
+                email: result.user.email,
+                name: result.user.displayName ?? "")
+            do {
+                //寫資料
+                try await FirebaseManager.shared.createNewUser(auth: authDataResult)
+                print("User data saved successfully")
+            } catch {
+                print("Error saving user data: \(error.localizedDescription)")
+                throw error
+            }
+            return result
+            
         } catch {
             print("FirebaseAuthError: Failed to authenticate user. \(error)")
             throw error
@@ -96,8 +115,8 @@ class AuthManager {
             self?.isLoggedIn = user != nil
         }
     }
-//
-//    
+    //
+    //
     //用AppleID來reauthenticate
     private func reauthenticateAppleID(
         _ appleIDCredential: ASAuthorizationAppleIDCredential,
@@ -137,12 +156,11 @@ class AuthManager {
             throw AuthErrors.reauthenticateGoogle
         }
     }
-    
     //revoke AppleID
     private func revokeAppleIDToken(_ appleIDCredential: ASAuthorizationAppleIDCredential) async throws {
         guard let authorizationCode = appleIDCredential.authorizationCode else { return }
         guard let authCodeString = String(data: authorizationCode, encoding: .utf8) else { return }
-
+        
         do {
             try await Auth.auth().revokeToken(withAuthorizationCode: authCodeString)
         } catch {
@@ -166,61 +184,61 @@ class AuthManager {
     
     //下面一整段是都要檢查AppleID and the Google credentials
     private func verifySignInWithAppleID() async -> Bool {
-            let appleIDProvider = ASAuthorizationAppleIDProvider()
-
-            guard let providerData = Auth.auth().currentUser?.providerData,
-                  let appleProviderData = providerData.first(where: { $0.providerID == "apple.com" }) else {
-                return false
-            }
-
-            do {
-                // 1.
-                let credentialState = try await appleIDProvider.credentialState(forUserID: appleProviderData.uid)
-                return credentialState != .revoked && credentialState != .notFound
-            } catch {
-                return false
-            }
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        
+        guard let providerData = Auth.auth().currentUser?.providerData,
+              let appleProviderData = providerData.first(where: { $0.providerID == "apple.com" }) else {
+            return false
         }
-
-        private func verifyGoogleSignIn() async -> Bool {
-            guard let providerData = Auth.auth().currentUser?.providerData,
-                  providerData.contains(where: { $0.providerID == "google.com" }) else { return false }
-
-            do {
-                // 2.
-                try await GIDSignIn.sharedInstance.restorePreviousSignIn()
-                return true
-            } catch {
-                return false
-            }
+        
+        do {
+            // 1.
+            let credentialState = try await appleIDProvider.credentialState(forUserID: appleProviderData.uid)
+            return credentialState != .revoked && credentialState != .notFound
+        } catch {
+            return false
         }
-
-        private func verifySignInProvider() async {
-            guard let providerData = Auth.auth().currentUser?.providerData else { return }
-            // 3.
-            var isAppleCredentialRevoked = false
-            var isGoogleCredentialRevoked = false
-
-            if providerData.contains(where: { $0.providerID == "apple.com" }) {
-                isAppleCredentialRevoked = await !verifySignInWithAppleID()
-            }
-
-            if providerData.contains(where: { $0.providerID == "google.com" }) {
-                isGoogleCredentialRevoked = await !verifyGoogleSignIn()
-            }
-
-            // 4.
-            if isAppleCredentialRevoked && isGoogleCredentialRevoked {
-                if authState != .signedIn {
-                    do {
-                        try self.signOut()
-                        authState = .signedOut
-                    } catch {
-                        print("FirebaseAuthError: verifySignInProvider() failed. \(error)")
-                    }
+    }
+    
+    private func verifyGoogleSignIn() async -> Bool {
+        guard let providerData = Auth.auth().currentUser?.providerData,
+              providerData.contains(where: { $0.providerID == "google.com" }) else { return false }
+        
+        do {
+            // 2.
+            try await GIDSignIn.sharedInstance.restorePreviousSignIn()
+            return true
+        } catch {
+            return false
+        }
+    }
+    
+    private func verifySignInProvider() async {
+        guard let providerData = Auth.auth().currentUser?.providerData else { return }
+        // 3.
+        var isAppleCredentialRevoked = false
+        var isGoogleCredentialRevoked = false
+        
+        if providerData.contains(where: { $0.providerID == "apple.com" }) {
+            isAppleCredentialRevoked = await !verifySignInWithAppleID()
+        }
+        
+        if providerData.contains(where: { $0.providerID == "google.com" }) {
+            isGoogleCredentialRevoked = await !verifyGoogleSignIn()
+        }
+        
+        // 4.
+        if isAppleCredentialRevoked && isGoogleCredentialRevoked {
+            if authState != .signedIn {
+                do {
+                    try self.signOut()
+                    authState = .signedOut
+                } catch {
+                    print("FirebaseAuthError: verifySignInProvider() failed. \(error)")
                 }
             }
         }
+    }
     func signOut() throws {
         do {
             try Auth.auth().signOut()
@@ -240,7 +258,7 @@ extension AuthManager {
         
         // 2.刪除帳號之前是否要重新認證且撤銷token
         let providers = user.providerData.map { $0.providerID }
-
+        
         do {
             if providers.contains("apple.com") {
                 // 3.

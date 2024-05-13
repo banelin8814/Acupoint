@@ -3,7 +3,7 @@ import UIKit
 class WikiVCTableViewCell: UITableViewCell {
     
     var indexPath: IndexPath?
-
+    
     
     let mainVw: UIImageView = {
         let view = UIImageView()
@@ -22,8 +22,8 @@ class WikiVCTableViewCell: UITableViewCell {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = ""
-        label.font = UIFont(name: "ZenMaruGothic-Medium", size: 30)
+        label.sizeToFit()
+        label.configureHeadingOneLabel(withText: "")
         label.textColor = .white
         return label
     }()
@@ -35,7 +35,14 @@ class WikiVCTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+    }
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCell()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func setupCell() {
@@ -51,25 +58,28 @@ class WikiVCTableViewCell: UITableViewCell {
             mainVw.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             mainVw.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
-        titleLabel.removeConstraints(titleLabel.constraints)
-
-               if indexPath?.section == 0 {
-                   // 第一個 section，titleLabel 靠左
-                   NSLayoutConstraint.activate([
-                    titleLabel.heightAnchor.constraint(equalToConstant: 0),
-                       titleLabel.topAnchor.constraint(equalTo: mainVw.topAnchor, constant: 20),
-                       titleLabel.leadingAnchor.constraint(equalTo: mainVw.leadingAnchor, constant: 20)
-                   ])
-               } else {
-                   // 第二個 section，titleLabel 靠右
-                   NSLayoutConstraint.activate([
-                    titleLabel.heightAnchor.constraint(equalToConstant: 0),
-                       titleLabel.topAnchor.constraint(equalTo: mainVw.topAnchor, constant: 20),
-                       titleLabel.trailingAnchor.constraint(equalTo: mainVw.trailingAnchor, constant: -20)
-                   ])
-               }
         
     }
-    
+    func configure(withTitle title: String, image: UIImage?, indexPath: IndexPath) {
+        self.indexPath = indexPath
+        titleLabel.text = title
+        mainVw.image = image
+        
+        // 在这里根据 indexPath 设置 titleLabel 的位置
+        if indexPath.section == 0 {
+            // 第一个 section，titleLabel 靠左
+            NSLayoutConstraint.activate([
+                titleLabel.heightAnchor.constraint(equalToConstant: 60),
+                titleLabel.topAnchor.constraint(equalTo: mainVw.topAnchor, constant: 20),
+                titleLabel.leadingAnchor.constraint(equalTo: mainVw.leadingAnchor, constant: 20)
+            ])
+        } else {
+            // 第二个 section，titleLabel 靠右
+            NSLayoutConstraint.activate([
+                titleLabel.heightAnchor.constraint(equalToConstant: 60),
+                titleLabel.topAnchor.constraint(equalTo: mainVw.topAnchor, constant: 20),
+                titleLabel.trailingAnchor.constraint(equalTo: mainVw.trailingAnchor, constant: -20)
+            ])
+        }
+    }
 }
-

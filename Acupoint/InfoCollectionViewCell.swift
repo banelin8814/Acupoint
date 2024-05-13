@@ -62,13 +62,13 @@ class InfoCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(introLabel)
         
         NSLayoutConstraint.activate([
-            acupointNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            acupointNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            acupointNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            acupointNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            acupointNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            acupointNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             acupointNameLabel.heightAnchor.constraint(equalToConstant: 40),
-            introLabel.topAnchor.constraint(equalTo: acupointNameLabel.bottomAnchor, constant: 8),
-            introLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            introLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            introLabel.topAnchor.constraint(equalTo: acupointNameLabel.bottomAnchor, constant: 5),
+            introLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            introLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15)
         ])
     }
     

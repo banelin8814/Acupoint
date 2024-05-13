@@ -98,7 +98,7 @@ class SearchTableViewCell: UITableViewCell {
         // 將 blurView 添加到陰影容器中
         shadowView.addSubview(blurView)
         //5/8:先準備上架，不把加入進去bookmarkButton，之後再加回來5/8
-//        contentView.addSubview(bookmarkBtn)
+        contentView.addSubview(bookmarkBtn)
         contentView.addSubview(acupointNameLabel)
         contentView.addSubview(painNameLabel)
         NSLayoutConstraint.activate([
@@ -107,10 +107,10 @@ class SearchTableViewCell: UITableViewCell {
             blurView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             blurView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             //5/8:先準備上架，不把加入進去bookmarkButton，之後再加回來5/8
-//            bookmarkBtn.heightAnchor.constraint(equalToConstant: 40),
-//            bookmarkBtn.widthAnchor.constraint(equalToConstant: 40),
-//            bookmarkBtn.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-//            bookmarkBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            bookmarkBtn.heightAnchor.constraint(equalToConstant: 40),
+            bookmarkBtn.widthAnchor.constraint(equalToConstant: 40),
+            bookmarkBtn.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            bookmarkBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             acupointNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             acupointNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
 //            acupointNameLabel.widthAnchor.constraint(equalToConstant: 70),
@@ -118,9 +118,7 @@ class SearchTableViewCell: UITableViewCell {
             painNameLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor),
 //            painNameLabel.widthAnchor.constraint(equalToConstant: 200),
             painNameLabel.leadingAnchor.constraint(equalTo: acupointNameLabel.trailingAnchor, constant: 12),
-//            painNameLabel.trailingAnchor.constraint(equalTo: bookmarkBtn.leadingAnchor, constant: -12)
-            painNameLabel.trailingAnchor.constraint(equalTo: contentView
-                .trailingAnchor, constant: -30)
+            painNameLabel.trailingAnchor.constraint(equalTo: bookmarkBtn.leadingAnchor, constant: -12)
 
         ])
         
