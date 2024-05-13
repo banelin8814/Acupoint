@@ -403,7 +403,7 @@ struct AcupointData {
     }
     
     var yuChi: CGPoint {
-        return calculateMidPoint(point1: thumbCMC?.location, point2: thumbCMC?.location)
+        return isLeftHand ? CGPoint(x: 0, y: 0.1) : CGPoint(x: 0, y: 0)
     }
     
     
