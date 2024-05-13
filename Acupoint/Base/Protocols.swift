@@ -72,7 +72,7 @@ extension CanChangeCellSizeAnimate {
     func dismissAnimate() {
         if let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) {
             UIView.animate(withDuration: 0.4, delay: 0.5, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: [], animations: {
-                cell.transform = CGAffineTransform(scaleX: 0.94, y: 0.94)
+                cell.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
             }, completion: { _ in
                 UIView.animate(withDuration: 0.1) {
                     cell.transform = CGAffineTransform.identity

@@ -115,7 +115,6 @@ class HomeVC: BaseVC, AddNameDelegate {
         view.addSubview(collectionView)
         view.addSubview(commonPointLbl)
         setUIMenu()
-    
     }
   
     
