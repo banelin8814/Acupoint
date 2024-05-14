@@ -91,13 +91,14 @@ class CommonVC: BaseVC {
         super.viewWillAppear(animated)
         if imageView.superview == nil {
             view.addSubview(imageView)
+            view.addSubview(titleLbl)
             setupUI()
         }
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+        super.viewWillDisappear(animated)
+//        避免在返回時出現重疊或殘影
         imageView.removeFromSuperview()
     }
     
@@ -128,7 +129,8 @@ extension CommonVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        print(index)
+        return acupointData.commonAcupoint[index].acupoints.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

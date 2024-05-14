@@ -403,7 +403,7 @@ struct AcupointData {
     }
     
     var yuChi: CGPoint {
-        return calculateMidPoint(point1: thumbCMC?.location, point2: thumbCMC?.location)
+        return isLeftHand ? CGPoint(x: 0, y: 0.1) : CGPoint(x: 0, y: 0)
     }
     
     
@@ -419,18 +419,18 @@ struct AcupointData {
                         description: "穴位按摩能緩解頭部緊繃，促進血液循環，減輕頭痛不適。來試試按摩太陽穴、印堂等穴位吧，讓疼痛隨著指尖的溫柔撫觸而煙消雲散。給自己一個放鬆的時刻，讓穴位按摩帶你遠離頭痛的困擾!",
                         acupoints: [
                             Acupoint(name: "太陽穴", image: "透明臉"),
-                            Acupoint(name: "印堂穴", image: "透明臉"),
-                            Acupoint(name: "風池穴", image: "透明臉"),
-                            Acupoint(name: "百會穴", image: "透明臉")
+                            Acupoint(name: "印堂穴", image: "透明臉")
+//                            Acupoint(name: "風池穴", image: "透明臉"),
+//                            Acupoint(name: "百會穴", image: "透明臉")
                         ]),
             
             CommonModel(categoryName: "助眠",
                         description:
                             "穴位按摩能調節自律神經系統，減少交感神經活動，提高副交感神經活動，幫助我們放鬆入睡。給自己的穴位來個放鬆的按摩吧，讓這些神奇的穴道帶你進入甜美夢鄉！",
                         acupoints: [
-                            Acupoint(name: "神門穴", image: "透明手"),
-                            Acupoint(name: "內關穴", image: "透明手"),
-                            Acupoint(name: "百會穴", image: "透明臉"),
+//                            Acupoint(name: "神門穴", image: "透明手"),
+//                            Acupoint(name: "內關穴", image: "透明手"),
+//                            Acupoint(name: "百會穴", image: "透明臉"),
                             Acupoint(name: "印堂穴", image: "透明臉")
                         ]),
             
@@ -438,9 +438,9 @@ struct AcupointData {
                         description: "穴位按摩能刺激經絡，改善膚質，讓你的肌膚煥發自然光采。來按摩迎香、四白等穴位吧，感受面部肌肉的放鬆，血液循環的加快。這些神奇的穴道，將喚醒你肌膚的活力，打造明亮動人的美顏!",
                         acupoints: [
                             Acupoint(name: "迎香穴", image: "透明臉"),
-                            Acupoint(name: "四白穴", image: "透明臉"),
-                            Acupoint(name: "地倉穴", image: "透明臉"),
-                            Acupoint(name: "頰車穴", image: "透明臉")
+//                            Acupoint(name: "四白穴", image: "透明臉"),
+                            Acupoint(name: "地倉穴", image: "透明臉")
+//                            Acupoint(name: "頰車穴", image: "透明臉")
                         ]),
             
             CommonModel(categoryName: "眼睛疲勞",
@@ -448,7 +448,7 @@ struct AcupointData {
                         acupoints: [
                             Acupoint(name: "睛明穴", image: "透明臉"),
                             Acupoint(name: "攢竹穴", image: "透明臉"),
-                            Acupoint(name: "絲竹空穴", image: "透明臉"),
+//                            Acupoint(name: "絲竹空穴", image: "透明臉"),
                             Acupoint(name: "承泣穴", image: "透明臉")
                         ])
         ]
