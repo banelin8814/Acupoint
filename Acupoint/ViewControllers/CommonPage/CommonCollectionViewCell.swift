@@ -40,7 +40,6 @@ class CommonCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = backgroundColor
         contentView.layer.cornerRadius = 25
         contentView.layer.masksToBounds = true
-        
     }
     
     func setupUI() {
