@@ -105,7 +105,7 @@ struct AcupointData {
             name: "印堂穴",
             effect: "前額痛、眩暈、鼻炎、感冒發熱",
             method: "用中指或食指指腹，揉按穴位",
-            location: "前額正中，髮際上方0.5寸",
+            location: "前額正中",
             notice: """
                 1.出血傾向或服用抗凝血劑者，避免力道大的按摩
                 2.局部感染發炎處，應避開按摩
