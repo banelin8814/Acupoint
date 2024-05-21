@@ -67,7 +67,6 @@
 		1BBADDB12BEC653F00611B33 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1BBADDB02BEC653F00611B33 /* FirebaseAnalyticsSwift */; };
 		1BC6EEA72BDE278A00B6B127 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 1BC6EEA62BDE278A00B6B127 /* GoogleSignIn */; };
 		1BC6EEA92BDE278A00B6B127 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1BC6EEA82BDE278A00B6B127 /* GoogleSignInSwift */; };
-		1BC6EEAB2BDE431C00B6B127 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1BC6EEAA2BDE431C00B6B127 /* GoogleService-Info.plist */; };
 		1BC6EEB92BE0657D00B6B127 /* StyleGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEB82BE0657D00B6B127 /* StyleGuide.swift */; };
 		1BC6EEBC2BE067A400B6B127 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEBB2BE067A400B6B127 /* BaseVC.swift */; };
 		1BC6EEBF2BE0CE6500B6B127 /* CommonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEBE2BE0CE6500B6B127 /* CommonModel.swift */; };
@@ -76,6 +75,7 @@
 		1BC6EECA2BE247B100B6B127 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEC92BE247B100B6B127 /* Protocols.swift */; };
 		1BD5A6152BE4FA6B00D50380 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD5A6142BE4FA6B00D50380 /* FirebaseManager.swift */; };
 		1BF232182BD13ACA00E2BD5E /* SavedAcupName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF232172BD13ACA00E2BD5E /* SavedAcupName.swift */; };
+		1BF76EBC2BFC5C4F00A2D816 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1BF76EBB2BFC5C4F00A2D816 /* GoogleService-Info.plist */; };
 		1BF9C9052BD0057F00EBEA0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -144,7 +144,6 @@
 		1B9D2AC62BCBD7CC004FDF17 /* HandJointService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandJointService.swift; sourceTree = "<group>"; };
 		1BA2DF552BD118E1005A841E /* HandAcupointModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandAcupointModel.swift; sourceTree = "<group>"; };
 		1BAC823A2BD1F6BB0034299B /* ArchiveTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveTableViewCell.swift; sourceTree = "<group>"; };
-		1BC6EEAA2BDE431C00B6B127 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1BC6EEB82BE0657D00B6B127 /* StyleGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleGuide.swift; sourceTree = "<group>"; };
 		1BC6EEBB2BE067A400B6B127 /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		1BC6EEBE2BE0CE6500B6B127 /* CommonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonModel.swift; sourceTree = "<group>"; };
@@ -152,6 +151,7 @@
 		1BC6EEC92BE247B100B6B127 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		1BD5A6142BE4FA6B00D50380 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		1BF232172BD13ACA00E2BD5E /* SavedAcupName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedAcupName.swift; sourceTree = "<group>"; };
+		1BF76EBB2BFC5C4F00A2D816 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -329,8 +329,8 @@
 				1B90F1042BD4E50D00452B6D /* InfoCollectionViewCell.swift */,
 				1B964F2A2BC9126A0005F1CF /* LaunchScreen.storyboard */,
 				1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */,
+				1BF76EBB2BFC5C4F00A2D816 /* GoogleService-Info.plist */,
 				1B964F2D2BC9126A0005F1CF /* Info.plist */,
-				1BC6EEAA2BDE431C00B6B127 /* GoogleService-Info.plist */,
 			);
 			path = Acupoint;
 			sourceTree = "<group>";
@@ -520,13 +520,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BF76EBC2BFC5C4F00A2D816 /* GoogleService-Info.plist in Resources */,
 				1BF9C9052BD0057F00EBEA0E /* Assets.xcassets in Resources */,
 				1B3ADAA52BD9DCF600CF613C /* GenJyuuGothicX-Light.ttf in Resources */,
 				1B3ADA9D2BD9DAD500CF613C /* ZenMaruGothic-Medium.ttf in Resources */,
 				1B90F1342BD8870E00452B6D /* face-animation.gif in Resources */,
 				1B3ADAA32BD9DCE700CF613C /* GenJyuuGothicX-Regular.ttf in Resources */,
 				1B3ADA9F2BD9DB3A00CF613C /* ZenMaruGothic-Light.ttf in Resources */,
-				1BC6EEAB2BDE431C00B6B127 /* GoogleService-Info.plist in Resources */,
 				1B964F2C2BC9126A0005F1CF /* Base in Resources */,
 				1B3ADA972BD9D93F00CF613C /* GenJyuuGothicX-Medium.ttf in Resources */,
 				1B3ADA992BD9DAC800CF613C /* ZenMaruGothic-Black.ttf in Resources */,
