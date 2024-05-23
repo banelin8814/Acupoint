@@ -26,13 +26,6 @@ Acupoint is an AR project that projects acupuncture points on the face and hands
 - Unit Tests
 - MVC Architecture
 
-## Getting Started
-
-1. Clone the repository.
-2. Install the required dependencies.
-3. Run the project in Xcode.
-4. Explore the AR experience and locate acupoints on your face and hands.
-
 ## Contributing
 
 We welcome contributions to enhance the Acupoint project. If you have any ideas, suggestions, or bug reports, please open an issue or submit a pull request.
