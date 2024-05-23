@@ -1,5 +1,5 @@
 # Acupoint
-![Uploading Acupointscreenshot-08.png…]()
+![Acupointscreenshot-08](https://github.com/banelin8814/Acupoint/assets/67232808/b683f93c-a8f5-4c8b-98ac-983141c7f5e0)
 
 Acupoint is an AR project that projects acupuncture points on the face and hands in real-time, enabling easy acupoint location and browsing.
 
@@ -12,7 +12,6 @@ Acupoint is an AR project that projects acupuncture points on the face and hands
 - Utilizes Firebase Firestore for storing personal acupoint information.
 - Utilizes Crashlytics to proactively track, analyze, and resolve app crashes and errors.
 - Includes Unit Tests to verify the accuracy of the acupuncture point localization algorithm.
-- Implements the MVC architectural pattern for modularity and maintainability.
 
 ## Technologies Used
 
