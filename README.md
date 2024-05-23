@@ -1,7 +1,7 @@
 # Acupoint
 ![Acupointscreenshot-08](https://github.com/banelin8814/Acupoint/assets/67232808/b683f93c-a8f5-4c8b-98ac-983141c7f5e0)
 
-https://github.com/banelin8814/Acupoint/assets/67232808/940ce5cc-7eca-41a0-babb-e13839594c1f
+https://github.com/banelin8814/Acupoint/assets/67232808/da17ce7a-040b-484d-9d6c-e52412d11661
 
 Acupoint is an AR project that projects acupuncture points on the face and hands in real-time, enabling easy acupoint location and browsing.
 
