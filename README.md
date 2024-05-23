@@ -29,5 +29,5 @@ Acupoint is an AR project that projects acupuncture points on the face and hands
 ## Contributing
 
 We welcome contributions to enhance the Acupoint project. If you have any ideas, suggestions, or bug reports, please open an issue or submit a pull request.
-This repository does not contain any sensitive information. If you need to run the code, please email bane30@gmail.com to request the necessary information.
+This repository does not contain any sensitive information. If you need to run the code, please email banelin30@gmail.com to request the necessary information.
 
