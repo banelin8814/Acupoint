@@ -37,6 +37,3 @@ Acupoint is an AR project that projects acupuncture points on the face and hands
 
 We welcome contributions to enhance the Acupoint project. If you have any ideas, suggestions, or bug reports, please open an issue or submit a pull request.
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
