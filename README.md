@@ -1,5 +1,6 @@
 # Acupoint
 ![Acupointscreenshot-08](https://github.com/banelin8814/Acupoint/assets/67232808/b683f93c-a8f5-4c8b-98ac-983141c7f5e0)
+![Acupointscreenshot-09](https://github.com/banelin8814/Acupoint/assets/67232808/bc57b790-4d2d-4fbd-b8e2-bc933e0bbead)
 
 https://github.com/banelin8814/Acupoint/assets/67232808/da17ce7a-040b-484d-9d6c-e52412d11661
 
