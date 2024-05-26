@@ -67,7 +67,6 @@ extension UILabel {
         numberOfLines = lines
         lineBreakMode = .byTruncatingTail
     }
-    
 }
 
 extension UIImageView {

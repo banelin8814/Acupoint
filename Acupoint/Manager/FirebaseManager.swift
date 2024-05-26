@@ -97,17 +97,10 @@ class FirebaseManager {
             }
         }
     }
-    
-//    func addUserArchiveAcupoints(userId: use
 }
 
 struct AuthDataResultModel {
     let userId: String
     let email: String?
     let name: String
-    init(userId: String, email: String?, name: String) {
-        self.userId = userId
-        self.email = email
-        self.name = name
-    }
 }

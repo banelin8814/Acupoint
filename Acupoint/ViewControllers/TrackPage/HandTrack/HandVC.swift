@@ -6,7 +6,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     //MARK: - HandTrackCamera
     private var cameraVw: CameraView {
-        return view as? CameraView ?? CameraView() //為什麼要這樣寫？
+        return view as? CameraView ?? CameraView()
     }
     
     override func loadView() {
@@ -58,48 +58,34 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
     
     private var isLeftHand: Bool = false {
         didSet {
-            //print("現在是不是左手\(isLeftHand)")
             changeImageSide(isLeftHand,isBackHandInVC)
         }
     }
     private var isBackHandInVC: Bool = false {
         didSet {
-            //print("現在是手心嗎\(isBackHandInVC)")
             changeImageSide(isLeftHand,isBackHandInVC)
         }
     }
     
-    //創兩個空的陣列，一個放手背的點，一個放手心的點
     var insideOfHandAcupoins = [HandAcupointModel]()
     var outsideOfHandAcupoins = [HandAcupointModel]()
     
-    //updateCurrentPage偵測index給currentPage，被賦予新的值後，執行邏輯。
     var selectedNameByCell: String = ""
     
     var currentPage: Int = 0 {
         didSet {
             if oldValue != currentPage {
-                print("The page changed to \(currentPage)")
                 getNameByIndex(currentPage)
                 updateAcupointPositions()
             }
         }
     }
     
-    //The index selected for one Acupoint.
     var acupointIndex: Int = 0
-    //是多個穴位，還是只有一個穴位
     var numberOfAcupoints = 1
-    // 多點還是單點
     var currentDisplayMode: DisplayMode = .allPoint
-    enum DisplayMode {
-        case allPoint
-        case specific(name: String)
-    }
-    
-    //原點
+   
     var selectedAcupointOffset: CGPoint = .zero
-    //data
     var acupoitData = AcupointData.shared
     //有時候被賦予一個，或全部的點
     lazy var handPoints: [HandAcupointModel] = {
@@ -173,7 +159,11 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         allHandPoints = acupoitData.handAcupoints
         //創兩個空的陣列，一個放手背的點，一個放手心的點
         for acupoint in allHandPoints {
-            acupoint.isBackHand ? outsideOfHandAcupoins.append(acupoint) : insideOfHandAcupoins.append(acupoint)
+            if (acupoint.isBackHand) {
+              outsideOfHandAcupoins.append(acupoint)
+            } else {
+              insideOfHandAcupoins.append(acupoint)
+            }
         }
         //偵測
         collectionView.collectionViewLayout = collectionViewLayoutFromProtocol(collectionView: collectionView)
@@ -339,7 +329,7 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         
         handPoints = acupoitData.handAcupoints
         
-        if numberOfAcupoints == 1 { //如果是一個穴位
+        if numberOfAcupoints == 1 {
             let selectedAcupoint = handPoints[acupointIndex]
             isBackHandInVC = selectedAcupoint.isBackHand
             self.acupoitData.isLeftHand = self.isLeftHand
@@ -392,11 +382,11 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
         }
         
         DispatchQueue.main.async { [self] in
-            //更新當前頁面的名字
+            
             updateCurrentPage(collectionView: collectionView)
-            // 移除先前的子层
+            
             self.drawOverlay.sublayers?.forEach { $0.removeFromSuperlayer() }
-            // 为每个穴位路径创建一个新的子层
+            
             for (path, acupoint) in acupointPaths {
                 let shapeLayer = CAShapeLayer()
                 shapeLayer.path = path.cgPath
@@ -492,10 +482,8 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
             self.isLeftHand = self.leftRightSegmentedControl.selectedSegmentIndex == 0
             self.acupoitData.isLeftHand = self.isLeftHand
             self.updateAcupointPositions()
-            //更新當前cell的名字
             self.getNameByIndex(self.currentPage)
             self.updateAcupointPositions()
-            //5/7切換左邊右邊的時候
         }
     }
     
@@ -511,16 +499,13 @@ class HandVC: UIViewController, ARSCNViewDelegate, AVCaptureVideoDataOutputSampl
 
 
 //MARK: - collectionView delegate
-
 extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
-    // UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch currentDisplayMode {
         case .allPoint:
             let isBackHand = handSideSegmentedControl.selectedSegmentIndex == 0
             let filteredAcupoints = handPoints.filter { $0.isBackHand == isBackHand }
             return filteredAcupoints.count
-            //                return handPoints.count
         case .specific:
             return 1
         }
@@ -541,22 +526,18 @@ extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
             if let index = handPoints.firstIndex(where: { $0.name == name }) {
                 acupoint = handPoints[index]
                 cell.configureHandDataFromSearchVC(with: acupoint)
-                
             } else {
                 return cell
             }
         }
-        //cell縮小動畫
         if indexPath.row == 0 {
             print("有啟動")
                 self.dismissAnimate()
         }
-        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //animation
         let detailVC = DetailVC()
         detailVC.isHandPoint = true
         if let cell = collectionView.cellForItem(at: indexPath) as? InfoCollectionViewCell {
@@ -570,21 +551,16 @@ extension HandVC: UICollectionViewDelegate, UICollectionViewDataSource {
 extension HandVC: NameSelectionDelegate, CurrentPageUpdatable {
     
     func getNameByIndex(_ index: Int) {
-//        print("""
-//                現在是正面嗎\(isBackHandInVC)
-//                現在是左手嗎\(isLeftHand)
-//                現在是第\(index)頁""")
+
         if isBackHandInVC {
-            //只有正面的
             selectedNameByCell = outsideOfHandAcupoins[index].name
             updateAcupointPositions()
         } else {
-            //只有背面的Array
             selectedNameByCell = insideOfHandAcupoins[index].name
             updateAcupointPositions()
         }
     }
 }
-//動畫
+
 extension HandVC: CanChangeCellSizeAnimate {}
 

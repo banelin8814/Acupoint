@@ -10,7 +10,7 @@ class AppleSignInManager: NSObject {
 
     static var nonce: String? {
             currentNonce ?? nil
-        }
+    }
     
     private override init() {}
 
@@ -22,7 +22,6 @@ class AppleSignInManager: NSObject {
 
             let appleIdProvider = ASAuthorizationAppleIDProvider()
             let request = appleIdProvider.createRequest()
-//            requestAppleAuthorization(request)
 
             let authorizationController = ASAuthorizationController(authorizationRequests: [request])
             authorizationController.delegate = self
@@ -30,8 +29,9 @@ class AppleSignInManager: NSObject {
         }
     }
 }
-//to handle the AppleID authorization response.
+
 extension AppleSignInManager: ASAuthorizationControllerDelegate {
+    
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if case let appleIDCredential as ASAuthorizationAppleIDCredential = authorization.credential {
             continuation?.resume(returning: appleIDCredential)

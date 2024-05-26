@@ -8,15 +8,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        //        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
-        //        window?.windowScene = windowScene
-        //        window?.rootViewController = TabVC()
-        //        window?.makeKeyAndVisible()
+
         let window = UIWindow(windowScene: windowScene)
         window.windowScene = windowScene
-        //        window.rootViewController = InitialSignInVC()
-        //        self.window = window
-        //        self.window?.makeKeyAndVisible()
         
         AuthManager.shared.addLoginObserver { [weak self] isLoggedIn in
             if isLoggedIn {
@@ -43,9 +37,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 self?.window = window
                 self?.window?.makeKeyAndVisible()
             }
-        }
-        //打APi把firebase存進swiftdata
-   
+        }   
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

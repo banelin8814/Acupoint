@@ -1,11 +1,11 @@
 import UIKit
 import StoreKit
-import FirebaseAuth // 用來與 Firebase Auth 進行串接用的
-import AuthenticationServices // Sign in with Apple 的主體框架
-import CryptoKit // 用來產生隨機字串 (Nonce) 的
+import FirebaseAuth
+import AuthenticationServices
+import CryptoKit
 import GoogleSignInSwift
 import FirebaseCore
-import GoogleSignIn // 導入 Google Sign-In SDK
+import GoogleSignIn
 
 protocol AddNameDelegate: AnyObject {
     func didAddUserName(_ item: String)
@@ -59,7 +59,6 @@ class LoginVC: BaseVC {
         setSkipBtn()
         setGoogleBtn()
         setSignInWithAppleBtn()
-        //havnt login
         setDescibeTitle()
     }
    
@@ -103,9 +102,6 @@ class LoginVC: BaseVC {
         view.addSubview(descibeTitle)
         descibeTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         descibeTitle.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -30).isActive = true
-//        descibeTitle.heightAnchor.constraint(equalToConstant: 50).isActive = true
-//        descibeTitle.widthAnchor.constraint(equalToConstant: 240).isActive = true
-
     }
     
     //MARK: - google
@@ -133,7 +129,6 @@ class LoginVC: BaseVC {
         }
     }
     //MARK: - apple
-    //SignInApple1
     func setSignInWithAppleBtn() {
         let signInWithAppleBtn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .black)
         view.addSubview(signInWithAppleBtn)
@@ -147,7 +142,7 @@ class LoginVC: BaseVC {
     }
     
     fileprivate var currentNonce: String?
-    //SignInApple2
+
     @objc func handleAuthorizationAppleIDButtonPress() {
         let nonce = randomNonceString()
         currentNonce = nonce
@@ -218,25 +213,6 @@ class LoginVC: BaseVC {
         }
     }
     
-    //    func updatedisplayName(for user: User, with appleIDCredential: ASAuthorizationAppleIDCredential, force: Bool = false) async {
-    //
-    //        if let currentDisplayName = Auth.auth().currentUser?.displayName, !currentDisplayName.isEmpty {
-    //            // 有名字了
-    //        } else {
-    //            let changeRequest = user.createProfileChangeRequest()
-    //            changeRequest.displayName = appleIDCredential.displayName()
-    //            do {
-    //                try await changeRequest.commitChanges()
-    //                self.displayName = Auth.auth().currentUser?.displayName ?? ""
-    //
-    //            }
-    //            catch {
-    //                error.localizedDescription
-    //            }
-    //        }
-    //    }
-    
-    //MARK: - skipButton
     @objc func skipButtonTapped() {
         let tabController = TabController()
         tabController.modalPresentationStyle = .fullScreen
@@ -255,9 +231,9 @@ class LoginVC: BaseVC {
 }
 
 extension LoginVC: ASAuthorizationControllerDelegate {
-    //SignInApple4
+
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        // 登入成功
+
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             
             
@@ -272,12 +248,11 @@ extension LoginVC: ASAuthorizationControllerDelegate {
                 CustomFunc.customAlert(title: "", message: "Unable to serialize token string from data\n\(appleIDToken.debugDescription)", theVc: self, actionHandler: nil)
                 return
             }
-            // 產生 Apple ID 登入的 Credential
+
             let credential = OAuthProvider.appleCredential(withIDToken: idTokenString,
                                                            rawNonce: nonce,
                                                            fullName: appleIDCredential.fullName)
             
-            // Sign in with Firebase.
             Auth.auth().signIn(with: credential) { (authResult, error) in
                 if let error = error {
                     CustomFunc.customAlert(title: "使用者取消登入", message: error.localizedDescription, theVc: self, actionHandler: nil)
@@ -323,7 +298,7 @@ extension LoginVC: ASAuthorizationControllerDelegate {
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        // 登入失敗，處理 Error
+
         switch error {
         case ASAuthorizationError.canceled:
             CustomFunc.customAlert(title: "使用者取消登入", message: "", theVc: self, actionHandler: nil)
@@ -347,7 +322,7 @@ extension LoginVC: ASAuthorizationControllerDelegate {
 }
 
 extension LoginVC: ASAuthorizationControllerPresentationContextProviding {
-    //SignInApple3
+
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return view.window!
     }

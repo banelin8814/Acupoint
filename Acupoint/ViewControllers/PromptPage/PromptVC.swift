@@ -1,14 +1,7 @@
 import UIKit
 
 class PromptVC: UIViewController {
-    
-    //    lazy var promptImageView: UIImageView = {
-    //        let imageView = UIImageView()
-    //        imageView.image = UIImage(named: "intro")
-    //        imageView.contentMode = .scaleAspectFit
-    //        imageView.translatesAutoresizingMaskIntoConstraints = false
-    //        return imageView
-    //    }()
+
     var timer: Timer?
     
     var isBackHand = false {
@@ -100,10 +93,6 @@ class PromptVC: UIViewController {
     func setupUI() {
         
         NSLayoutConstraint.activate([
-            //            promptImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            //            promptImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
-            //            promptImageView.widthAnchor.constraint(equalToConstant: 200),
-            //            promptImageView.heightAnchor.constraint(equalToConstant: 200),
             promptNameLbl.heightAnchor.constraint(equalToConstant: 50),
             promptNameLbl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             promptNameLbl.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -90),
@@ -128,6 +117,7 @@ class PromptVC: UIViewController {
             
         ])
     }
+    
     func animateDownward() {
         UIView.animate(withDuration: 0.5) {
             self.view.frame.origin.y += 50

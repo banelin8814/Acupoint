@@ -1,6 +1,5 @@
 import UIKit
 
-//偵測頁面的protocol
 protocol NameSelectionDelegate: AnyObject {
     
     var selectedNameByCell: String { get set }
@@ -35,10 +34,10 @@ extension CurrentPageUpdatable {
         
         let gallerySection = NSCollectionLayoutSection(group: galleryGroup)
         gallerySection.orthogonalScrollingBehavior = .groupPagingCentered
-        //監聽當前可見項目的變化
+
         gallerySection.visibleItemsInvalidationHandler = { [weak self] _, _, _ in
             self?.updateCurrentPage(collectionView: collectionView)
-            //動畫
+
             collectionView.visibleCells.forEach { cell in
                 if let cell = cell as? InfoCollectionViewCell {
                     let indexPath = collectionView.indexPath(for: cell)
@@ -61,7 +60,6 @@ extension CurrentPageUpdatable {
     }
 }
 
-//動畫的protocol
 protocol CanChangeCellSizeAnimate: AnyObject {
     var collectionView: UICollectionView { get
     }

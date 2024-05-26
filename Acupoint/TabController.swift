@@ -4,41 +4,26 @@ class TabController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //popuploginPage
-   
-        
-        //注意事項
+
         var alertView = AlertView()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
             self.view.addSubview(alertView)
         }
-        
-        
-        self.setupTabs()
-
         overrideUserInterfaceStyle = .light
 
-        // 設置tabBar的appearance
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .clear
-
-        // 將陰影設置為nil
         appearance.shadowColor = nil
         appearance.shadowImage = nil
 
-        // 設置standardAppearance和scrollEdgeAppearance
         self.tabBar.standardAppearance = appearance
         self.tabBar.scrollEdgeAppearance = self.tabBar.standardAppearance
-
-        // 設置選中和未選中的圖片顏色
         self.tabBar.tintColor = .black
         self.tabBar.unselectedItemTintColor = .lightGray
-
-        // 設置tabBar的背景色為透明
-//        self.tabBar.barTintColor = .clear
         self.tabBar.backgroundColor = .backgroundColor
-                
+        
+        self.setupTabs()
     }
 
     private func setupTabs() {
@@ -69,12 +54,8 @@ class TabController: UITabBarController {
         navigation.navigationBar.tintColor = .white
         navigation.tabBarItem.title = title
         
-//        navigation.viewControllers.first?.navigationItem.title = title
-        
-        
-        // 調整未選中圖片的大小
         if let unselectedImage = unselectedImage {
-            let size = CGSize(width: 45, height: 45) // 設置所需的大小
+            let size = CGSize(width: 45, height: 45)
             UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
             unselectedImage.draw(in: CGRect(origin: .zero, size: size))
             let resizedUnselectedImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -82,9 +63,8 @@ class TabController: UITabBarController {
             navigation.tabBarItem.image = resizedUnselectedImage
         }
         
-        // 調整選中圖片的大小
         if let selectedImage = selectedImage {
-            let size = CGSize(width: 45, height: 45) // 設置所需的大小
+            let size = CGSize(width: 45, height: 45) 
             UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
             selectedImage.draw(in: CGRect(origin: .zero, size: size))
             let resizedSelectedImage = UIGraphicsGetImageFromCurrentImageContext()

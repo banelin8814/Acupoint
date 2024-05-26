@@ -1,13 +1,13 @@
 import UIKit
 
 class InfoCollectionViewCell: UICollectionViewCell {
-           
+    
     let acupointNameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         label.configureHeadingTwoLabel(withText: "")
-
+        
         return label
     }()
     
@@ -26,20 +26,14 @@ class InfoCollectionViewCell: UICollectionViewCell {
         blurView.translatesAutoresizingMaskIntoConstraints = false
         return blurView
     }()
- 
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-//        var thePan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
-//        thePan.delegate = self
-//        self.addGestureRecognizer(thePan)
-        
         
         setupViews()
         contentView.layer.cornerRadius = 30
         contentView.layer.masksToBounds = true
         
-        // Add blur view as a subview
         contentView.insertSubview(blurView, at: 0)
         
         NSLayoutConstraint.activate([
@@ -48,9 +42,6 @@ class InfoCollectionViewCell: UICollectionViewCell {
             blurView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             blurView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
-        
-        // Set background color with transparency
-//        blurView.backgroundColor = UIColor.white.withAlphaComponent(0.001)
     }
     
     required init?(coder: NSCoder) {
@@ -88,16 +79,4 @@ class InfoCollectionViewCell: UICollectionViewCell {
         acupointNameLabel.text = acupoint.name
         introLabel.text = "手法：\(acupoint.method)"
     }
-    
-    
-//    @objc private func handlePan(_ thePan: UIPanGestureRecognizer) {
-//        delegate?.invalidateTimer()
-//    }
 }
-
-
-//extension InfoCollectionViewCell: UIGestureRecognizerDelegate {
-//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-//        return true
-//    }
-//}

@@ -9,7 +9,7 @@ class SwiftDataService {
     var acupointNameContainer: ModelContainer?
     var acupointNameContext: ModelContext?
     
-    init() { //初始化方法
+    init() {
         do {
             acupointNameContainer = try ModelContainer(for: AcupointName.self)
             acupointNameContext = acupointNameContainer?.mainContext
@@ -19,15 +19,14 @@ class SwiftDataService {
         }
     }
     
-    // 保存穴位名字
     func saveAcupointName(_ name: String) {
         if let context = acupointNameContext {
             let newAcupoint = AcupointName(name: name)
             context.insert(newAcupoint)
         }
     }
-    // 獲取所有保存的穴位名字
-      func fetchAcupointNames() -> [AcupointName] {
+
+    func fetchAcupointNames() -> [AcupointName] {
         let descriptor = FetchDescriptor<AcupointName>()
         do {
             if let context = acupointNameContext {
@@ -45,13 +44,11 @@ class SwiftDataService {
             var allAcupoint = fetchAcupointNames()
             var isAlreadySaved = false
             
-            for (index, nameInAll) in allAcupoint.enumerated() {
-                if nameInAll.name == name {
+            for (index, nameInAll) in allAcupoint.enumerated() where nameInAll.name == name {
                     context.delete(nameInAll)
                     allAcupoint.remove(at: index)
                     isAlreadySaved = true
                     break
-                }
             }
             
             if !isAlreadySaved {

@@ -1,5 +1,6 @@
 import UIKit
 import ImageIO
+
 extension UIImageView {
     public func loadGif(name: String) {
         DispatchQueue.global().async {
@@ -101,6 +102,7 @@ extension UIImage {
             }
         }
     }
+    
     internal class func gcdForArray(_ array: [Int]) -> Int {
         if array.isEmpty {
             return 1
@@ -111,6 +113,7 @@ extension UIImage {
         }
         return theGcd
     }
+    
     internal class func animatedImageWithSource(_ source: CGImageSource) -> UIImage? {
         let count = CGImageSourceGetCount(source)
         var images = [CGImage]()

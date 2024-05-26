@@ -6,10 +6,7 @@ class AlertView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.configureHeadingTwoLabel(withText: "按摩注意事項")
-//        label.contentMode = .topLeft
         label.sizeToFit()
-
-//        label.textAlignment = .left
         return label
     }()
     
@@ -22,9 +19,6 @@ class AlertView: UIView {
                 4.全身性發炎或自體免疫疾病，須注意按摩力道
                 """)
         label.translatesAutoresizingMaskIntoConstraints = false
-//        label.textAlignment = .left
-//        label.contentMode = .topLeft
-//        label.contentMode = .topLeft
         label.textColor = .darkGray
         label.sizeToFit()
         label.numberOfLines = 0
@@ -56,12 +50,13 @@ class AlertView: UIView {
         UIView.animate(withDuration: 0.9, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
             self.container.transform = CGAffineTransform(translationX: 0, y: -self.frame.height)
             self.alpha = 0
-        }) { (complete) in
-                if complete {
-                    self.removeFromSuperview()
-                }
+        }, completion: { (complete) in
+            if complete {
+                self.removeFromSuperview()
             }
+        })
     }
+    
     
     func setupUI() {
         container.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
@@ -73,9 +68,7 @@ class AlertView: UIView {
         titleLabel.topAnchor.constraint(equalTo: container.topAnchor, constant: 20).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 20).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20).isActive = true
-//        titleLabel.heightAnchor.constraint(equalToConstant: 70).isActive = true
         contantLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15).isActive = true
-//        contantLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -20).isActive = true
         contantLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 20).isActive = true
         contantLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20).isActive = true
     }

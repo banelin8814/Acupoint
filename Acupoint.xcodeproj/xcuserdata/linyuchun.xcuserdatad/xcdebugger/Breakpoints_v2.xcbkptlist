@@ -14,8 +14,8 @@
             filePath = "Acupoint/ViewControllers/HandTrack/HandVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,58 +30,152 @@
             filePath = "Acupoint/Manager/AuthManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
             landmarkName = "appleAuth(_:nonce:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "40529C83-5081-4EB0-AE8A-9A3B80313C22"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Acupoint/Manager/AuthManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "appleAuth(_:nonce:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "819D9DB5-EE1F-4869-942E-201884782D91"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Acupoint/ViewControllers/SearchPage/SearchTableViewCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
-            landmarkName = "archiveButtonTapped(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4CED6A40-9BCB-4F7B-B7A5-C7DA1E13D670"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Acupoint/ViewControllers/SearchPage/SearchTableViewCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "archiveButtonTapped(_:)"
-            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "18DEC717-7C98-4A2D-B2FD-5A6F28AE80BC - 489c5678b6d53b03"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for Acupoint.AuthManager.appleAuth(_: __C.ASAuthorizationAppleIDCredential, nonce: Swift.Optional&lt;Swift.String&gt;) async throws -&gt; Swift.Optional&lt;__C.FIRAuthDataResult&gt;"
+                  moduleName = "Acupoint"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/linyuchun/Desktop/Acupoint/Acupoint/Manager/AuthManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54">
+               </Location>
+               <Location
+                  uuid = "18DEC717-7C98-4A2D-B2FD-5A6F28AE80BC - f2223653c16cd2cc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for Acupoint.AuthManager.appleAuth(_: __C.ASAuthorizationAppleIDCredential, nonce: Swift.Optional&lt;Swift.String&gt;) async throws -&gt; Swift.Optional&lt;__C.FIRAuthDataResult&gt;"
+                  moduleName = "Acupoint"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/linyuchun/Desktop/Acupoint/Acupoint/Manager/AuthManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54">
+               </Location>
+               <Location
+                  uuid = "18DEC717-7C98-4A2D-B2FD-5A6F28AE80BC - 84a5dcf4a1c3ff7d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for Acupoint.AuthManager.appleAuth(_: __C.ASAuthorizationAppleIDCredential, nonce: Swift.Optional&lt;Swift.String&gt;) async throws -&gt; Swift.Optional&lt;__C.FIRAuthDataResult&gt;"
+                  moduleName = "Acupoint"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/linyuchun/Desktop/Acupoint/Acupoint/Manager/AuthManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54">
+               </Location>
+               <Location
+                  uuid = "18DEC717-7C98-4A2D-B2FD-5A6F28AE80BC - 5ec6078aa6b75e01"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for Acupoint.AuthManager.appleAuth(_: __C.ASAuthorizationAppleIDCredential, nonce: Swift.Optional&lt;Swift.String&gt;) async throws -&gt; Swift.Optional&lt;__C.FIRAuthDataResult&gt;"
+                  moduleName = "Acupoint"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/linyuchun/Desktop/Acupoint/Acupoint/Manager/AuthManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43">
+               </Location>
+               <Location
+                  uuid = "18DEC717-7C98-4A2D-B2FD-5A6F28AE80BC - 5ec6078aa6b75d7c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for Acupoint.AuthManager.appleAuth(_: __C.ASAuthorizationAppleIDCredential, nonce: Swift.Optional&lt;Swift.String&gt;) async throws -&gt; Swift.Optional&lt;__C.FIRAuthDataResult&gt;"
+                  moduleName = "Acupoint"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/linyuchun/Desktop/Acupoint/Acupoint/Manager/AuthManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54">
+               </Location>
+               <Location
+                  uuid = "18DEC717-7C98-4A2D-B2FD-5A6F28AE80BC - 489c5678b6d53b41"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for Acupoint.AuthManager.appleAuth(_: __C.ASAuthorizationAppleIDCredential, nonce: Swift.Optional&lt;Swift.String&gt;) async throws -&gt; Swift.Optional&lt;__C.FIRAuthDataResult&gt;"
+                  moduleName = "Acupoint"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/linyuchun/Desktop/Acupoint/Acupoint/Manager/AuthManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52">
+               </Location>
+               <Location
+                  uuid = "18DEC717-7C98-4A2D-B2FD-5A6F28AE80BC - f2223653c16cd28e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for Acupoint.AuthManager.appleAuth(_: __C.ASAuthorizationAppleIDCredential, nonce: Swift.Optional&lt;Swift.String&gt;) async throws -&gt; Swift.Optional&lt;__C.FIRAuthDataResult&gt;"
+                  moduleName = "Acupoint"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/linyuchun/Desktop/Acupoint/Acupoint/Manager/AuthManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52">
+               </Location>
+               <Location
+                  uuid = "18DEC717-7C98-4A2D-B2FD-5A6F28AE80BC - 84a5dcf4a1c3ff3f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for Acupoint.AuthManager.appleAuth(_: __C.ASAuthorizationAppleIDCredential, nonce: Swift.Optional&lt;Swift.String&gt;) async throws -&gt; Swift.Optional&lt;__C.FIRAuthDataResult&gt;"
+                  moduleName = "Acupoint"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/linyuchun/Desktop/Acupoint/Acupoint/Manager/AuthManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52">
+               </Location>
+               <Location
+                  uuid = "18DEC717-7C98-4A2D-B2FD-5A6F28AE80BC - 5ec6078aa6b75fe0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for Acupoint.AuthManager.appleAuth(_: __C.ASAuthorizationAppleIDCredential, nonce: Swift.Optional&lt;Swift.String&gt;) async throws -&gt; Swift.Optional&lt;__C.FIRAuthDataResult&gt;"
+                  moduleName = "Acupoint"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/linyuchun/Desktop/Acupoint/Acupoint/Manager/AuthManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "42"
+                  endingLineNumber = "42">
+               </Location>
+               <Location
+                  uuid = "18DEC717-7C98-4A2D-B2FD-5A6F28AE80BC - 5ec6078aa6b75d3e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for Acupoint.AuthManager.appleAuth(_: __C.ASAuthorizationAppleIDCredential, nonce: Swift.Optional&lt;Swift.String&gt;) async throws -&gt; Swift.Optional&lt;__C.FIRAuthDataResult&gt;"
+                  moduleName = "Acupoint"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/linyuchun/Desktop/Acupoint/Acupoint/Manager/AuthManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

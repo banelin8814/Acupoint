@@ -25,13 +25,6 @@ class HomeVC: BaseVC, AddNameDelegate {
         return label
     }()
     
-    //    lazy var userAvatarImageView: UIImageView = {
-    //        let imageView = UIImageView()
-    //        imageView.translatesAutoresizingMaskIntoConstraints = false
-    //        imageView.configureCircleView(forImage: "頭貼", size: 70)
-    //        return imageView
-    //    }()
-    
     var userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -41,32 +34,27 @@ class HomeVC: BaseVC, AddNameDelegate {
     
     let menuButton: UIButton = {
         let button = UIButton()
-//        button.setTitle("尚未設定", for: .normal)
         button.setImage(UIImage(named: "Hamburger_icon"), for: .normal)
         button.contentMode = .scaleAspectFit
-//        button.tintColor = .black
         button.showsMenuAsPrimaryAction = true
         button.translatesAutoresizingMaskIntoConstraints = false
-       
+        
         return button
     }()
-   
     
-    
-        lazy var signOutBtn: UIButton = {
-            let button = UIButton()
-            button.setTitle("尚未設定", for: .normal)
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.setTitleColor(.black, for: .normal)
-            if AuthManager.shared.isLoggedIn {
-                button.setTitle("登出", for: .normal)
-                button.addTarget(self, action: #selector(signOutButtonTapped), for: .touchUpInside)
-            } else {
-                button.setTitle("請登入", for: .normal)
-//                button.addTarget(self, action: #selector(havntLoginYet), for: .touchUpInside)
-            }
-            return button
-        }()
+    lazy var signOutBtn: UIButton = {
+        let button = UIButton()
+        button.setTitle("尚未設定", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(.black, for: .normal)
+        if AuthManager.shared.isLoggedIn {
+            button.setTitle("登出", for: .normal)
+            button.addTarget(self, action: #selector(signOutButtonTapped), for: .touchUpInside)
+        } else {
+            button.setTitle("請登入", for: .normal)
+        }
+        return button
+    }()
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
@@ -108,15 +96,13 @@ class HomeVC: BaseVC, AddNameDelegate {
         let thevc2 = LoginVC()
         thevc2.addDelegate = self
         
-        //        view.addSubview(userAvatarImageView)
         view.addSubview(userNameLabel)
-        //        view.addSubview(signOutBtn)
         view.addSubview(menuButton)
         view.addSubview(collectionView)
         view.addSubview(commonPointLbl)
         setUIMenu()
     }
-
+    
     override func viewDidLayoutSubviews() {
         setUpUI()
     }
@@ -127,15 +113,10 @@ class HomeVC: BaseVC, AddNameDelegate {
     
     func setUpUI() {
         NSLayoutConstraint.activate([
-            //            userAvatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            //            userAvatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            //            userAvatarImageView.widthAnchor.constraint(equalToConstant: 70),
-            //            userAvatarImageView.heightAnchor.constraint(equalToConstant: 70),
             
             userNameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             userNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
             userNameLabel.trailingAnchor.constraint(equalTo: menuButton.leadingAnchor, constant: 10),
-            //            userNameLabel.widthAnchor.constraint(equalToConstant: 180),
             
             menuButton.centerYAnchor.constraint(equalTo: userNameLabel.centerYAnchor),
             menuButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
@@ -151,8 +132,6 @@ class HomeVC: BaseVC, AddNameDelegate {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
             
-            //            signOutBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            //            signOutBtn.centerYAnchor.constraint(equalTo: userNameLabel.centerYAnchor)
         ])
     }
     
@@ -174,29 +153,29 @@ class HomeVC: BaseVC, AddNameDelegate {
             let menu = UIMenu(title: "帳號管理", children: [action1, action2])
             menuButton.menu = menu
         }
-      
+        
     }
     
     func deleteActionTriggered() {
         let controller = UIAlertController(title: "確定要刪除帳號？", message: "", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "是的", style: .default) { (_) in
-                Task {
-                    do {
-                        try await AuthManager.shared.deleteUserAccount()
-                    } catch {
-                        print(error)
-                        // errorMessage = error.localizedDescription
-                    }
+            Task {
+                do {
+                    try await AuthManager.shared.deleteUserAccount()
+                } catch {
+//                    print(error)
+//                     errorMessage = error.localizedDescription
                 }
             }
+        }
         
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         controller.addAction(okAction)
         controller.addAction(cancelAction)
         present(controller, animated: true, completion: nil)
     }
-
-     func havntLoginYet() {
+    
+    func havntLoginYet() {
         let loginPage = LoginVC()
         present(loginPage, animated: true, completion: nil)
     }
@@ -210,8 +189,8 @@ class HomeVC: BaseVC, AddNameDelegate {
                 AuthManager.shared.isLoggedIn = false
                 SwiftDataService.shared.deleteAllAcupointNames()
             } catch {
-                print(error)
-                //        errorMessage = error.localizedDescription
+//                print(error)
+//                        errorMessage = error.localizedDescription
             }
         }
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
@@ -228,11 +207,10 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        //用if let寫cell
+
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell {
             cell.mainVw.image = UIImage(named: mainImageData[indexPath.row])
             cell.titleLabel.text =  mainTitleData[indexPath.row]
-            // 使用 cell 進行設定
             return cell
         } else {
             return HomeCollectionViewCell()

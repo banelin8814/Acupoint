@@ -3,18 +3,8 @@ import FirebaseAuth
 
 class ArchiveVC: BaseVC {
         
-    private let archiveTableView = UITableView()
-    
     private let faceVC = FaceVC()
     private let handVC = HandVC()
-    
-//    var filterResult: [FaceAcupointModel] = []
-    
-    var archivePointName: [AcupointName]?
-    // swiftdata
-    let swiftDataService = SwiftDataService.shared
-    //Data
-    var acupointData = AcupointData.shared
     
     lazy var facePoints: [FaceAcupointModel] = {
         return acupointData.faceAcupoints
@@ -24,9 +14,17 @@ class ArchiveVC: BaseVC {
            return acupointData.handAcupoints
     }()
 
+    var archivePointName: [AcupointName]?
+
+    let swiftDataService = SwiftDataService.shared
+
+    var acupointData = AcupointData.shared
+    
+    private let archiveTableView = UITableView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = .white
         navigationItem.title = "收藏穴位"
         
@@ -36,7 +34,6 @@ class ArchiveVC: BaseVC {
         archiveTableView.register(ArchiveTableViewCell.self, forCellReuseIdentifier: "ArchiveTableViewCell")
         archiveTableView.backgroundColor = .backgroundColor
         setupTableView()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,16 +71,13 @@ class ArchiveVC: BaseVC {
                 archiveTableView.deleteRows(at: [indexPath], with: .fade)
                 self.archiveTableView.reloadData()
                 
-                // 從 Firebase 中刪除穴位名字
                 if let userId = Auth.auth().currentUser?.uid {
-                    FirebaseManager.shared.deleteAcupointNameFromUserSubcollection(entity.name, userId: userId) { [weak self] result in
+                    FirebaseManager.shared.deleteAcupointNameFromUserSubcollection(entity.name, userId: userId) {  result in
                         switch result {
                         case .success:
                             print("穴位從 Firebase 使用者子集合中刪除成功")
                         case .failure(let error):
                             print("穴位從 Firebase 使用者子集合中刪除失敗: \(error.localizedDescription)")
-                            // 如果從 Firebase 中刪除失敗，您可以選擇是否需要將其重新加入到 SwiftData 中
-                            // self?.swiftDataService.saveAcupointName(name)
                         }
                     }
                 }
@@ -104,7 +98,6 @@ extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ArchiveTableViewCell", for: indexPath) as? ArchiveTableViewCell else { return UITableViewCell() }
         
         if let name = archivePointName?[indexPath.row].name {
-//            cell.textLabel?.text = name
             cell.setupLbl(name)
         } else {
             cell.textLabel?.text = "non"
@@ -115,8 +108,8 @@ extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         60
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //        self.tabBarController?.tabBar.isHidden = true
         if let index = facePoints.firstIndex(where: { $0.name == archivePointName?[indexPath.row].name }) {
             faceVC.selectedIndex = index
             faceVC.selectedFacePoint = [facePoints[index]]
@@ -125,16 +118,11 @@ extension ArchiveVC: UITableViewDelegate, UITableViewDataSource {
             faceVC.collectionView.reloadData()
             self.navigationController?.pushViewController(faceVC, animated: true)
             self.tabBarController?.tabBar.isHidden = true
-            
         } else if let index = handPoints.firstIndex(where: { $0.name == archivePointName?[indexPath.row].name }) {
-            //Mark:更改進入handvc的邏輯
-
             handVC.numberOfAcupoints = 1
             handVC.currentDisplayMode = .specific(name: handPoints[index].name)
             handVC.handPoints = [handPoints[index]]
             handVC.acupointIndex = index
-            
-            
             handVC.handSideSegmentedControl.isHidden = true
             handVC.collectionView.reloadData()
             self.navigationController?.pushViewController(handVC, animated: true)

@@ -4,6 +4,7 @@ class CommonVC: BaseVC {
     
     private let faceVC = FaceVC()
     private let handVC = HandVC()
+    
     let acupointData = AcupointData.shared
     
     lazy var facePoints: [FaceAcupointModel] = {
@@ -23,9 +24,7 @@ class CommonVC: BaseVC {
     lazy var titleLbl: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-//        label.text = "助眠穴位"
         label.configureHeadingOneLabel(withText: "")
-//        label.font = UIFont(name: "ZenMaruGothic-Medium", size: 30)
         label.textColor = .white
         return label
     }()
@@ -154,7 +153,7 @@ extension CommonVC: UICollectionViewDelegate, UICollectionViewDataSource {
             faceVC.collectionView.reloadData()
             self.tabBarController?.tabBar.isHidden = true
         }
-        //Mark:更改進入handvc的邏輯
+
         if let index = handPoints.firstIndex(where: { $0.name == acupointData.commonAcupoint[index].acupoints[indexPath.row].name }) {
             handVC.acupointIndex = index
             handVC.currentDisplayMode = .specific(name: handPoints[index].name)

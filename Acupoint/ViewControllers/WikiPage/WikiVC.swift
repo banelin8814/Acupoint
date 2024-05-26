@@ -24,14 +24,14 @@ class WikiVC: BaseVC {
         tableView.isScrollEnabled = false
         tableView.backgroundColor = .backgroundColor
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight] //父視圖大小發生變化時如何自動調整自身的大小。
+        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
         //        tableView.sec
         tableView.delegate = self
         return tableView
     }()
-    //dataSource接受兩個泛型類型參數:Section(章節)和AcupointGenre(數據模型)。
+
     private var dataSource: UITableViewDiffableDataSource<Section, AcupointGenre>?
     
     private let faceVC = FaceVC()
@@ -71,9 +71,7 @@ class WikiVC: BaseVC {
         dataSource = UITableViewDiffableDataSource<Section, AcupointGenre>(tableView: tableView) { (tableView, indexPath, model) -> UITableViewCell? in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "WikiVCTableViewCell", for: indexPath) as? WikiVCTableViewCell else { return WikiVCTableViewCell() }
             cell.indexPath = indexPath
-            // 根據 model 的屬性設置 cell 的內容
 
-            // 可以根據 model 的 genre 屬性設置不同的樣式或內容
             switch model.genre {
             case .face:
                 cell.configure(withTitle: "臉 部", image: UIImage(named: "臉部"), indexPath: indexPath)
@@ -86,7 +84,6 @@ class WikiVC: BaseVC {
         
         tableView.register(WikiVCTableViewCell.self, forCellReuseIdentifier: "WikiVCTableViewCell")
         
-        // 創建 snapshot
         var snapshot = NSDiffableDataSourceSnapshot<Section, AcupointGenre>()
         snapshot.appendSections(Section.allCases)
         
@@ -104,7 +101,7 @@ extension WikiVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 240
     }
-//Mark:更改進入handvc的邏輯
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             self.navigationController?.pushViewController(faceVC, animated: true)
@@ -112,12 +109,10 @@ extension WikiVC: UITableViewDelegate {
             
             faceVC.selectedFacePoint = facePoints
             faceVC.currentDisplayMode = .allPoint
-            //getNameByIndex會從indexPath.row得到名字，這邊先指定第一個
             faceVC.getNameByIndex(0)
             faceVC.collectionView.reloadData()
             
         } else {
-            //Mark:更改進入handvc的邏輯
             handVC.currentDisplayMode = .allPoint
             handVC.handSideSegmentedControl.isHidden = false
             handVC.numberOfAcupoints = self.handPoints.count

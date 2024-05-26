@@ -6,6 +6,7 @@ class CustomFunc {
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
             actionHandler?()
         }
+        
         alertController.addAction(okAction)
         theVc.present(alertController, animated: true, completion: nil)
     }

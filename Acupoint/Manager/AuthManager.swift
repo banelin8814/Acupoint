@@ -11,11 +11,11 @@ enum AuthErrors: Error {
 }
 
 enum AuthState {
-    // Anonymously authenticated in Firebase.
+
     case authenticated
-    // Authenticated in Firebase using one of service providers, and not anonymous.
+
     case signedIn
-    // Not authenticated in Firebase.
+
     case signedOut
 }
 
@@ -26,7 +26,6 @@ class AuthManager {
     
     var authState: AuthState = .signedOut
     
-    // 1.
     func appleAuth(
         _ appleIDCredential: ASAuthorizationAppleIDCredential,
         nonce: String?
@@ -45,12 +44,11 @@ class AuthManager {
             return nil
         }
         
-        // 2.
         let credentials = OAuthProvider.appleCredential(withIDToken: idTokenString,
                                                         rawNonce: nonce,
                                                         fullName: appleIDCredential.fullName)
         
-        do { // 3.
+        do {
                 let result = try await authenticateUser(credentials: credentials)
                 print("Apple authentication successful: \(result?.user.uid ?? "")")
                 return result
@@ -61,7 +59,7 @@ class AuthManager {
     }
     
     var handle: AuthStateDidChangeListenerHandle?
-    //combine通知
+
     @Published var isLoggedIn: Bool = false
     
     func addLoginObserver(complition: @escaping (Bool) -> Void) {
@@ -72,13 +70,11 @@ class AuthManager {
     func googleAuth(_ user: GIDGoogleUser) async throws -> AuthDataResult? {
         guard let idToken = user.idToken?.tokenString else { return nil }
         
-        // 1.
         let credentials = GoogleAuthProvider.credential(
             withIDToken: idToken,
             accessToken: user.accessToken.tokenString
         )
         do {
-            // 2.
             let result =  try await authenticateUser(credentials: credentials)
             print("Google authentication successful: \(result?.user.uid ?? "")")
             return result
@@ -95,7 +91,6 @@ class AuthManager {
                 email: result.user.email,
                 name: result.user.displayName ?? "")
             do {
-                //寫資料
                 try await FirebaseManager.shared.createNewUser(auth: authDataResult)
                 print("User data saved successfully")
             } catch {
@@ -115,19 +110,15 @@ class AuthManager {
             self?.isLoggedIn = user != nil
         }
     }
-    //
-    //
-    //用AppleID來reauthenticate
+ 
     private func reauthenticateAppleID(
         _ appleIDCredential: ASAuthorizationAppleIDCredential,
         for user: User
     ) async throws {
         do {
-            // 1.Get the identityToken from the given appleIDCredential
             guard let appleIDToken = appleIDCredential.identityToken else { return }
             guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else { return }
             let nonce = AppleSignInManager.nonce
-            // 2.
             let credential = OAuthProvider.credential(
                 withProviderID: "apple.com",
                 idToken: idTokenString,
@@ -138,15 +129,13 @@ class AuthManager {
             throw AuthErrors.reauthenticateApple
         }
     }
-    //用Google來reauthenticate
+
     private func reauthenticateGoogleAccount(for user: User) async throws {
         do {
-            // 1.
             guard let googleUser = try await GoogleSignInManager.shared.signInWithGoogle() else {
                 return
             }
             guard let idToken = googleUser.idToken?.tokenString else { return }
-            // 2.
             let credential = GoogleAuthProvider.credential(
                 withIDToken: idToken,
                 accessToken: googleUser.accessToken.tokenString
@@ -156,7 +145,7 @@ class AuthManager {
             throw AuthErrors.reauthenticateGoogle
         }
     }
-    //revoke AppleID
+
     private func revokeAppleIDToken(_ appleIDCredential: ASAuthorizationAppleIDCredential) async throws {
         guard let authorizationCode = appleIDCredential.authorizationCode else { return }
         guard let authCodeString = String(data: authorizationCode, encoding: .utf8) else { return }
@@ -167,7 +156,7 @@ class AuthManager {
             throw AuthErrors.revokeAppleID
         }
     }
-    //revokeGoogleAccount
+
     private func revokeGoogleAccount() async throws {
         do {
             try await GIDSignIn.sharedInstance.disconnect()
@@ -182,7 +171,6 @@ class AuthManager {
         }
     }
     
-    //下面一整段是都要檢查AppleID and the Google credentials
     private func verifySignInWithAppleID() async -> Bool {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         
@@ -192,7 +180,6 @@ class AuthManager {
         }
         
         do {
-            // 1.
             let credentialState = try await appleIDProvider.credentialState(forUserID: appleProviderData.uid)
             return credentialState != .revoked && credentialState != .notFound
         } catch {
@@ -227,7 +214,6 @@ class AuthManager {
             isGoogleCredentialRevoked = await !verifyGoogleSignIn()
         }
         
-        // 4.
         if isAppleCredentialRevoked && isGoogleCredentialRevoked {
             if authState != .signedIn {
                 do {
@@ -253,15 +239,13 @@ extension AuthManager {
         guard let user = Auth.auth().currentUser,
               let lastSignInDate = user.metadata.lastSignInDate else { return }
         
-        // 1.Check if the user has signed-in in the past five minutes.
         let needsReAuth = !lastSignInDate.isWithinPast(minutes: 5)
         
-        // 2.刪除帳號之前是否要重新認證且撤銷token
         let providers = user.providerData.map { $0.providerID }
         
         do {
             if providers.contains("apple.com") {
-                // 3.
+
                 let appleIDCredential = try await AppleSignInManager.shared.requestAppleAuthorization()
                 
                 if needsReAuth {
@@ -277,10 +261,8 @@ extension AuthManager {
                 try await revokeGoogleAccount()
             }
             
-            // 5.
-            try await user.delete() //徹底刪除帳號
-            // 6.
-            //updateState(user: user) //更新UI
+            try await user.delete() 
+        
         } catch {
             print("FirebaseAuthError: Failed to delete auth user. \(error)")
             throw error

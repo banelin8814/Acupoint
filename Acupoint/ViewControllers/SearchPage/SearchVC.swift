@@ -3,6 +3,8 @@ import FirebaseAuth
 
 class SearchVC: BaseVC {
     
+    @Published var isArchiveEnable: Bool = false
+
     private let searchTableView = UITableView()
     
     private let faceVC = FaceVC()
@@ -23,11 +25,9 @@ class SearchVC: BaseVC {
         return acupoitData.handAcupoints
     }()
     
+    var searchResults: [Any] = []
+
     let searchController = UISearchController()
-    //combine
-    @Published var isArchiveEnable: Bool = false
-    
-    var searchResults: [Any] = [] //因為有兩種model所以放Any
     
     lazy var bookmarkBtn: UIButton = {
         let button = UIButton()
@@ -40,7 +40,7 @@ class SearchVC: BaseVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //combine
+
         AuthManager.shared.$isLoggedIn
             .assign(to: &$isArchiveEnable)
         
@@ -55,7 +55,7 @@ class SearchVC: BaseVC {
         navigationItem.title = "尋找穴位"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = .black
-        //5/8:先準備上架，不把加入進去bookmarkButton，之後再加回來5/8
+
         let bookmarkButton = UIBarButtonItem(customView: bookmarkBtn)
         navigationItem.rightBarButtonItem = bookmarkButton
         
@@ -179,34 +179,9 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
             return 2
         }
     }
-    //Mark:更改進入handvc的邏輯
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if searchController.isActive {
-//            if let result = searchResults as? [FaceAcupointModel] {
-//                if let index = facePoints.firstIndex(where: { $0.name == result[indexPath.row].name }) {
-//                    self.navigationController?.pushViewController(faceVC, animated: true)
-//                    faceVC.selectedFacePoint = [facePoints[index]]
-//                    faceVC.selectedIndex = index
-//                    //getNameByIndex會從indexPath.row得到名字
-//                    //            faceVC.getNameByIndex(indexPath.row)
-//                    faceVC.selectedNameByCell = facePoints[index].name
-//                    faceVC.currentDisplayMode = .specific(name: facePoints[index].name)
-//                    faceVC.collectionView.reloadData()
-//                    self.tabBarController?.tabBar.isHidden = true
-//                }
-//            } else if let result = searchResults as? [HandAcupointModel] {
-//                //Mark:更改進入handvc的邏輯
-//                if let index = handPoints.firstIndex(where: { $0.name == result[indexPath.row].name }) {
-//                    handVC.acupointIndex = index
-//                    handVC.currentDisplayMode = .specific(name: handPoints[index].name)
-//                    handVC.numberOfAcupoints = 1                    
-//                    handVC.collectionView.reloadData()
-//                    handVC.handSideSegmentedControl.isHidden = true
-//                    self.navigationController?.pushViewController(handVC, animated: true)
-//                    self.tabBarController?.tabBar.isHidden = true
-//                }
-//            }
-//        } else {
+
         if searchController.isActive {
                 if let result = searchResults[indexPath.row] as? FaceAcupointModel {
                     if let index = facePoints.firstIndex(where: { $0.name == result.name }) {
@@ -234,19 +209,14 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                 self.navigationController?.pushViewController(faceVC, animated: true)
                 faceVC.selectedFacePoint = [facePoints[indexPath.row]]
                 faceVC.selectedIndex = indexPath.row
-                //getNameByIndex會從indexPath.row得到名字
-                //            faceVC.getNameByIndex(indexPath.row)
                 faceVC.selectedNameByCell = facePoints[indexPath.row].name
                 faceVC.currentDisplayMode = .specific(name: facePoints[indexPath.row].name)
                 faceVC.collectionView.reloadData()
                 self.tabBarController?.tabBar.isHidden = true
             } else {
-                //Mark:更改進入handvc的邏輯
                 handVC.acupointIndex = indexPath.row
                 handVC.currentDisplayMode = .specific(name: handPoints[indexPath.row].name)
                 handVC.numberOfAcupoints = 1
-                
-                
                 handVC.collectionView.reloadData()
                 handVC.handSideSegmentedControl.isHidden = true
                 self.navigationController?.pushViewController(handVC, animated: true)
@@ -291,7 +261,6 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                         name = result.name
                     }
                 } else {
-                    //用convert得到button的indextPath：簡單說是用button的位置得到indexPath
                     let buttonPosition = sender.convert(CGPoint.zero, to: searchTableView)
                     guard let indexPath = searchTableView.indexPathForRow(at:buttonPosition) else {
                         return
@@ -311,25 +280,21 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                     }
                 }
                 if let name = name, let userId = Auth.auth().currentUser?.uid {
-                    // 檢查穴位名字是否已經存在於使用者的子集合中
                     FirebaseManager.shared.fetchAcupointNamesFromUserSubcollection(userId: userId) { [weak self] result in
                         switch result {
                         case .success(let acupointNames):
                             if acupointNames.contains(name) {
-                                // 如果存在，則從 Firebase 和 SwiftData 中刪除
                                 FirebaseManager.shared.deleteAcupointNameFromUserSubcollection(name, userId: userId) { result in
                                     switch result {
                                     case .success:
                                         print("穴位從 Firebase 使用者子集合中刪除成功")
                                         SwiftDataService.shared.checkAcupointNames(name)
                                         self?.fetchDataFromFirebaseToSwiftData()
-//                                        self?.searchTableView.reloadData()
                                     case .failure(let error):
                                         print("穴位從 Firebase 使用者子集合中刪除失敗: \(error.localizedDescription)")
                                     }
                                 }
                             } else {
-                                // 如果不存在，則儲存到 Firebase 和 SwiftData 中
                                 FirebaseManager.shared.saveAcupointNameToUserSubcollection(name, userId: userId) { result in
                                     switch result {
                                     case .success:
