@@ -11,6 +11,7 @@ extension UIImageView {
         }
     }
 }
+// swiftlint:disable identifier_name
 extension UIImage {
     public class func gif(data: Data) -> UIImage? {
         // Create source from data
@@ -33,6 +34,7 @@ extension UIImage {
         }
         return gif(data: imageData)
     }
+    
     public class func gif(name: String) -> UIImage? {
         // Check for existance of gif
         guard let bundleURL = Bundle.main
@@ -47,6 +49,7 @@ extension UIImage {
         }
         return gif(data: imageData)
     }
+    
     internal class func delayForImageAtIndex(_ index: Int, source: CGImageSource!) -> Double {
         var delay = 0.1
         // Get dictionaries
@@ -71,34 +74,35 @@ extension UIImage {
         }
         return delay
     }
-    internal class func gcdForPair(_ aaaa: Int?, _ bbbb: Int?) -> Int {
-        var aaaa = aaaa
-        var bbbb = bbbb
+    
+    internal class func gcdForPair(_ a: Int?, _ b: Int?) -> Int {
+        var a = a
+        var b = b
         // Check if one of them is nil
-        if bbbb == nil || aaaa == nil {
-            if bbbb != nil {
-                return bbbb!
-            } else if aaaa != nil {
-                return aaaa!
+        if b == nil || a == nil {
+            if b != nil {
+                return b!
+            } else if a != nil {
+                return a!
             } else {
                 return 0
             }
         }
         // Swap for modulo
-        if aaaa! < bbbb! {
-            let cccc = aaaa
-            aaaa = bbbb
-            bbbb = cccc
+        if a! < b! {
+            let c = a
+            a = b
+            b = c
         }
         // Get greatest common divisor
         var rest: Int
         while true {
-            rest = aaaa! % bbbb!
+            rest = a! % b!
             if rest == 0 {
-                return bbbb! // Found it
+                return b! // Found it
             } else {
-                aaaa = bbbb
-                bbbb = rest
+                a = b
+                b = rest
             }
         }
     }
@@ -119,13 +123,13 @@ extension UIImage {
         var images = [CGImage]()
         var delays = [Int]()
         // Fill arrays
-        for iiii in 0..<count {
+        for i in 0..<count {
             // Add image
-            if let image = CGImageSourceCreateImageAtIndex(source, iiii, nil) {
+            if let image = CGImageSourceCreateImageAtIndex(source, i, nil) {
                 images.append(image)
             }
             // At it's delay in cs
-            let delaySeconds = UIImage.delayForImageAtIndex(Int(iiii),
+            let delaySeconds = UIImage.delayForImageAtIndex(Int(i),
                                                             source: source)
             delays.append(Int(delaySeconds * 1000.0)) // Seconds to ms
         }
@@ -142,9 +146,9 @@ extension UIImage {
         var frames = [UIImage]()
         var frame: UIImage
         var frameCount: Int
-        for iiiii in 0..<count {
-            frame = UIImage(cgImage: images[Int(iiiii)])
-            frameCount = Int(delays[Int(iiiii)] / theGcd)
+        for i in 0..<count {
+            frame = UIImage(cgImage: images[Int(i)])
+            frameCount = Int(delays[Int(i)] / theGcd)
             for _ in 0..<frameCount {
                 frames.append(frame)
             }
@@ -155,3 +159,4 @@ extension UIImage {
         return animation
     }
 }
+// swiftlint:disable identifier_name

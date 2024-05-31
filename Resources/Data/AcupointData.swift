@@ -12,12 +12,7 @@ struct AcupointData {
             effect: "治鼻塞、鼻水、鼻炎、感冒",
             method: "食指指尖，按壓穴道5秒鐘，休息5秒鐘",
             location: "鼻翼外緣的中點，旁開0.5寸處的鼻唇溝陷中",
-            notice: """
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+            notice: K.caution,
             position: [746, 311]
         ),
         FaceAcupointModel(
@@ -25,12 +20,7 @@ struct AcupointData {
             effect: "清熱解毒、開竅醒腦",
             method: "食指指腹向斜上方按揉",
             location: "人中上1/3處",
-            notice: """
-                 1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                 2.局部感染發炎處，應避開按摩
-                 3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                 4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+            notice: K.caution,
             position: [3]
         ),
         FaceAcupointModel(
@@ -38,12 +28,7 @@ struct AcupointData {
             effect: "眼睛乾澀、眼壓大",
             method: "大拇指按、揉此穴",
             location: "位於人的眼部內側，內眼角稍上方凹陷處",
-            notice:"""
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+            notice: K.caution,
             position: [1148, 1122]
         ),
         
@@ -52,12 +37,7 @@ struct AcupointData {
             effect: "眼睛疲勞",
             method: "拇指持續往眼眶方向推壓",
             location: "瞳孔直下方0.7寸",
-            notice:"""
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+            notice: K.caution,
             position: [1115, 1141]
         ),
         
@@ -66,12 +46,7 @@ struct AcupointData {
             effect: "眼袋和下眼瞼浮腫、眼睛疲勞",
             method: "用食指指腹，略微用力按壓",
             location: "瞳孔直下方2厘米",
-            notice:"""
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+            notice: K.caution,
             position: [381, 812]
         ),
         
@@ -80,12 +55,7 @@ struct AcupointData {
             effect: "眼睛疲勞",
             method: "閉眼，雙手握拳，利用食指近端關節，沿着眉毛向外側緩緩輕刮",
             location: "位於眉毛內側凹陷處",
-            notice: """
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+            notice: K.caution,
             position: [420, 850]
         ),
         FaceAcupointModel(
@@ -93,12 +63,7 @@ struct AcupointData {
             effect: "提神醒腦、臉部神經麻痺、面腫",
             method: "用拇指指腹，畫圓按摩",
             location: "下嘴唇與下巴間的凹陷處",
-            notice: """
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+            notice: K.caution,
             position: [33]
         ),
         FaceAcupointModel(
@@ -106,12 +71,7 @@ struct AcupointData {
             effect: "前額痛、眩暈、鼻炎、感冒發熱",
             method: "用中指或食指指腹，揉按穴位",
             location: "前額正中",
-            notice: """
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+            notice: K.caution,
             position: [17]
         ),
         FaceAcupointModel(
@@ -119,12 +79,7 @@ struct AcupointData {
             effect: "齒痛、顏面神經失調",
             method: "食指指腹揉按左右穴位",
             location: "位於面部，口角外側，上直瞳孔",
-            notice: """
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+            notice: K.caution,
             position: [175, 623]
         ),
         FaceAcupointModel(
@@ -132,12 +87,7 @@ struct AcupointData {
             effect: "偏頭痛、目赤腫痛、目眩、目澀、牙痛、三叉神經痛",
             method: "用中指或食指指腹，畫圓按摩",
             location: "眉尾直上，在髮際旁凹陷處",
-            notice: """
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+            notice: K.caution,
             position: [215,  1013]
         ),
         FaceAcupointModel(
@@ -145,12 +95,7 @@ struct AcupointData {
             effect: "耳聾、耳鳴、牙關開合不利",
             method: "用中指或食指指腹按壓，同時做開闔口的動作",
             location: "耳前方，顴弓下限處",
-            notice: """
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+            notice: K.caution,
             position: [939, 1008]
         )
     ]
@@ -165,12 +110,7 @@ struct AcupointData {
                 effect: "緩解頭痛、牙痛、鼻塞等症狀",
                 method: "用拇指指腹按壓",
                 location: "手部虎口，大拇指與食指相接處",
-                notice:"""
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+                notice: K.caution,
                 basePoint: [.thumbMP],
                 offSet: heGu,
                 isBackHand: true //是手背
@@ -181,12 +121,7 @@ struct AcupointData {
                 effect: "緩解心悸、失眠、健忘等症狀",
                 method: "用拇指指腹按壓",
                 location: "小指指甲內側下缘",
-                notice: """
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+                notice: K.caution,
                 basePoint: [.littleTip],
                 offSet: shaoChong,
                 isBackHand: true
@@ -197,12 +132,7 @@ struct AcupointData {
                 effect: "有助於緩解肺部、腸胃小困擾",
                 method: "用大拇指點按",
                 location: "食指指甲下方內側",
-                notice:"""
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+                notice: K.caution,
                 basePoint: [.indexTip],
                 offSet: shangYang,
                 isBackHand: true
@@ -213,12 +143,7 @@ struct AcupointData {
                 effect: "頭痛、目赤、耳聾、耳鳴、咽喉腫痛",
                 method: "手掌心向下，用另一手反手握住該手的小指側，用拇指的指尖掐揉",
                 location: "第四、五掌骨間凹陷處",
-                notice:"""
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+                notice: K.caution,
                 basePoint:  [.wrist, .littlePIP],
                 offSet: chongDu,
                 isBackHand: true
@@ -277,12 +202,7 @@ struct AcupointData {
                 effect: "養心安神、改善心悸、失眠、健忘等症狀",
                 method: "拇指以旋轉方式按壓",
                 location: "握拳，中指紙尖對應的掌心中央處",
-                notice: """
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+                notice: K.caution,
                 basePoint: [.wrist, .middleMCP],
                 offSet: laoGong,
                 isBackHand: false
@@ -293,12 +213,7 @@ struct AcupointData {
                 effect: "緩解心悸、胸痛、心律不整，心火旺盛引起的失眠、口臭、痘痘",
                 method: "用拇指尖按壓",
                 location: "手握拳，小指尖在掌心所指處",
-                notice:"""
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+                notice: K.caution,
                 basePoint:  [.wrist, .littleMCP],
                 offSet: shaoFu,
                 isBackHand: false
@@ -309,12 +224,7 @@ struct AcupointData {
                 effect: "鎮驚安神、緩解失眠",
                 method: "大拇指按壓",
                 location: "腕掌橫紋的中點處",
-                notice:"""
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+                notice: K.caution,
                 basePoint:  [.wrist],
                 offSet: daLin,
                 isBackHand: false
@@ -325,12 +235,7 @@ struct AcupointData {
                 effect: "緩解咽喉腫痛、咳嗽、發熱、頭痛、風寒",
                 method: "一手手掌輕握另一手手背彎曲大拇指，以指甲尖垂直下按第一掌骨側中點肉際處",
                 location: "第一掌骨中點橈側",
-                notice:"""
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """,
+                notice: K.caution,
                 basePoint:  [.thumbCMC],
                 offSet: yuChi,
                 isBackHand: false

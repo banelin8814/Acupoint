@@ -12,12 +12,7 @@ class AlertView: UIView {
     
     lazy var contantLabel: UILabel = {
         let label = UILabel()
-        label.configureTextOneLabel(withText: """
-                1.出血傾向或服用抗凝血劑者，避免力道大的按摩
-                2.局部感染發炎處，應避開按摩
-                3.過度虛弱、空腹或無力時，避免按摩，以免反應過激
-                4.全身性發炎或自體免疫疾病，須注意按摩力道
-                """)
+        label.configureTextOneLabel(withText: K.caution)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .darkGray
         label.sizeToFit()

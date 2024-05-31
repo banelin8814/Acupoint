@@ -77,6 +77,7 @@
 		1BF232182BD13ACA00E2BD5E /* SavedAcupName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF232172BD13ACA00E2BD5E /* SavedAcupName.swift */; };
 		1BF76EBC2BFC5C4F00A2D816 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1BF76EBB2BFC5C4F00A2D816 /* GoogleService-Info.plist */; };
 		1BF9C9052BD0057F00EBEA0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */; };
+		1BFF00942C09EECD00EE836F /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BFF00932C09EECD00EE836F /* K.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -153,6 +154,7 @@
 		1BF232172BD13ACA00E2BD5E /* SavedAcupName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedAcupName.swift; sourceTree = "<group>"; };
 		1BF76EBB2BFC5C4F00A2D816 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1BF9C9042BD0057F00EBEA0E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1BFF00932C09EECD00EE836F /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -398,6 +400,7 @@
 			isa = PBXGroup;
 			children = (
 				1B04ACFC2BCD129900F6FB8D /* AcupointData.swift */,
+				1BFF00932C09EECD00EE836F /* K.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -600,6 +603,7 @@
 				1B90B2DC2BDB5BF40069C868 /* CommonCollectionViewCell.swift in Sources */,
 				1B3882472BE6080300393F94 /* Alert.swift in Sources */,
 				1B90F1382BD8F03000452B6D /* UIColor + Ext.swift in Sources */,
+				1BFF00942C09EECD00EE836F /* K.swift in Sources */,
 				1BC6EEC62BE1DE6900B6B127 /* UICollectionView + Ext.swift in Sources */,
 				1B53803F2BDB557300927D8F /* CommonVC.swift in Sources */,
 				1BC6EECA2BE247B100B6B127 /* Protocols.swift in Sources */,
