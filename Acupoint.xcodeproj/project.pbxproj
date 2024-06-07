@@ -38,7 +38,6 @@
 		1B90B2F12BDD0CAC0069C868 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90B2F02BDD0CAC0069C868 /* LoginVC.swift */; };
 		1B90F1052BD4E50D00452B6D /* InfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90F1042BD4E50D00452B6D /* InfoCollectionViewCell.swift */; };
 		1B90F12F2BD7BDF200452B6D /* PromptVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90F12E2BD7BDF100452B6D /* PromptVC.swift */; };
-		1B90F1322BD87F6800452B6D /* UIImageView + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90F1312BD87F6800452B6D /* UIImageView + Ext.swift */; };
 		1B90F1362BD8EFF900452B6D /* UIFont + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90F1352BD8EFF900452B6D /* UIFont + Ext.swift */; };
 		1B90F1382BD8F03000452B6D /* UIColor + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90F1372BD8F03000452B6D /* UIColor + Ext.swift */; };
 		1B90F13A2BD8F93D00452B6D /* UIView + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B90F1392BD8F93D00452B6D /* UIView + Ext.swift */; };
@@ -71,7 +70,6 @@
 		1BC6EEBC2BE067A400B6B127 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEBB2BE067A400B6B127 /* BaseVC.swift */; };
 		1BC6EEBF2BE0CE6500B6B127 /* CommonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEBE2BE0CE6500B6B127 /* CommonModel.swift */; };
 		1BC6EEC22BE0E48900B6B127 /* AnimatedCollectionViewLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 1BC6EEC12BE0E48900B6B127 /* AnimatedCollectionViewLayout */; };
-		1BC6EEC62BE1DE6900B6B127 /* UICollectionView + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEC52BE1DE6900B6B127 /* UICollectionView + Ext.swift */; };
 		1BC6EECA2BE247B100B6B127 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6EEC92BE247B100B6B127 /* Protocols.swift */; };
 		1BD5A6152BE4FA6B00D50380 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD5A6142BE4FA6B00D50380 /* FirebaseManager.swift */; };
 		1BF232182BD13ACA00E2BD5E /* SavedAcupName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF232172BD13ACA00E2BD5E /* SavedAcupName.swift */; };
@@ -126,7 +124,6 @@
 		1B90B2F02BDD0CAC0069C868 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		1B90F1042BD4E50D00452B6D /* InfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCollectionViewCell.swift; sourceTree = "<group>"; };
 		1B90F12E2BD7BDF100452B6D /* PromptVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptVC.swift; sourceTree = "<group>"; };
-		1B90F1312BD87F6800452B6D /* UIImageView + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView + Ext.swift"; sourceTree = "<group>"; };
 		1B90F1352BD8EFF900452B6D /* UIFont + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont + Ext.swift"; sourceTree = "<group>"; };
 		1B90F1372BD8F03000452B6D /* UIColor + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Ext.swift"; sourceTree = "<group>"; };
 		1B90F1392BD8F93D00452B6D /* UIView + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Ext.swift"; sourceTree = "<group>"; };
@@ -148,7 +145,6 @@
 		1BC6EEB82BE0657D00B6B127 /* StyleGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleGuide.swift; sourceTree = "<group>"; };
 		1BC6EEBB2BE067A400B6B127 /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		1BC6EEBE2BE0CE6500B6B127 /* CommonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonModel.swift; sourceTree = "<group>"; };
-		1BC6EEC52BE1DE6900B6B127 /* UICollectionView + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView + Ext.swift"; sourceTree = "<group>"; };
 		1BC6EEC92BE247B100B6B127 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		1BD5A6142BE4FA6B00D50380 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		1BF232172BD13ACA00E2BD5E /* SavedAcupName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedAcupName.swift; sourceTree = "<group>"; };
@@ -298,10 +294,8 @@
 		1B90F1302BD87F4700452B6D /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				1B90F1312BD87F6800452B6D /* UIImageView + Ext.swift */,
 				1B90F1352BD8EFF900452B6D /* UIFont + Ext.swift */,
 				1B90F1372BD8F03000452B6D /* UIColor + Ext.swift */,
-				1BC6EEC52BE1DE6900B6B127 /* UICollectionView + Ext.swift */,
 				1B90F1392BD8F93D00452B6D /* UIView + Ext.swift */,
 			);
 			path = Extension;
@@ -589,7 +583,6 @@
 				1B964F782BCB83220005F1CF /* HomeVC.swift in Sources */,
 				1BF232182BD13ACA00E2BD5E /* SavedAcupName.swift in Sources */,
 				1B38824C2BE8FDE700393F94 /* UserProfile.swift in Sources */,
-				1B90F1322BD87F6800452B6D /* UIImageView + Ext.swift in Sources */,
 				1B964F242BC912690005F1CF /* FaceVC.swift in Sources */,
 				1B90B2DF2BDB92710069C868 /* DetailVC.swift in Sources */,
 				1B90F1362BD8EFF900452B6D /* UIFont + Ext.swift in Sources */,
@@ -604,7 +597,6 @@
 				1B3882472BE6080300393F94 /* Alert.swift in Sources */,
 				1B90F1382BD8F03000452B6D /* UIColor + Ext.swift in Sources */,
 				1BFF00942C09EECD00EE836F /* K.swift in Sources */,
-				1BC6EEC62BE1DE6900B6B127 /* UICollectionView + Ext.swift in Sources */,
 				1B53803F2BDB557300927D8F /* CommonVC.swift in Sources */,
 				1BC6EECA2BE247B100B6B127 /* Protocols.swift in Sources */,
 				1B964F202BC912690005F1CF /* AppDelegate.swift in Sources */,
